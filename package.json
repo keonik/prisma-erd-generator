@@ -56,7 +56,9 @@
     "typescript": "^4.3.4"
   },
   "dependencies": {
+    "@mermaid-js/mermaid-cli": "^8.10.2",
     "@prisma/generator-helper": "^2.25.0",
-    "mermaid": "^8.10.2"
+    "mermaid": "^8.10.2",
+    "mermaid-cli": "^0.2.4"
   }
 }

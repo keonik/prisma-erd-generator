@@ -151,14 +151,25 @@ function renderDml(dml: DML) {
 }
 
 export default async (options: GeneratorOptions) => {
-  console.log(options.datamodel);
   try {
     const datamodelString = await parseDatamodel(options.datamodel);
     const dml: DML = JSON.parse(datamodelString);
     const mermaid = renderDml(dml);
 
-    console.log({ mermaid });
-  } finally {
-    return;
+    const tempMermaidFile = path.join('prisma', 'input.mmd');
+    await fs.writeFileSync(tempMermaidFile, mermaid);
+
+    child_process.spawn(`./node_modules/.bin/mmdc`, [
+      '-i',
+      `prisma/input.mmd`,
+      '-o',
+      'prisma/ER_Diagram.svg',
+      '-t',
+      'forest',
+    ]);
+
+    fs.rmSync(tempMermaidFile);
+  } catch (error) {
+    console.error(error);
   }
 };
