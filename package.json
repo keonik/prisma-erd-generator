@@ -1,7 +1,7 @@
 {
   "version": "0.1.3",
   "license": "MIT",
-  "bin": "./dist/index.js",
+  "bin": "./dist/prisma-erd-generator.cjs.production.min.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -16,7 +16,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepare": "tsdx build --target node --env production",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "release": "np"
