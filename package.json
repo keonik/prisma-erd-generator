@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/prisma-erd-generator.cjs.production.min.js",
   "typings": "dist/index.d.ts",
