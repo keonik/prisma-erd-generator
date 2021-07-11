@@ -152,14 +152,15 @@ function renderDml(dml: DML) {
 
 export default async (options: GeneratorOptions) => {
   try {
+    // https://github.com/notiz-dev/prisma-dbml-generator
     const datamodelString = await parseDatamodel(options.datamodel);
     const dml: DML = JSON.parse(datamodelString);
     const mermaid = renderDml(dml);
 
     const tempMermaidFile = path.join('prisma', 'input.mmd');
-    await fs.writeFileSync(tempMermaidFile, mermaid);
+    fs.writeFileSync(tempMermaidFile, mermaid);
 
-    child_process.spawn(`./node_modules/.bin/mmdc`, [
+    child_process.spawnSync(`./node_modules/.bin/mmdc`, [
       '-i',
       `prisma/input.mmd`,
       '-o',

@@ -7,7 +7,7 @@ datasource db {
 }
 
 generator erd {
-  provider = "node ./dist/index.js"
+  provider = "node ./dist/prisma-erd-generator.cjs.production.min.js"
 }
 
 model User {
