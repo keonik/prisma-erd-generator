@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "tsc -p . --watch",
     "dev-test": "npx prisma generate",
+    "test": "echo No tests yet",
     "build": "rm -rf dist && tsc -p .",
     "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
