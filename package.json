@@ -1,8 +1,8 @@
 {
   "version": "0.2.1",
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "files": [
     "dist",
     "src",
@@ -13,8 +13,8 @@
   },
   "bin": "./dist/index.js",
   "scripts": {
-    "dev": "concurrently \"npm run start\" \"npx prisma generate\"",
-    "start": "tsc -p . --watch",
+    "dev": "tsc -p . --watch",
+    "test": "npx prisma generate",
     "build": "rm -rf dist && tsc -p .",
     "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
@@ -33,7 +33,6 @@
   },
   "name": "prisma-erd-generator",
   "author": "John Fay",
-  "module": "./dist/index.js",
   "devDependencies": {
     "concurrently": "^6.2.0",
     "husky": "^6.0.0",

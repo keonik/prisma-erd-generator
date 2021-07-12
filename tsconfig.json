@@ -42,11 +42,7 @@
     "moduleResolution": "node",
     "lib": ["es2019"],
     "strict": true,
-    "esModuleInterop": true,
-    // output .d.ts declaration files for consumers
-    "declaration": true,
-    // output .js.map sourcemap files for consumers
-    "sourceMap": true
+    "esModuleInterop": true
   },
   "exclude": ["__tests__"]
 }
