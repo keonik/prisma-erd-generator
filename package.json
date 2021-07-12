@@ -1,32 +1,28 @@
 {
   "version": "0.2.0",
   "license": "MIT",
-  "main": "dist/prisma-erd-generator.cjs.production.min.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "tsconfig.json"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
-  "bin": "./dist/prisma-erd-generator.cjs.production.min.js",
+  "bin": "./dist/index.js",
   "scripts": {
-    "dev": "concurrently \"docker compose up\" \"npm run start\"",
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "prisma": "prisma generate",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
+    "dev": "concurrently \"npm run start\" \"npx prisma generate\"",
+    "start": "tsc -p . --watch",
+    "build": "rm -rf dist && tsc -p .",
+    "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
   },
   "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": ""
     }
   },
   "prettier": {
@@ -37,25 +33,12 @@
   },
   "name": "prisma-erd-generator",
   "author": "John Fay",
-  "module": "./dist/prisma-erd-generator.esm.js",
-  "size-limit": [
-    {
-      "path": "./dist/prisma-erd-generator.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "./dist/prisma-erd-generator.esm.js",
-      "limit": "10 KB"
-    }
-  ],
+  "module": "./dist/index.js",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^4.12.0",
     "concurrently": "^6.2.0",
     "husky": "^6.0.0",
     "np": "^7.5.0",
     "prisma": "^2.25.0",
-    "size-limit": "^4.12.0",
-    "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
     "typescript": "^4.3.4"
   },

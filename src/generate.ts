@@ -130,7 +130,7 @@ function renderDml(dml: DML) {
         } else if (!field.isRequired) {
           thisSideMultiplicity = '|o';
         }
-        const otherModel = dml.models.find(model => model.name == otherSide);
+        const otherModel = dml.models.find(model => model.name === otherSide);
         const otherField = otherModel?.fields.find(
           ({ relationName }) => relationName === field.relationName
         );
