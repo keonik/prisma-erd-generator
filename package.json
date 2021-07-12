@@ -14,7 +14,7 @@
   "bin": "./dist/index.js",
   "scripts": {
     "dev": "tsc -p . --watch",
-    "test": "npx prisma generate",
+    "dev-test": "npx prisma generate",
     "build": "rm -rf dist && tsc -p .",
     "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
