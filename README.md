@@ -32,36 +32,37 @@ Additional configuration
 
 Change output type and location
 
-- Usage
+Usage
 
-  ```prisma
-  generator erd {
-    provider = "prisma-erd-generator"
-    output = "../ERD.svg"
-  }
-  ```
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  output = "../ERD.svg"
+}
+```
 
-- Extensions
+Extensions
 
-  `.svg, .png, .pdf`
-
-  Default: `./prisma/ERD.svg`
+- svg (default: `./prisma/ERD.svg`)
+- png
+- pdf
 
 ### Theme
 
 Theme selection
 
-- Usage
+Usage
 
-  ```prisma
-  generator erd {
-    provider = "prisma-erd-generator"
-    theme = "forest"
-  }
-  ```
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  theme = "forest"
+}
+```
 
-- Values
+Options
 
-  `default, forest, dark or neutral`
-
-  Default: `default`
+- default (default)
+- forest
+- dark
+- neutral
