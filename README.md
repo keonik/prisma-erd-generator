@@ -22,8 +22,46 @@ Run the generator
 npx prisma generate
 ```
 
-![Example ER Diagram](prisma/ER_Diagram.svg)
+![Example ER Diagram](./ERD.svg)
 
 ## Options
 
-WIP
+Additional configuration
+
+### Output
+
+Change output type and location
+
+- Usage
+
+  ```json
+  generator erd {
+    provider = "prisma-erd-generator"
+    output = "../ERD.svg"
+  }
+  ```
+
+- Extensions
+
+  `.svg, .png, .pdf`
+
+  Default: `./prisma/ERD.svg`
+
+### Theme
+
+Theme selection
+
+- Usage
+
+  ```json
+  generator erd {
+    provider = "prisma-erd-generator"
+    theme = "forest"
+  }
+  ```
+
+- Values
+
+  `default, forest, dark or neutral`
+
+  Default: `default`

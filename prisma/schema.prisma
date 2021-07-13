@@ -8,6 +8,8 @@ datasource db {
 
 generator erd {
   provider = "node ./dist/index.js"
+  output = "../ERD.svg"
+  theme = "default"
 }
 
 model User {

@@ -42,7 +42,7 @@ const engineBasePath = path.resolve(
 );
 
 const allEngines = fs.readdirSync(engineBasePath);
-const queryEngine = allEngines.find(engine =>
+const queryEngine = allEngines.find((engine) =>
   engine.startsWith('query-engine')
 );
 // @ts-ignore
@@ -79,12 +79,12 @@ export async function parseDatamodel(model: string) {
       `${engine} --datamodel=${modelB64} cli dmmf`
     );
     let output = '';
-    process.stderr?.on('data', l => {
+    process.stderr?.on('data', (l) => {
       if (l.includes('error:')) {
         reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')));
       }
     });
-    process.stdout?.on('data', d => (output += d));
+    process.stdout?.on('data', (d) => (output += d));
     process.on('exit', () => {
       resolve(output);
     });
@@ -98,18 +98,18 @@ function renderDml(dml: DML) {
 
   const classes = dml.models
     .map(
-      model =>
+      (model) =>
         `  ${model.name} {
   ${model.fields
     .filter(
-      field =>
+      (field) =>
         field.kind !== 'object' &&
         !model.fields.find(
           ({ relationFromFields }) =>
             relationFromFields && relationFromFields.includes(field.name)
         )
     )
-    .map(field => `    ${field.type} ${field.name}`)
+    .map((field) => `    ${field.type} ${field.name}`)
     .join('\n')}  
     }
   `
@@ -130,7 +130,7 @@ function renderDml(dml: DML) {
         } else if (!field.isRequired) {
           thisSideMultiplicity = '|o';
         }
-        const otherModel = dml.models.find(model => model.name === otherSide);
+        const otherModel = dml.models.find((model) => model.name === otherSide);
         const otherField = otherModel?.fields.find(
           ({ relationName }) => relationName === field.relationName
         );
@@ -152,6 +152,10 @@ function renderDml(dml: DML) {
 
 export default async (options: GeneratorOptions) => {
   try {
+    const output = options.generator.output?.value || './prisma/ERD.svg';
+    const config = options.generator.config;
+    const theme = config.theme || 'forest';
+
     // https://github.com/notiz-dev/prisma-dbml-generator
     const datamodelString = await parseDatamodel(options.datamodel);
     const dml: DML = JSON.parse(datamodelString);
@@ -164,9 +168,9 @@ export default async (options: GeneratorOptions) => {
       '-i',
       `prisma/input.mmd`,
       '-o',
-      'prisma/ER_Diagram.svg',
+      output,
       '-t',
-      'forest',
+      theme,
     ]);
 
     fs.rmSync(tempMermaidFile);
