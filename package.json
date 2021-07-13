@@ -34,6 +34,22 @@
   },
   "name": "prisma-erd-generator",
   "author": "John Fay",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keonik/prisma-erd-generator"
+  },
+  "homepage": "https://github.com/keonik/prisma-erd-generator#prisma-entity-relationship-diagram-generator",
+  "keywords": [
+    "Prisma",
+    "TypeScript",
+    "Mermaid"
+  ],
+  "contributors": [
+    {
+      "name": "John Fay",
+      "url": "https://github.com/keonik"
+    }
+  ],
   "devDependencies": {
     "concurrently": "^6.2.0",
     "husky": "^7.0.1",

@@ -10,7 +10,7 @@ yarn add -D prisma-erd-generator
 
 Add to your `schema.prisma`
 
-```json
+```prisma
 generator erd {
   provider = "prisma-erd-generator"
 }
@@ -22,7 +22,7 @@ Run the generator
 npx prisma generate
 ```
 
-![Example ER Diagram](./ERD.svg)
+![Example ER Diagram](https://raw.githubusercontent.com/keonik/prisma-erd-generator/main/ERD.svg)
 
 ## Options
 
@@ -34,7 +34,7 @@ Change output type and location
 
 - Usage
 
-  ```json
+  ```prisma
   generator erd {
     provider = "prisma-erd-generator"
     output = "../ERD.svg"
@@ -53,7 +53,7 @@ Theme selection
 
 - Usage
 
-  ```json
+  ```prisma
   generator erd {
     provider = "prisma-erd-generator"
     theme = "forest"
