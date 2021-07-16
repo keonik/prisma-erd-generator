@@ -171,6 +171,8 @@ export default async (options: GeneratorOptions) => {
       output,
       '-t',
       theme,
+      '-c',
+      './config.json'
     ]);
 
     fs.rmSync(tempMermaidFile);
