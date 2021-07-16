@@ -164,16 +164,17 @@ export default async (options: GeneratorOptions) => {
     const tempMermaidFile = path.join('prisma', 'input.mmd');
     fs.writeFileSync(tempMermaidFile, mermaid);
 
-    child_process.spawnSync(`./node_modules/.bin/mmdc`, [
-      '-i',
-      `prisma/input.mmd`,
-      '-o',
-      output,
-      '-t',
-      theme,
-      '-c',
-      './config.json'
-    ]);
+    child_process.spawnSync(
+      `./node_modules/.bin/mmdc`, [
+        '-i',
+        `prisma/input.mmd`,
+        '-o',
+        output,
+        '-t',
+        theme,
+        '-c',
+        './src/config.json',
+      ]);
 
     fs.rmSync(tempMermaidFile);
   } catch (error) {
