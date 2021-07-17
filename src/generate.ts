@@ -161,12 +161,17 @@ export default async (options: GeneratorOptions) => {
     const dml: DML = JSON.parse(datamodelString);
     const mermaid = renderDml(dml);
 
-    const tempMermaidFile = path.join('prisma', 'input.mmd');
+    const tempMermaidFile = path.resolve(path.join('prisma', 'input.mmd'));
     fs.writeFileSync(tempMermaidFile, mermaid);
 
-    child_process.spawnSync(`./node_modules/.bin/mmdc`, [
+    const mermaidCliNodePath = path.resolve(
+      path.join('node_modules', '.bin', 'mmdc')
+    );
+    const inputMermaidFile = path.resolve(path.join('prisma', 'input.mmd'));
+
+    child_process.spawnSync(mermaidCliNodePath, [
       '-i',
-      `prisma/input.mmd`,
+      inputMermaidFile,
       '-o',
       output,
       '-t',
