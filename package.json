@@ -20,7 +20,6 @@
     "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": ""
@@ -50,17 +49,18 @@
       "url": "https://github.com/keonik"
     }
   ],
+  "peerDependencies": {},
   "devDependencies": {
+    "@prisma/client": "^2.27.0",
+    "@prisma/generator-helper": "^2.27.0",
     "concurrently": "^6.2.0",
     "husky": "^7.0.1",
     "np": "^7.5.0",
-    "prisma": "^2.25.0",
+    "prisma": "^2.27.0",
     "tslib": "^2.3.0",
     "typescript": "^4.3.4"
   },
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^8.11.0",
-    "@prisma/engines": "^2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb",
-    "@prisma/generator-helper": "^2.25.0"
+    "@mermaid-js/mermaid-cli": "^8.11.0"
   }
 }
