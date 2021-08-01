@@ -168,7 +168,7 @@ export default async (options: GeneratorOptions) => {
       path.join('node_modules', '.bin', 'mmdc')
     );
     const inputMermaidFile = path.resolve(path.join('prisma', 'input.mmd'));
-
+    const configFile = path.resolve(path.join('config.json'));
     child_process.spawnSync(mermaidCliNodePath, [
       '-i',
       inputMermaidFile,
@@ -176,6 +176,8 @@ export default async (options: GeneratorOptions) => {
       output,
       '-t',
       theme,
+      '-c',
+      configFile,
     ]);
 
     fs.rmSync(tempMermaidFile);
