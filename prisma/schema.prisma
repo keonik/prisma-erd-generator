@@ -13,25 +13,111 @@ generator erd {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
-  role      Role     @default(USER)
-  posts     Post[]
+  id              Int                 @id @default(autoincrement())
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  name            String
+  username        String              @unique
+  email           String              @unique
+  hashedPassword  String?
+  role            String              @default("user")
+  sessions        Session[]
+  calendars       ConnectedCalendar[]
+  Meeting         Meeting[]
+  Schedule        Schedule[]
+  DefaultCalendar DefaultCalendar[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
-  title     String   @db.VarChar(255)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model DefaultCalendar {
+  id         Int               @id @default(autoincrement())
+  userId     Int               @unique
+  user       User              @relation(fields: [userId], references: [id])
+  calendarId Int
+  calendar   ConnectedCalendar @relation(fields: [calendarId], references: [id])
 }
 
-enum Role {
-  USER
-  ADMIN
+model Session {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  expiresAt          DateTime?
+  handle             String    @unique
+  user               User?     @relation(fields: [userId], references: [id])
+  userId             Int?
+  hashedSessionToken String?
+  antiCSRFToken      String?
+  publicData         String?
+  privateData        String?
+}
+
+enum ConnectedCalendarStatus {
+  active
+}
+
+enum ConnectedCalendarType {
+  CaldavDigest
+  CaldavBasic
+  GoogleCalendar
+  OutlookCalendar
+}
+
+model ConnectedCalendar {
+  id                Int                     @id @default(autoincrement())
+  name              String
+  caldavAddress     String?
+  username          String?
+  encryptedPassword String?
+  refreshToken      String?
+  owner             User                    @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  status            ConnectedCalendarStatus
+  type              ConnectedCalendarType
+  DefaultCalendar   DefaultCalendar[]
+  Meeting           Meeting[]
+}
+
+model Meeting {
+  id                         Int               @id @default(autoincrement())
+  name                       String
+  link                       String
+  owner                      User              @relation(fields: [ownerName], references: [username])
+  ownerName                  String
+  description                String
+  duration                   Int
+  startDateUTC               DateTime
+  endDateUTC                 DateTime
+  schedule                   Schedule          @relation(fields: [scheduleId], references: [id])
+  scheduleId                 Int
+  location                   String
+  bookings                   Booking[]
+  defaultConnectedCalendar   ConnectedCalendar @relation(fields: [defaultConnectedCalendarId], references: [id])
+  defaultConnectedCalendarId Int
+}
+
+model DailySchedule {
+  id         Int      @id @default(autoincrement())
+  day        String
+  startTime  String
+  endTime    String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId Int
+}
+
+model Schedule {
+  id             Int             @id @default(autoincrement())
+  name           String
+  timezone       String
+  dailySchedules DailySchedule[]
+  owner          User            @relation(fields: [ownerId], references: [id])
+  ownerId        Int
+  Meeting        Meeting[]
+}
+
+model Booking {
+  id           Int      @id @default(autoincrement())
+  meeting      Meeting  @relation(fields: [meetingId], references: [id])
+  meetingId    Int
+  inviteeEmail String
+  startDateUTC DateTime
+  cancelCode String
 }

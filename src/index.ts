@@ -4,8 +4,9 @@ import generate from './generate';
 
 generatorHandler({
   onManifest: () => ({
-    defaultOutput: './ERD.svg',
-    prettyName: 'Entity relationship diagram',
+    defaultOutput: 'ERD.svg',
+    prettyName: 'Entity-relationship-diagram',
+    requiresEngines: ['queryEngine'],
   }),
   onGenerate: generate,
 });
