@@ -6,7 +6,8 @@
   "files": [
     "dist",
     "src",
-    "tsconfig.json"
+    "tsconfig.json",
+    "config.json"
   ],
   "engines": {
     "node": ">=14"
