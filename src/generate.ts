@@ -42,7 +42,7 @@ const engineBasePath = path.resolve(
 );
 
 const allEngines = fs.readdirSync(engineBasePath);
-const queryEngine = allEngines.find((engine) =>
+const queryEngine = allEngines.find(engine =>
   engine.startsWith('query-engine')
 );
 // @ts-ignore
@@ -79,12 +79,12 @@ export async function parseDatamodel(model: string) {
       `${engine} --datamodel=${modelB64} cli dmmf`
     );
     let output = '';
-    process.stderr?.on('data', (l) => {
+    process.stderr?.on('data', l => {
       if (l.includes('error:')) {
         reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')));
       }
     });
-    process.stdout?.on('data', (d) => (output += d));
+    process.stdout?.on('data', d => (output += d));
     process.on('exit', () => {
       resolve(output);
     });
@@ -98,18 +98,18 @@ function renderDml(dml: DML) {
 
   const classes = dml.models
     .map(
-      (model) =>
+      model =>
         `  ${model.name} {
   ${model.fields
     .filter(
-      (field) =>
+      field =>
         field.kind !== 'object' &&
         !model.fields.find(
           ({ relationFromFields }) =>
             relationFromFields && relationFromFields.includes(field.name)
         )
     )
-    .map((field) => `    ${field.type} ${field.name}`)
+    .map(field => `    ${field.type} ${field.name}`)
     .join('\n')}  
     }
   `
@@ -130,7 +130,7 @@ function renderDml(dml: DML) {
         } else if (!field.isRequired) {
           thisSideMultiplicity = '|o';
         }
-        const otherModel = dml.models.find((model) => model.name === otherSide);
+        const otherModel = dml.models.find(model => model.name === otherSide);
         const otherField = otherModel?.fields.find(
           ({ relationName }) => relationName === field.relationName
         );
@@ -176,8 +176,8 @@ export default async (options: GeneratorOptions) => {
       output,
       '-t',
       theme,
-      '-c',
-      configFile,
+      // '-c',
+      // configFile,
     ]);
 
     fs.rmSync(tempMermaidFile);
