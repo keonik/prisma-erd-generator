@@ -171,10 +171,17 @@ export default async (options: GeneratorOptions) => {
     fs.writeFileSync(tempMermaidFile, mermaid);
 
     const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
-    fs.writeFileSync(tempConfigFile, JSON.stringify({ deterministicIds: true }));
+    fs.writeFileSync(
+      tempConfigFile,
+      JSON.stringify({ deterministicIds: true })
+    );
+
+    const mermaidCliNodePath = path.resolve(
+      path.join('node_modules', '.bin', 'mmdc')
+    );
 
     child_process.execSync(
-      `npm exec mmdc -- -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
+      `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
       {
         stdio: 'inherit',
       }
