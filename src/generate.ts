@@ -65,12 +65,12 @@ export async function parseDatamodel(engine: string, model: string) {
       `${engine} --datamodel=${modelB64} cli dmmf`
     );
     let output = '';
-    process.stderr?.on('data', l => {
+    process.stderr?.on('data', (l) => {
       if (l.includes('error:')) {
         reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')));
       }
     });
-    process.stdout?.on('data', d => (output += d));
+    process.stdout?.on('data', (d) => (output += d));
     process.on('exit', () => {
       resolve(output);
     });
@@ -84,18 +84,18 @@ function renderDml(dml: DML) {
 
   const classes = dml.models
     .map(
-      model =>
+      (model) =>
         `  ${model.name} {
   ${model.fields
     .filter(
-      field =>
+      (field) =>
         field.kind !== 'object' &&
         !model.fields.find(
           ({ relationFromFields }) =>
             relationFromFields && relationFromFields.includes(field.name)
         )
     )
-    .map(field => `    ${field.type} ${field.name}`)
+    .map((field) => `    ${field.type} ${field.name}`)
     .join('\n')}  
     }
   `
@@ -116,7 +116,7 @@ function renderDml(dml: DML) {
         } else if (!field.isRequired) {
           thisSideMultiplicity = '|o';
         }
-        const otherModel = dml.models.find(model => model.name === otherSide);
+        const otherModel = dml.models.find((model) => model.name === otherSide);
         const otherField = otherModel?.fields.find(
           ({ relationName }) => relationName === field.relationName
         );
@@ -142,32 +142,43 @@ export default async (options: GeneratorOptions) => {
     const config = options.generator.config;
     const theme = config.theme || 'forest';
 
-    if (!options.binaryPaths?.queryEngine) throw new Error('no query engine found')
+    if (!options.binaryPaths?.queryEngine)
+      throw new Error('no query engine found');
 
-    const queryEngine = options.binaryPaths?.queryEngine[Object.keys(options.binaryPaths?.queryEngine)[0]]
+    const queryEngine =
+      options.binaryPaths?.queryEngine[
+        Object.keys(options.binaryPaths?.queryEngine)[0]
+      ];
 
     // https://github.com/notiz-dev/prisma-dbml-generator
-    const datamodelString = await parseDatamodel(queryEngine, options.datamodel);
-    if (!datamodelString) throw new Error('could not parse datamodel')
+    const datamodelString = await parseDatamodel(
+      queryEngine,
+      options.datamodel
+    );
+    if (!datamodelString) throw new Error('could not parse datamodel');
 
     const dml: DML = JSON.parse(datamodelString);
     const mermaid = renderDml(dml);
-    if (!mermaid) throw new Error('failed to construct mermaid instance from dml')
+    if (!mermaid)
+      throw new Error('failed to construct mermaid instance from dml');
 
-    if (output.endsWith('.md')) return fs.writeFileSync(output, '```' + `\n` + mermaid  + `\n` + '```');
+    if (output.endsWith('.md'))
+      return fs.writeFileSync(output, '```' + `\n` + mermaid + `\n` + '```');
 
-    const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-')
+    const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
 
     const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
     fs.writeFileSync(tempMermaidFile, mermaid);
 
     const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
-    fs.writeFileSync(tempConfigFile, JSON.stringify({"deterministicIds": true}));
+    fs.writeFileSync(tempConfigFile, JSON.stringify({ deterministicIds: true }));
 
-    child_process.execSync(`npm exec mmdc -- -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`, {
-      stdio: 'inherit',
-    });
-    
+    child_process.execSync(
+      `npm exec mmdc -- -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
+      {
+        stdio: 'inherit',
+      }
+    );
   } catch (error) {
     console.error(error);
   }
