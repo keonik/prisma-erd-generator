@@ -21,11 +21,6 @@
     "prepare": "rm -rf dist && tsc -p .",
     "release": "np"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": ""
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -56,7 +51,6 @@
   ],
   "devDependencies": {
     "concurrently": "^6.3.0",
-    "husky": "^7.0.2",
     "np": "^7.5.0",
     "prisma": "^3.2.0",
     "tslib": "^2.3.1",
