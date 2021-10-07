@@ -46,7 +46,7 @@ Extensions
 - svg (default: `./prisma/ERD.svg`)
 - png
 - pdf
-
+- md
 ### Theme
 
 Theme selection

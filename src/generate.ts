@@ -2,6 +2,7 @@ import { GeneratorOptions } from '@prisma/generator-helper';
 import * as path from 'path';
 import * as child_process from 'child_process';
 import fs from 'fs';
+import os from 'os';
 
 export interface DML {
   enums: any[];
@@ -33,21 +34,6 @@ export interface DML {
   }[];
 }
 
-const engineBasePath = path.resolve(
-  __dirname,
-  '..',
-  'node_modules',
-  '@prisma',
-  'engines'
-);
-
-const allEngines = fs.readdirSync(engineBasePath);
-const queryEngine = allEngines.find(engine =>
-  engine.startsWith('query-engine')
-);
-// @ts-ignore
-const engine = path.join(engineBasePath, queryEngine);
-
 function getDataModelFieldWithoutParsing(parsed: string) {
   const startOfField = parsed.indexOf('"datamodel"');
   const openingBracket = parsed.indexOf('{', startOfField);
@@ -71,7 +57,7 @@ function getDataModelFieldWithoutParsing(parsed: string) {
   return parsed.slice(openingBracket, closingBracket);
 }
 
-export async function parseDatamodel(model: string) {
+export async function parseDatamodel(engine: string, model: string) {
   const modelB64 = Buffer.from(model).toString('base64');
 
   const parsed: string = await new Promise((resolve, reject) => {
@@ -79,12 +65,12 @@ export async function parseDatamodel(model: string) {
       `${engine} --datamodel=${modelB64} cli dmmf`
     );
     let output = '';
-    process.stderr?.on('data', l => {
+    process.stderr?.on('data', (l) => {
       if (l.includes('error:')) {
         reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')));
       }
     });
-    process.stdout?.on('data', d => (output += d));
+    process.stdout?.on('data', (d) => (output += d));
     process.on('exit', () => {
       resolve(output);
     });
@@ -94,29 +80,29 @@ export async function parseDatamodel(model: string) {
 }
 
 function renderDml(dml: DML) {
-  let diagram = 'erDiagram';
+  const diagram = 'erDiagram';
 
   const classes = dml.models
     .map(
-      model =>
+      (model) =>
         `  ${model.name} {
   ${model.fields
     .filter(
-      field =>
+      (field) =>
         field.kind !== 'object' &&
         !model.fields.find(
           ({ relationFromFields }) =>
             relationFromFields && relationFromFields.includes(field.name)
         )
     )
-    .map(field => `    ${field.type} ${field.name}`)
+    .map((field) => `    ${field.type} ${field.name}`)
     .join('\n')}  
     }
   `
     )
     .join('\n\n');
 
-  let relationShips = '';
+  let relationships = '';
   for (const model of dml.models) {
     for (const field of model.fields) {
       if (field.relationFromFields && field.relationFromFields.length > 0) {
@@ -130,7 +116,7 @@ function renderDml(dml: DML) {
         } else if (!field.isRequired) {
           thisSideMultiplicity = '|o';
         }
-        const otherModel = dml.models.find(model => model.name === otherSide);
+        const otherModel = dml.models.find((model) => model.name === otherSide);
         const otherField = otherModel?.fields.find(
           ({ relationName }) => relationName === field.relationName
         );
@@ -142,12 +128,12 @@ function renderDml(dml: DML) {
           thisSideMultiplicity = 'o|';
         }
 
-        relationShips += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${otherSide} : "${relationshipName}"\n`;
+        relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${otherSide} : "${relationshipName}"\n`;
       }
     }
   }
 
-  return diagram + '\n' + classes + '\n' + relationShips;
+  return diagram + '\n' + classes + '\n' + relationships;
 }
 
 export default async (options: GeneratorOptions) => {
@@ -156,31 +142,50 @@ export default async (options: GeneratorOptions) => {
     const config = options.generator.config;
     const theme = config.theme || 'forest';
 
+    if (!options.binaryPaths?.queryEngine)
+      throw new Error('no query engine found');
+
+    const queryEngine =
+      options.binaryPaths?.queryEngine[
+        Object.keys(options.binaryPaths?.queryEngine)[0]
+      ];
+
     // https://github.com/notiz-dev/prisma-dbml-generator
-    const datamodelString = await parseDatamodel(options.datamodel);
+    const datamodelString = await parseDatamodel(
+      queryEngine,
+      options.datamodel
+    );
+    if (!datamodelString) throw new Error('could not parse datamodel');
+
     const dml: DML = JSON.parse(datamodelString);
     const mermaid = renderDml(dml);
+    if (!mermaid)
+      throw new Error('failed to construct mermaid instance from dml');
 
-    const tempMermaidFile = path.resolve(path.join('prisma', 'input.mmd'));
+    if (output.endsWith('.md'))
+      return fs.writeFileSync(output, '```mermaid' + `\n` + mermaid + '```' + `\n`);
+
+    const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
+
+    const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
     fs.writeFileSync(tempMermaidFile, mermaid);
+
+    const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
+    fs.writeFileSync(
+      tempConfigFile,
+      JSON.stringify({ deterministicIds: true })
+    );
 
     const mermaidCliNodePath = path.resolve(
       path.join('node_modules', '.bin', 'mmdc')
     );
-    const inputMermaidFile = path.resolve(path.join('prisma', 'input.mmd'));
-    const configFile = path.resolve(path.join('config.json'));
-    child_process.spawnSync(mermaidCliNodePath, [
-      '-i',
-      inputMermaidFile,
-      '-o',
-      output,
-      '-t',
-      theme,
-      // '-c',
-      // configFile,
-    ]);
 
-    fs.rmSync(tempMermaidFile);
+    child_process.execSync(
+      `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
+      {
+        stdio: 'inherit',
+      }
+    );
   } catch (error) {
     console.error(error);
   }
