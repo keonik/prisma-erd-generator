@@ -163,7 +163,7 @@ export default async (options: GeneratorOptions) => {
       throw new Error('failed to construct mermaid instance from dml');
 
     if (output.endsWith('.md'))
-      return fs.writeFileSync(output, '```' + `\n` + mermaid + `\n` + '```');
+      return fs.writeFileSync(output, '```mermaid' + `\n` + mermaid + '```' + `\n`);
 
     const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
 
