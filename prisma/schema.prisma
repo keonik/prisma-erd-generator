@@ -8,8 +8,8 @@ datasource db {
 
 generator erd {
   provider = "node ./dist/index.js"
-  output = "../ERD.svg"
-  theme = "default"
+  output   = "../ERD.svg"
+  theme    = "default"
 }
 
 model User {
@@ -19,7 +19,7 @@ model User {
   name            String
   username        String              @unique
   email           String              @unique
-  hashedPassword  String?
+  hashedPassword  String?             @map("hashed_password")
   role            String              @default("user")
   sessions        Session[]
   calendars       ConnectedCalendar[]
@@ -119,5 +119,5 @@ model Booking {
   meetingId    Int
   inviteeEmail String
   startDateUTC DateTime
-  cancelCode String
+  cancelCode   String
 }
