@@ -15,7 +15,7 @@
     "bin": "./dist/index.js",
     "scripts": {
         "dev": "tsc -p . --watch",
-        "e2e:test": "rm -f ERD.svg && npx prisma generate && ls -l ERD.svg",
+        "e2e:test": "rm -f ERD.svg && npx prisma generate && ls -l ERD.svg && rm -f __tests__/prisma/ERD.svg && npx prisma generate --schema=./__tests__/prisma/schema.prisma && ls -l __tests__/prisma/ERD.svg",
         "unit:test": "jest",
         "test": "npm run e2e:test && npm run unit:test",
         "build": "rm -rf dist && tsc -p .",
@@ -61,8 +61,7 @@
         "@babel/preset-typescript": "^7.15.0"
     },
     "lint-staged": {
-        "**/*": "prettier --write --ignore-unknown",
-        "**/*.ts": "npm run unit:test"
+        "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.2",

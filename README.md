@@ -45,10 +45,11 @@ generator erd {
 
 Extensions
 
-- svg (default: `./prisma/ERD.svg`)
-- png
-- pdf
-- md
+-   svg (default: `./prisma/ERD.svg`)
+-   png
+-   pdf
+-   md
+
 ### Theme
 
 Theme selection
@@ -64,7 +65,20 @@ generator erd {
 
 Options
 
-- default (default)
-- forest
-- dark
-- neutral
+-   default (default)
+-   forest
+-   dark
+-   neutral
+
+### Changing path to `node_modules`
+
+If your project is nested inside a directory and your `node_modules` are at a higher level you can provide a path to get it working
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  nodeModulePath = "../node_modules"
+}
+```
+
+default: `node_modules`
