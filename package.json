@@ -1,5 +1,5 @@
 {
-    "version": "0.5.0",
+    "version": "0.5.2-0",
     "license": "MIT",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
@@ -61,8 +61,7 @@
         "@babel/preset-typescript": "^7.15.0"
     },
     "lint-staged": {
-        "**/*": "prettier --write --ignore-unknown",
-        "**/*.ts": "npm run unit:test"
+        "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.2",

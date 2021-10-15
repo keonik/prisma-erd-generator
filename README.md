@@ -45,10 +45,11 @@ generator erd {
 
 Extensions
 
-- svg (default: `./prisma/ERD.svg`)
-- png
-- pdf
-- md
+-   svg (default: `./prisma/ERD.svg`)
+-   png
+-   pdf
+-   md
+
 ### Theme
 
 Theme selection
@@ -64,7 +65,7 @@ generator erd {
 
 Options
 
-- default (default)
-- forest
-- dark
-- neutral
+-   default (default)
+-   forest
+-   dark
+-   neutral
