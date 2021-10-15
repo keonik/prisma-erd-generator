@@ -1,57 +1,70 @@
 {
-  "version": "1.0.0-0",
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "src",
-    "tsconfig.json",
-    "config.json"
-  ],
-  "engines": {
-    "node": ">=14"
-  },
-  "bin": "./dist/index.js",
-  "scripts": {
-    "dev": "tsc -p . --watch",
-    "dev-test": "npx prisma generate",
-    "test": "rm -f ERD.svg && npm run dev-test && ls -l ERD.svg",
-    "build": "rm -rf dist && tsc -p .",
-    "prepare": "rm -rf dist && tsc -p .",
-    "release": "np"
-  },
-  "name": "prisma-erd-generator",
-  "author": "John Fay",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/keonik/prisma-erd-generator"
-  },
-  "homepage": "https://github.com/keonik/prisma-erd-generator#prisma-entity-relationship-diagram-generator",
-  "keywords": [
-    "Prisma",
-    "TypeScript",
-    "Mermaid"
-  ],
-  "contributors": [
-    {
-      "name": "John Fay",
-      "url": "https://github.com/keonik"
+    "version": "1.0.0-0",
+    "license": "MIT",
+    "main": "./dist/index.js",
+    "typings": "./dist/index.d.ts",
+    "files": [
+        "dist",
+        "src",
+        "tsconfig.json",
+        "config.json"
+    ],
+    "engines": {
+        "node": ">=14"
     },
-    {
-      "name": "Jonas Strassel",
-      "url": "https://github.com/boredland"
+    "bin": "./dist/index.js",
+    "scripts": {
+        "dev": "tsc -p . --watch",
+        "dev-test": "npx prisma generate",
+        "unit:test": "jest",
+        "test": "rm -f ERD.svg && npm run dev-test && ls -l ERD.svg && npm run unit:test",
+        "build": "rm -rf dist && tsc -p .",
+        "prepare": "husky install",
+        "release": "np"
+    },
+    "name": "prisma-erd-generator",
+    "author": "John Fay",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/keonik/prisma-erd-generator"
+    },
+    "homepage": "https://github.com/keonik/prisma-erd-generator#prisma-entity-relationship-diagram-generator",
+    "keywords": [
+        "Prisma",
+        "TypeScript",
+        "Mermaid"
+    ],
+    "contributors": [
+        {
+            "name": "John Fay",
+            "url": "https://github.com/keonik"
+        },
+        {
+            "name": "Jonas Strassel",
+            "url": "https://github.com/boredland"
+        }
+    ],
+    "devDependencies": {
+        "@types/jest": "^27.0.2",
+        "concurrently": "^6.3.0",
+        "husky": "^7.0.2",
+        "jest": "^27.2.5",
+        "lint-staged": "^11.2.3",
+        "np": "^7.5.0",
+        "prettier": "2.4.1",
+        "prisma": "^3.2.1",
+        "tslib": "^2.3.1",
+        "typescript": "^4.4.4",
+        "babel-jest": "^27.2.5",
+        "@babel/core": "^7.15.8",
+        "@babel/preset-env": "^7.15.8",
+        "@babel/preset-typescript": "^7.15.0"
+    },
+    "lint-staged": {
+        "**/*": "prettier --write --ignore-unknown"
+    },
+    "dependencies": {
+        "@mermaid-js/mermaid-cli": "^8.13.2",
+        "@prisma/generator-helper": "^3.2.1"
     }
-  ],
-  "devDependencies": {
-    "concurrently": "^6.3.0",
-    "np": "^7.5.0",
-    "prisma": "^3.2.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.4.3"
-  },
-  "dependencies": {
-    "@mermaid-js/mermaid-cli": "^8.13.2",
-    "@prisma/generator-helper": "^3.2.0"
-  }
 }
