@@ -34,4 +34,3 @@ jobs:
             - name: test
               run: |
                   npm run test
-                  npm run unit-test
