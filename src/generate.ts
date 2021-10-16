@@ -58,12 +58,22 @@ function getDataModelFieldWithoutParsing(parsed: string) {
     return parsed.slice(openingBracket, closingBracket);
 }
 
-export async function parseDatamodel(engine: string, model: string) {
-    const modelB64 = Buffer.from(model).toString('base64');
+export async function parseDatamodel(
+    engine: string,
+    model: string,
+    tmpDir: string
+) {
+    // Could theoretically use original file instead of re-writing the option
+    // string to new file but logic for finding correct schema.prisma in
+    // monorepos and containers can be tricky (see Prisma issue log) so safer
+    // to rely on given content
+    const tmpSchema = path.resolve(path.join(tmpDir, 'schema.prisma'));
+
+    fs.writeFileSync(tmpSchema, model);
 
     const parsed: string = await new Promise((resolve, reject) => {
         const process = child_process.exec(
-            `${engine} --datamodel=${modelB64} cli dmmf`
+            `${engine} --datamodel-path=${tmpSchema} cli dmmf`
         );
         let output = '';
         process.stderr?.on('data', (l) => {
@@ -98,7 +108,7 @@ function renderDml(dml: DML) {
               )
       )
       .map((field) => `    ${field.type} ${field.name}`)
-      .join('\n')}  
+      .join('\n')}
     }
   `
         )
@@ -193,10 +203,13 @@ export default async (options: GeneratorOptions) => {
                 Object.keys(options.binaryPaths?.queryEngine)[0]
             ];
 
+        const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
+
         // https://github.com/notiz-dev/prisma-dbml-generator
         const datamodelString = await parseDatamodel(
             queryEngine,
-            options.datamodel
+            options.datamodel,
+            tmpDir
         );
         if (!datamodelString) throw new Error('could not parse datamodel');
 
@@ -215,8 +228,6 @@ export default async (options: GeneratorOptions) => {
                 output,
                 '```mermaid' + `\n` + mermaid + '```' + `\n`
             );
-
-        const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
 
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
         fs.writeFileSync(tempMermaidFile, mermaid);
