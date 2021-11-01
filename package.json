@@ -65,6 +65,6 @@
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.2",
-        "@prisma/generator-helper": "^3.2.1"
+        "@prisma/generator-helper": "^3.3.0"
     }
 }
