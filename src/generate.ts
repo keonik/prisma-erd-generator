@@ -117,14 +117,13 @@ function renderDml(dml: DML) {
     let relationships = '';
     for (const model of dml.models) {
         for (const field of model.fields) {
+            const relationshipName = field.name;
+            const thisSide = model.dbName || model.name;
+            const otherSide = field.type;
             if (
                 field.relationFromFields &&
                 field.relationFromFields.length > 0
             ) {
-                const relationshipName = field.name;
-                const thisSide = model.dbName || model.name;
-                const otherSide = field.type;
-
                 let thisSideMultiplicity = '||';
                 if (field.isList) {
                     thisSideMultiplicity = '}o';
@@ -148,6 +147,16 @@ function renderDml(dml: DML) {
                 relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
                     otherModel?.dbName || otherSide
                 } : "${relationshipName}"\n`;
+            }
+            // many to many
+            else if (
+                dml.models.find(
+                    (m) => m.name === field.type || m.dbName === field.type
+                ) &&
+                field.relationFromFields?.length === 0 &&
+                field.relationToFields?.length
+            ) {
+                relationships += `    ${thisSide} o|--}o ${otherSide} : "${relationshipName}"\n`;
             }
         }
     }
@@ -231,6 +240,7 @@ export default async (options: GeneratorOptions) => {
 
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
         fs.writeFileSync(tempMermaidFile, mermaid);
+        fs.writeFileSync(path.resolve(path.join('prisma.mmd')), mermaid);
 
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
         fs.writeFileSync(

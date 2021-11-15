@@ -1,0 +1,96 @@
+erDiagram
+  users {
+      Int id
+    DateTime createdAt
+    DateTime updated_at
+    String name
+    String username
+    String email
+    String hashed_password
+    String role
+    }
+  
+
+  DefaultCalendar {
+      Int id
+    }
+  
+
+  Session {
+      Int id
+    DateTime createdAt
+    DateTime updated_at
+    DateTime expires_at
+    String handle
+    String hashed_session_token
+    String anti_csrf_token
+    String public_data
+    String private_data
+    }
+  
+
+  ConnectedCalendar {
+      Int id
+    String name
+    String caldav_address
+    String username
+    String encrypted_password
+    String refresh_token
+    ConnectedCalendarStatus status
+    ConnectedCalendarType type
+    }
+  
+
+  Meeting {
+      Int id
+    String name
+    String link
+    String description
+    Int duration
+    DateTime startDateUTC
+    DateTime endDateUTC
+    String location
+    }
+  
+
+  DailySchedule {
+      Int id
+    String day
+    String startTime
+    String endTime
+    }
+  
+
+  Schedule {
+      Int id
+    String name
+    String timezone
+    }
+  
+
+  Booking {
+      Int id
+    String inviteeEmail
+    DateTime startDateUTC
+    String cancelCode
+    }
+  
+
+  Event {
+      Int id
+    String name
+    DateTime startDate
+    }
+  
+    DefaultCalendar o{--|| users : "users"
+    DefaultCalendar o{--|| ConnectedCalendar : "calendar"
+    Session o{--|| users : "users"
+    ConnectedCalendar o{--|| users : "owner"
+    Meeting o{--|| users : "owner"
+    Meeting o{--|| Schedule : "schedule"
+    Meeting o{--|| ConnectedCalendar : "defaultConnectedCalendar"
+    DailySchedule o{--|| Schedule : "schedule"
+    Schedule o{--|| users : "owner"
+    Booking o{--|| Meeting : "meeting"
+    Booking o|--}o Event : "events"
+    Event o|--}o Booking : "bookings"
