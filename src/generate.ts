@@ -240,7 +240,6 @@ export default async (options: GeneratorOptions) => {
 
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
         fs.writeFileSync(tempMermaidFile, mermaid);
-        fs.writeFileSync(path.resolve(path.join('prisma.mmd')), mermaid);
 
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
         fs.writeFileSync(
