@@ -122,4 +122,12 @@ model Booking {
   inviteeEmail String
   startDateUTC DateTime
   cancelCode   String
+  events       Event[]
+}
+
+model Event {
+  id        Int       @id @default(autoincrement())
+  name      String
+  startDate DateTime
+  bookings  Booking[]
 }
