@@ -156,7 +156,7 @@ function renderDml(dml: DML) {
                 field.relationFromFields?.length === 0 &&
                 field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o|--}o ${otherSide} : "${relationshipName}"\n`;
+                relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`;
             }
         }
     }

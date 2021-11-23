@@ -15,7 +15,7 @@
     "bin": "./dist/index.js",
     "scripts": {
         "dev": "tsc -p . --watch",
-        "e2e:test": "rm -f ERD.svg && npx prisma generate && ls -l ERD.svg",
+        "e2e:test": "rm -f ERD.svg && npx prisma generate  && npx prisma generate --schema ./prisma/many-to-many.prisma && ls -l *.svg",
         "unit:test": "jest",
         "test": "npm run e2e:test && npm run unit:test",
         "build": "rm -rf dist && tsc -p .",
