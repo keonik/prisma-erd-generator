@@ -1,0 +1,80 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+// ER図作成用
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/Mappings.svg"
+    theme    = "forest"
+}
+
+// ユーザーデータ管理用
+model User {
+    // ID
+    id    Int     @id @default(autoincrement())
+    // メールアドレス
+    email String  @unique
+    // 氏名
+    name  String?
+    // 年齢
+    age   Int?
+
+    // 登録日時
+    createdAt DateTime @default(now()) @map("created_at")
+    // 更新日時
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    // プロフィール(One to One)
+    profile Profile?
+    // 記事(One to Many)
+    posts   Post[]
+
+    // テーブルの物理名
+    @@map("users")
+}
+
+// プロフィール管理用
+model Profile {
+    // ID
+    id       Int    @id @default(autoincrement())
+    // ニックネーム
+    nickName String @map("nick_name")
+
+    // 登録日時
+    createdAt DateTime @default(now()) @map("created_at")
+    // 更新日時
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    // 親テーブルの関連づけ
+    userId Int  @unique
+    user   User @relation(fields: [userId], references: [id])
+
+    // テーブルの物理名
+    @@map("profile")
+}
+
+// 記事管理用
+model Post {
+    // ID
+    id    Int    @id @default(autoincrement())
+    // タイトル
+    title String @map("title")
+
+    // 登録日時
+    createdAt DateTime @default(now()) @map("created_at")
+    // 更新日時
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    // 親テーブルの関連づけ
+    author   User @relation(fields: [authorId], references: [id])
+    authorId Int
+
+    // テーブルの物理名
+    @@map("posts")
+}

@@ -8,7 +8,7 @@ datasource db {
 
 generator erd {
     provider = "node ./dist/index.js"
-    output   = "../ManyToMany.svg"
+    output   = "../__tests__/ManyToMany.svg"
     theme    = "forest"
 }
 

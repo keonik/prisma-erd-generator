@@ -15,9 +15,8 @@
     "bin": "./dist/index.js",
     "scripts": {
         "dev": "tsc -p . --watch",
-        "e2e:test": "rm -f ERD.svg && npx prisma generate  && npx prisma generate --schema ./prisma/many-to-many.prisma && ls -l *.svg",
         "unit:test": "jest",
-        "test": "npm run e2e:test && npm run unit:test",
+        "test": "npm run unit:test",
         "build": "rm -rf dist && tsc -p .",
         "prepare": "husky install",
         "release": "np"
@@ -45,7 +44,11 @@
         }
     ],
     "devDependencies": {
+        "@babel/core": "^7.16.0",
+        "@babel/preset-env": "^7.16.0",
+        "@babel/preset-typescript": "^7.16.0",
         "@types/jest": "^27.0.2",
+        "babel-jest": "^27.3.1",
         "concurrently": "^6.4.0",
         "husky": "^7.0.4",
         "jest": "^27.3.1",
@@ -54,17 +57,15 @@
         "prettier": "2.4.1",
         "prisma": "^3.4.2",
         "tslib": "^2.3.1",
-        "typescript": "^4.4.4",
-        "babel-jest": "^27.3.1",
-        "@babel/core": "^7.16.0",
-        "@babel/preset-env": "^7.16.0",
-        "@babel/preset-typescript": "^7.16.0"
+        "typescript": "^4.4.4"
     },
     "lint-staged": {
-        "**/*": "prettier --write --ignore-unknown"
+        "**/*": "prettier --write --ignore-unknown",
+        "**/*ts": "npm run test"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.3",
-        "@prisma/generator-helper": "^3.4.2"
+        "@prisma/client": "^3.0.0",
+        "@prisma/generator-helper": "^3.0.0"
     }
 }
