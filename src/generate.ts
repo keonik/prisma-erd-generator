@@ -248,7 +248,7 @@ export default async (options: GeneratorOptions) => {
         );
 
         const mermaidCliNodePath = path.resolve(
-            path.join('node_modules', '.bin', 'mmdc')
+            child_process.execSync('find ../.. -name mmdc').toString().split('\n').filter(path => path).pop()
         );
 
         child_process.execSync(
