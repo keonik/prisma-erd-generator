@@ -1,0 +1,47 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "node ./dist/index.js"
+  output   = "../__tests__/36.png"
+}
+
+// generator nestgraphql {
+//   provider               = "node ../../../node_modules/prisma-nestjs-graphql"
+//   output                 = "../src/@generated/"
+//   reExport               = Single
+//   fields_Validator_from  = "class-validator"
+//   fields_Validator_input = true
+// }
+
+datasource db {
+  provider = "postgresql"
+  url   = env("DATABASE_URL")
+}
+
+model User {
+  /// @validator.IsUUID(all)
+  id        String   @id @default(uuid()) @db.Uuid
+  /// @Validator.IsEmail()
+  email     String   @unique
+  /// @Validator.Length(8, 64)
+  password  String
+  /// @Validator.IsJSON()
+  roles     Json[]
+  profile   Profile?
+  /// @HideField({ output: false, input: true })
+  createdAt DateTime @default(now())
+  /// @HideField({ output: false, input: true })
+  updatedAt DateTime @default(now())
+}
+
+model Profile {
+  id        String @id @default(uuid()) @db.Uuid
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String @unique @db.Uuid
+  firstName String
+  lastName  String
+}
+
