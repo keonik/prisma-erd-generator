@@ -251,6 +251,12 @@ export default async (options: GeneratorOptions) => {
             path.join('node_modules', '.bin', 'mmdc')
         );
 
+        if (!fs.existsSync(mermaidCliNodePath)) {
+            throw new Error(
+                `Expected mermaid CLI at ${mermaidCliNodePath} but this package was not found.`
+            );
+        }
+
         child_process.execSync(
             `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
             {
@@ -259,5 +265,6 @@ export default async (options: GeneratorOptions) => {
         );
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
