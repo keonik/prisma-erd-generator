@@ -1,13 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "es2019",
-    "baseUrl": "src",
-    "outDir": "dist",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": ["es2019"],
-    "strict": true,
-    "esModuleInterop": true
-  },
-  "exclude": ["__tests__"]
+    "compilerOptions": {
+        "target": "es2019",
+        "baseUrl": "src",
+        "outDir": "dist",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": ["es2019"],
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "exclude": ["__tests__"]
 }

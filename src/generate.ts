@@ -263,6 +263,13 @@ export default async (options: GeneratorOptions) => {
                 stdio: 'inherit',
             }
         );
+
+        // throw error if file was not created
+        if (!fs.existsSync(output)) {
+            throw new Error(
+                `Issue generating ER Diagram. Expected ${output} to be created`
+            );
+        }
     } catch (error) {
         console.error(error);
         throw error;

@@ -15,11 +15,12 @@
     "bin": "./dist/index.js",
     "scripts": {
         "dev": "tsc -p . --watch",
-        "unit:test": "jest",
+        "unit:test": "jest --passWithNoTests",
         "test": "npm run unit:test",
         "prebuild": "rm -rf dist",
         "build": " tsc -p .",
         "prepare": "husky install",
+        "pretest": "npm run build",
         "release": "np"
     },
     "name": "prisma-erd-generator",
