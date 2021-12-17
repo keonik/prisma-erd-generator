@@ -48,13 +48,13 @@
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-typescript": "^7.16.0",
         "@types/jest": "^27.0.2",
-        "babel-jest": "^27.3.1",
+        "babel-jest": "^27.4.2",
         "concurrently": "^6.4.0",
         "husky": "^7.0.4",
         "jest": "^27.3.1",
         "lint-staged": "^12.0.2",
         "np": "^7.5.0",
-        "prettier": "2.4.1",
+        "prettier": "2.5.0",
         "prisma": "^3.4.2",
         "tslib": "^2.3.1",
         "typescript": "^4.4.4"
@@ -66,6 +66,6 @@
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.3",
         "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.0.0"
+        "@prisma/generator-helper": "^3.6.0"
     }
 }
