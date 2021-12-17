@@ -17,7 +17,8 @@
         "dev": "tsc -p . --watch",
         "unit:test": "jest",
         "test": "npm run unit:test",
-        "build": "rm -rf dist && tsc -p .",
+        "prebuild": "rm -rf dist",
+        "build": " tsc -p .",
         "prepare": "husky install",
         "release": "np"
     },
@@ -44,28 +45,33 @@
         }
     ],
     "devDependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/preset-env": "^7.16.0",
-        "@babel/preset-typescript": "^7.16.0",
-        "@types/jest": "^27.0.2",
-        "babel-jest": "^27.4.2",
+        "@babel/core": "^7.16.5",
+        "@babel/preset-env": "^7.16.5",
+        "@babel/preset-typescript": "^7.16.5",
+        "@types/jest": "^27.0.3",
+        "babel-jest": "^27.4.5",
         "concurrently": "^6.4.0",
         "husky": "^7.0.4",
-        "jest": "^27.3.1",
-        "lint-staged": "^12.0.2",
-        "np": "^7.5.0",
-        "prettier": "2.5.0",
-        "prisma": "^3.4.2",
+        "jest": "^27.4.5",
+        "lint-staged": "^12.1.2",
+        "np": "^7.6.0",
+        "prettier": "2.5.1",
+        "prisma": "^3.6.0",
         "tslib": "^2.3.1",
-        "typescript": "^4.4.4"
+        "typescript": "^4.5.4"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown",
         "**/*ts": "npm run test"
     },
     "dependencies": {
-        "@mermaid-js/mermaid-cli": "^8.13.3",
+        "@mermaid-js/mermaid-cli": "^8.13.5",
         "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.6.0"
+        "@prisma/generator-helper": "^3.0.0"
+    },
+    "peerDependencies": {
+        "@mermaid-js/mermaid-cli": "^8.13.5",
+        "@prisma/client": "^3.0.0",
+        "@prisma/generator-helper": "^3.0.0"
     }
 }
