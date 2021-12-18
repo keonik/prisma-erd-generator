@@ -251,13 +251,27 @@ export default async (options: GeneratorOptions) => {
             path.join('node_modules', '.bin', 'mmdc')
         );
 
+        if (!fs.existsSync(mermaidCliNodePath)) {
+            throw new Error(
+                `Expected mermaid CLI at ${mermaidCliNodePath} but this package was not found.`
+            );
+        }
+
         child_process.execSync(
             `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
             {
                 stdio: 'inherit',
             }
         );
+
+        // throw error if file was not created
+        if (!fs.existsSync(output)) {
+            throw new Error(
+                `Issue generating ER Diagram. Expected ${output} to be created`
+            );
+        }
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
