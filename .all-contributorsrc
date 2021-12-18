@@ -40,6 +40,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Jason-Abbott",
+      "name": "Jason Abbott",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6289308?v=4",
+      "profile": "https://blog.trailimage.com/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
