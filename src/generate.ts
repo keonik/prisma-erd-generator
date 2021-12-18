@@ -247,14 +247,24 @@ export default async (options: GeneratorOptions) => {
             JSON.stringify({ deterministicIds: true })
         );
 
-        const mermaidCliNodePath = path.resolve(
+        let mermaidCliNodePath = path.resolve(
             path.join('node_modules', '.bin', 'mmdc')
         );
 
         if (!fs.existsSync(mermaidCliNodePath)) {
-            throw new Error(
-                `Expected mermaid CLI at ${mermaidCliNodePath} but this package was not found.`
-            );
+            const findMermaidCli = child_process
+                .execSync('find ../.. -name mmdc')
+                .toString()
+                .split('\n')
+                .filter((path) => path)
+                .pop();
+            if (!findMermaidCli || !fs.existsSync(findMermaidCli)) {
+                throw new Error(
+                    `Expected mermaid CLI at \n${mermaidCliNodePath}\n\nor\n${findMermaidCli}\n but this package was not found.`
+                );
+            } else {
+                mermaidCliNodePath = findMermaidCli;
+            }
         }
 
         child_process.execSync(
