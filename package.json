@@ -1,5 +1,5 @@
 {
-    "version": "0.7.0",
+    "version": "0.8.0-0",
     "license": "MIT",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
@@ -39,10 +39,6 @@
         {
             "name": "John Fay",
             "url": "https://github.com/keonik"
-        },
-        {
-            "name": "Jonas Strassel",
-            "url": "https://github.com/boredland"
         }
     ],
     "devDependencies": {
@@ -50,6 +46,7 @@
         "@babel/preset-env": "^7.16.5",
         "@babel/preset-typescript": "^7.16.5",
         "@types/jest": "^27.0.3",
+        "all-contributors-cli": "^6.20.0",
         "babel-jest": "^27.4.5",
         "concurrently": "^6.4.0",
         "husky": "^7.0.4",

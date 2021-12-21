@@ -1,0 +1,76 @@
+{
+  "projectName": "prisma-erd-generator",
+  "projectOwner": "keonik",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "keonik",
+      "name": "John Fay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46365891?v=4",
+      "profile": "https://github.com/keonik",
+      "contributions": [
+        "maintenance",
+        "code",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "boredland",
+      "name": "Jonas Strassel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4662748?v=4",
+      "profile": "https://jonas-strassel.de/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "heystevegray",
+      "name": "Steve Gray",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66500112?v=4",
+      "profile": "https://heystevegray.dev/",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "Jason-Abbott",
+      "name": "Jason Abbott",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6289308?v=4",
+      "profile": "https://blog.trailimage.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "jsbrain",
+      "name": "Manuel Maute",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20225909?v=4",
+      "profile": "https://bradbit.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "homerjam",
+      "name": "James Homer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1055769?v=4",
+      "profile": "https://homerjam.es/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
