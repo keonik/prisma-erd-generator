@@ -48,7 +48,7 @@
         "@types/jest": "^27.0.3",
         "all-contributors-cli": "^6.20.0",
         "babel-jest": "^27.4.5",
-        "concurrently": "^6.4.0",
+        "concurrently": "^6.5.1",
         "husky": "^7.0.4",
         "jest": "^27.4.5",
         "lint-staged": "^12.1.2",
