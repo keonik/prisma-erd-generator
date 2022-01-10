@@ -70,7 +70,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "janpio",
+      "name": "Jan Piotrowski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/183673?v=4",
+      "profile": "https://janpiotrowski.de",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
