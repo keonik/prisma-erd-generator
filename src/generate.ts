@@ -199,6 +199,10 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 };
 
 export default async (options: GeneratorOptions) => {
+    if (process.env.SKIP_ERD === 'true') {
+        console.log('Skipping ERD generation');
+        return;
+    }
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;

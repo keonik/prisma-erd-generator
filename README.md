@@ -76,6 +76,14 @@ Options
 -   dark
 -   neutral
 
+### Skip Generate
+
+Scenarios arise where you don't want to generate a new ER Diagram and you can bypass this generator for those environments with an environment variable `SKIP_ERD`
+
+```bash
+SKIP_ERD=true
+```
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
