@@ -1,13 +1,12 @@
 {
-    "version": "0.8.0",
+    "version": "0.8.1-1",
     "license": "MIT",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
     "files": [
         "dist",
         "src",
-        "tsconfig.json",
-        "config.json"
+        "tsconfig.json"
     ],
     "engines": {
         "node": ">=14"
