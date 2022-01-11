@@ -1,9 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -99,6 +97,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://blog.trailimage.com/"><img src="https://avatars.githubusercontent.com/u/6289308?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jason Abbott</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3AJason-Abbott" title="Bug reports">🐛</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=Jason-Abbott" title="Code">💻</a></td>
     <td align="center"><a href="https://bradbit.com/"><img src="https://avatars.githubusercontent.com/u/20225909?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel Maute</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Ajsbrain" title="Bug reports">🐛</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=jsbrain" title="Code">💻</a></td>
     <td align="center"><a href="https://homerjam.es/"><img src="https://avatars.githubusercontent.com/u/1055769?v=4?s=100" width="100px;" alt=""/><br /><sub><b>James Homer</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=homerjam" title="Code">💻</a></td>
+    <td align="center"><a href="https://janpiotrowski.de"><img src="https://avatars.githubusercontent.com/u/183673?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jan Piotrowski</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Ajanpio" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

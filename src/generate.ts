@@ -248,7 +248,7 @@ export default async (options: GeneratorOptions) => {
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
         fs.writeFileSync(
             tempConfigFile,
-            JSON.stringify({ deterministicIds: true })
+            JSON.stringify({ deterministicIds: true, maxTextSize: 90000 })
         );
 
         let mermaidCliNodePath = path.resolve(
