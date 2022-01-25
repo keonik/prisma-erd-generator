@@ -30,8 +30,18 @@ export interface DMLModel {
     uniqueIndexes: any[];
     isGenerated: boolean;
 }
+
+export interface DMLEnum {
+    name: string;
+    dbName: string | null;
+    values: Array<{
+        name: string;
+        dbName: string;
+    }>;
+}
+
 export interface DML {
-    enums: any[];
+    enums: DMLEnum[];
     models: DMLModel[];
 }
 
@@ -93,6 +103,23 @@ export async function parseDatamodel(
 function renderDml(dml: DML) {
     const diagram = 'erDiagram';
 
+    const enums = dml.enums
+        .map(
+            (model: DMLEnum) => `
+        ${model.dbName || model.name} {
+            ${model.values
+                .map(
+                    (value) =>
+                        `${value.name || value.dbName} ${
+                            value.dbName || value.name
+                        }`
+                )
+                .join('\n')}
+        }
+    `
+        )
+        .join('\n\n');
+
     const classes = dml.models
         .map(
             (model) =>
@@ -117,12 +144,16 @@ function renderDml(dml: DML) {
     let relationships = '';
     for (const model of dml.models) {
         for (const field of model.fields) {
-            const relationshipName = field.name;
+            const relationshipName = `${field.kind === 'enum' ? 'enum:' : ''}${
+                field.name
+            }`;
             const thisSide = model.dbName || model.name;
             const otherSide = field.type;
+
             if (
-                field.relationFromFields &&
-                field.relationFromFields.length > 0
+                (field.relationFromFields &&
+                    field.relationFromFields.length > 0) ||
+                field.kind === 'enum'
             ) {
                 let thisSideMultiplicity = '||';
                 if (field.isList) {
@@ -130,9 +161,11 @@ function renderDml(dml: DML) {
                 } else if (!field.isRequired) {
                     thisSideMultiplicity = '|o';
                 }
+
                 const otherModel = dml.models.find(
                     (model) => model.name === otherSide
                 );
+
                 const otherField = otherModel?.fields.find(
                     ({ relationName }) => relationName === field.relationName
                 );
@@ -161,7 +194,7 @@ function renderDml(dml: DML) {
         }
     }
 
-    return diagram + '\n' + classes + '\n' + relationships;
+    return diagram + '\n' + enums + '\n' + classes + '\n' + relationships;
 }
 
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
