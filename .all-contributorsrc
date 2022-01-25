@@ -79,6 +79,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "lukevers",
+      "name": "Luke Evers",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1558388?v=4",
+      "profile": "https://lukevers.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
