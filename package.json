@@ -64,11 +64,11 @@
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.5",
         "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.0.0"
+        "@prisma/generator-helper": "^3.8.1"
     },
     "peerDependencies": {
         "@mermaid-js/mermaid-cli": "^8.13.5",
         "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.0.0"
+        "@prisma/generator-helper": "^3.8.1"
     }
 }
