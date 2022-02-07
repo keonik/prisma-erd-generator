@@ -6,14 +6,14 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Prisma generator to create an ER Diagram every time you generate your prisma client.
+Prisma generator to create an ER Diagram every time you generate your prisma client. 
 
 > Like this tool? [@Skn0tt](https://github.com/Skn0tt) started this effort with his [web app ER diagram generator](https://prisma-erd.simonknott.de/)
 
 ```bash
-npm i -D prisma-erd-generator
+npm i -D prisma-erd-generator @mermaid-js/mermaid-cli
 # or
-yarn add -D prisma-erd-generator
+yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli
 ```
 
 Add to your `schema.prisma`
