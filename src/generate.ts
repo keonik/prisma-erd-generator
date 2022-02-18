@@ -303,7 +303,7 @@ export default async (options: GeneratorOptions) => {
         child_process.execSync(
             `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
             {
-                stdio: 'inherit',
+                stdio: 'ignore',
             }
         );
 
