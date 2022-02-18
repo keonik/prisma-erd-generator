@@ -240,7 +240,6 @@ export default async (options: GeneratorOptions) => {
         const config = options.generator.config;
         const theme = config.theme || 'forest';
         const disabled = Boolean(process.env.DISABLE_ERD);
-        console.log({ disabled });
 
         if (disabled) {
             return console.log('ERD generator is disabled');
