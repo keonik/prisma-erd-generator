@@ -3,6 +3,9 @@ import * as path from 'path';
 import * as child_process from 'child_process';
 import fs from 'fs';
 import os from 'os';
+import * as dotenv from 'dotenv';
+
+dotenv.config(); // Load the environment variables
 
 export interface DMLModel {
     name: string;
@@ -236,7 +239,12 @@ export default async (options: GeneratorOptions) => {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
         const theme = config.theme || 'forest';
+        const disabled = Boolean(process.env.DISABLE_ERD);
+        console.log({ disabled });
 
+        if (disabled) {
+            return console.log('ERD generator is disabled');
+        }
         if (!options.binaryPaths?.queryEngine)
             throw new Error('no query engine found');
 

@@ -6,7 +6,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Prisma generator to create an ER Diagram every time you generate your prisma client. 
+Prisma generator to create an ER Diagram every time you generate your prisma client.
 
 > Like this tool? [@Skn0tt](https://github.com/Skn0tt) started this effort with his [web app ER diagram generator](https://prisma-erd.simonknott.de/)
 
@@ -75,6 +75,14 @@ Options
 -   forest
 -   dark
 -   neutral
+
+### Disabled
+
+You won't always need to generate a new ER diagram. To disabled running this generator just add an environment variable to the environment running `prisma generate`.
+
+```bash
+DISABLE_ERD=true
+```
 
 ## Contributors ✨
 

@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/disabled.svg"
+}
+
+model Booking {
+    id           Int      @id @default(autoincrement())
+    inviteeEmail String
+    startDateUTC DateTime
+    cancelCode   String
+    events       Event[]
+}
+
+model Event {
+    id        Int       @id @default(autoincrement())
+    name      String
+    startDate DateTime
+    bookings  Booking[]
+}
