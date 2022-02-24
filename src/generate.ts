@@ -34,6 +34,35 @@ export interface DMLModel {
     isGenerated: boolean;
 }
 
+// Copy paste of the DMLModel
+// TODO Adapt to real type of composite types - and then make them concat-enable anyway
+export interface DMLType {
+    name: string;
+    isEmbedded: boolean;
+    dbName: string | null;
+    fields: {
+        name: string;
+        hasDefaultValue: boolean;
+        isGenerated: boolean;
+        isId: boolean;
+        isList: boolean;
+        isReadOnly: boolean;
+        isRequired: boolean;
+        isUnique: boolean;
+        isUpdatedAt: boolean;
+        kind: 'scalar' | 'object' | 'enum';
+        type: string;
+        relationFromFields?: any[];
+        relationName?: string;
+        relationOnDelete?: string;
+        relationToFields?: any[];
+    }[];
+    idFields: any[];
+    uniqueFields: any[];
+    uniqueIndexes: any[];
+    isGenerated: boolean;
+}
+
 export interface DMLEnum {
     name: string;
     dbName: string | null;
@@ -46,6 +75,7 @@ export interface DMLEnum {
 export interface DML {
     enums: DMLEnum[];
     models: DMLModel[];
+    types: DMLType[];
 }
 
 function getDataModelFieldWithoutParsing(parsed: string) {
@@ -106,6 +136,9 @@ export async function parseDatamodel(
 function renderDml(dml: DML) {
     const diagram = 'erDiagram';
 
+    // Combine Models and Types as they are pretty similar
+    const modellikes = dml.models.concat(dml.types);
+
     const enums = dml.enums
         .map(
             (model: DMLEnum) => `
@@ -123,7 +156,7 @@ function renderDml(dml: DML) {
         )
         .join('\n\n');
 
-    const classes = dml.models
+    const classes = modellikes
         .map(
             (model) =>
                 `  ${model.dbName || model.name} {
@@ -146,7 +179,7 @@ function renderDml(dml: DML) {
         .join('\n\n');
 
     let relationships = '';
-    for (const model of dml.models) {
+    for (const model of modellikes) {
         for (const field of model.fields) {
             const relationshipName = `${field.kind === 'enum' ? 'enum:' : ''}${
                 field.name
@@ -154,6 +187,7 @@ function renderDml(dml: DML) {
             const thisSide = model.dbName || model.name;
             const otherSide = field.type;
 
+            // normal relations
             if (
                 (field.relationFromFields &&
                     field.relationFromFields.length > 0) ||
@@ -166,7 +200,7 @@ function renderDml(dml: DML) {
                     thisSideMultiplicity = '|o';
                 }
 
-                const otherModel = dml.models.find(
+                const otherModel = modellikes.find(
                     (model) => model.name === otherSide
                 );
 
@@ -187,13 +221,45 @@ function renderDml(dml: DML) {
             }
             // many to many
             else if (
-                dml.models.find(
+                modellikes.find(
                     (m) => m.name === field.type || m.dbName === field.type
                 ) &&
                 field.relationFromFields?.length === 0 &&
                 field.relationToFields?.length
             ) {
                 relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`;
+            }
+            // composite types
+            else if (field.kind == 'object') {
+                const otherSideCompositeType = dml.types.find(
+                    (model) => model.name === otherSide
+                );
+                if (otherSideCompositeType) {
+                    // most logic here is a copy/paste from the normal relation logic
+                    // TODO extract and reuse
+                    let thisSideMultiplicity = '||';
+                    if (field.isList) {
+                        thisSideMultiplicity = '}o';
+                    } else if (!field.isRequired) {
+                        thisSideMultiplicity = '|o';
+                    }
+
+                    const otherField = otherSideCompositeType?.fields.find(
+                        ({ relationName }) =>
+                            relationName === field.relationName
+                    );
+
+                    let otherSideMultiplicity = '||';
+                    if (otherField?.isList) {
+                        thisSideMultiplicity = 'o{';
+                    } else if (!otherField?.isRequired) {
+                        thisSideMultiplicity = 'o|';
+                    }
+
+                    relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
+                        otherSideCompositeType?.dbName || otherSide
+                    } : "${relationshipName}"\n`;
+                }
             }
         }
     }
@@ -256,7 +322,6 @@ export default async (options: GeneratorOptions) => {
 
         const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
 
-        // https://github.com/notiz-dev/prisma-dbml-generator # TODO What does this comment signify?
         const datamodelString = await parseDatamodel(
             queryEngine,
             options.datamodel,
