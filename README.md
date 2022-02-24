@@ -84,6 +84,14 @@ You won't always need to generate a new ER diagram. To disabled running this gen
 DISABLE_ERD=true
 ```
 
+### Debugging
+
+If you have issues or are contributing to this repository, you may benefit from seeing logs of the steps to making your ERD. Enable debugging by adding the following environment variable and re-running `prisma generate`.
+
+```bash
+ERD_DEBUG=true
+```
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

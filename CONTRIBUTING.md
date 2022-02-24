@@ -34,6 +34,14 @@ To develop locally:
     npm run dev
     ```
 
+## Enabling Debugging
+
+You may benefit from seeing logs of the steps to making your ERD. Enable debugging by adding the following environment variable and re-running `prisma generate`.
+
+```bash
+ERD_DEBUG=true
+```
+
 ## Submitting a Pull Request(PR)
 
 Once your code is commited and you are ready to open a PR for review, please link the issue you are solving in this commit to provide details on how to test your contribution.
