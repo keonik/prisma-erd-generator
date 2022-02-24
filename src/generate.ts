@@ -322,7 +322,6 @@ export default async (options: GeneratorOptions) => {
 
         const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
 
-        // https://github.com/notiz-dev/prisma-dbml-generator # TODO What does this comment signify?
         const datamodelString = await parseDatamodel(
             queryEngine,
             options.datamodel,
