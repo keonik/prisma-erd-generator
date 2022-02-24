@@ -137,7 +137,8 @@ function renderDml(dml: DML) {
                       relationFromFields.includes(field.name)
               )
       )
-      .map((field) => `    ${field.type} ${field.name}`)
+      // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
+      .map((field) => `    ${field.type} ${field.name.replace(/^_/, 'z_')}`)
       .join('\n')}
     }
   `
@@ -240,6 +241,7 @@ export default async (options: GeneratorOptions) => {
         const config = options.generator.config;
         const theme = config.theme || 'forest';
         const disabled = Boolean(process.env.DISABLE_ERD);
+        const debug = Boolean(process.env.ERD_DEBUG);
 
         if (disabled) {
             return console.log('ERD generator is disabled');
@@ -261,13 +263,17 @@ export default async (options: GeneratorOptions) => {
             tmpDir
         );
         if (!datamodelString) throw new Error('could not parse datamodel');
+        if (debug && datamodelString)
+            console.log('datamodelString: ', datamodelString);
 
         let dml: DML = JSON.parse(datamodelString);
 
         // updating dml to map to db table and column names (@map && @@map)
         dml.models = mapPrismaToDb(dml.models, options.datamodel);
+        if (debug && dml.models) console.log('mapped models: ', dml.models);
 
         const mermaid = renderDml(dml);
+        if (debug && mermaid) console.log('mermaid string: ', mermaid);
 
         if (!mermaid)
             throw new Error('failed to construct mermaid instance from dml');
@@ -307,12 +313,12 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        child_process.execSync(
-            `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`,
-            {
-                stdio: 'ignore',
-            }
-        );
+        const mermaidCommand = `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`;
+        if (debug && mermaidCommand)
+            console.log('mermaid command: ', mermaidCommand);
+        child_process.execSync(mermaidCommand, {
+            stdio: 'ignore',
+        });
 
         // throw error if file was not created
         if (!fs.existsSync(output)) {

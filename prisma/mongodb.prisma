@@ -1,0 +1,28 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["mongoDb"]
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/MongoDB.svg"
+    theme    = "forest"
+}
+
+model Product {
+    id    String @id @map("_id")
+    name  String
+    foo   Foo    @relation(fields: [fooId], references: [id])
+    fooId String
+}
+
+model Foo {
+    id      String    @id @map("_id")
+    bar     String
+    Product Product[]
+}
