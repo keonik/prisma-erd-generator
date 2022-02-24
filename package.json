@@ -53,7 +53,7 @@
         "lint-staged": "^12.3.4",
         "np": "^7.6.0",
         "prettier": "2.5.1",
-        "prisma": "^3.8.1",
+        "prisma": "^3.10.0",
         "tslib": "^2.3.1",
         "typescript": "^4.5.5"
     },
@@ -63,8 +63,8 @@
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.14.0",
-        "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.0.0",
+        "@prisma/client": "^3.10.0",
+        "@prisma/generator-helper": "^3.10.0",
         "dotenv": "^16.0.0"
     },
     "peerDependencies": {

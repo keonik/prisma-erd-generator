@@ -1,0 +1,23 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/simple-1-n.svg"
+    theme    = "forest"
+}
+
+model Product {
+    id    String @id
+    name  String
+    foo   Foo    @relation(fields: [fooId], references: [id])
+    fooId String
+}
+
+model Foo {
+    id      String    @id
+    bar     String
+    Product Product[]
+}

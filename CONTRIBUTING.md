@@ -52,6 +52,12 @@ where the `keonik` is your github username and the `code` is your contribution t
 npm run test
 ```
 
+Run only tests with string `many`:
+
+```
+npm run test --t many
+```
+
 ## Publishing
 
 Repository maintainers can use `npm run release` to publish a new version.
