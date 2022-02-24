@@ -5,7 +5,7 @@ test('dsiabled.prisma', async () => {
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
     child_process.execSync(
-        `DISABLE_ERD=true npx prisma generate --schema ./prisma/disabled.prisma`
+        `npx cross-env DISABLE_ERD=true npx prisma generate --schema ./prisma/disabled.prisma`
     );
     try {
         const listFile = child_process.execSync(
