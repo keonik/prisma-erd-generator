@@ -142,12 +142,12 @@ function renderDml(dml: DML) {
     const enums = dml.enums
         .map(
             (model: DMLEnum) => `
-        ${model?.dbName || model.name} {
+        ${model.dbName || model.name} {
             ${model.values
                 .map(
                     (value) =>
-                        `${value.name || value?.dbName} ${
-                            value?.dbName || value.name
+                        `${value.name || value.dbName} ${
+                            value.dbName || value.name
                         }`
                 )
                 .join('\n')}
@@ -159,7 +159,7 @@ function renderDml(dml: DML) {
     const classes = modellikes
         .map(
             (model) =>
-                `  ${model?.dbName || model.name} {
+                `  ${model.dbName || model.name} {
   ${model.fields
       .filter(
           (field) =>
@@ -184,7 +184,7 @@ function renderDml(dml: DML) {
             const relationshipName = `${field.kind === 'enum' ? 'enum:' : ''}${
                 field.name
             }`;
-            const thisSide = model?.dbName || model.name;
+            const thisSide = model.dbName || model.name;
             const otherSide = field.type;
 
             // normal relations
@@ -222,7 +222,7 @@ function renderDml(dml: DML) {
             // many to many
             else if (
                 modellikes.find(
-                    (m) => m.name === field.type || m?.dbName === field.type
+                    (m) => m.name === field.type || m.dbName === field.type
                 ) &&
                 field.relationFromFields?.length === 0 &&
                 field.relationToFields?.length
@@ -257,7 +257,7 @@ function renderDml(dml: DML) {
                     }
 
                     relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
-                        otherSideCompositeType?.dbName || otherSide
+                        otherSideCompositeType.dbName || otherSide
                     } : "${relationshipName}"\n`;
                 }
             }
@@ -335,6 +335,10 @@ export default async (options: GeneratorOptions) => {
 
         // updating dml to map to db table and column names (@map && @@map)
         dml.models = mapPrismaToDb(dml.models, options.datamodel);
+        // default types to empty array
+        if (!dml.types) {
+            dml.types = [];
+        }
         if (debug && dml.models) console.log('mapped models: ', dml.models);
 
         const mermaid = renderDml(dml);
