@@ -1,0 +1,37 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/75.png"
+}
+
+model Message {
+    messageId Int      @id @default(autoincrement()) @map("message_id")
+    sender    String
+    content   String
+    timestamp DateTime @default(now())
+    group     Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+    groupId   String
+}
+
+model Group {
+    groupId  String    @id @default(uuid()) @map("group_id")
+    name     String?
+    messages Message[]
+    app      App       @relation(fields: [appId], references: [appId], onDelete: Cascade)
+    appId    String
+}
+
+model App {
+    appId          String  @id @default(uuid()) @map("app_id")
+    name           String  @unique
+    messageCounter Int     @default(0) @map("message_counter")
+    groups         Group[]
+}
