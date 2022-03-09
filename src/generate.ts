@@ -257,7 +257,7 @@ function renderDml(dml: DML) {
                     }
 
                     relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
-                        otherSideCompositeType?.dbName || otherSide
+                        otherSideCompositeType.dbName || otherSide
                     } : "${relationshipName}"\n`;
                 }
             }
@@ -335,6 +335,10 @@ export default async (options: GeneratorOptions) => {
 
         // updating dml to map to db table and column names (@map && @@map)
         dml.models = mapPrismaToDb(dml.models, options.datamodel);
+        // default types to empty array
+        if (!dml.types) {
+            dml.types = [];
+        }
         if (debug && dml.models) console.log('mapped models: ', dml.models);
 
         const mermaid = renderDml(dml);
