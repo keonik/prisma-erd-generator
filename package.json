@@ -64,7 +64,7 @@
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.14.0",
         "@prisma/client": "^3.10.0",
-        "@prisma/generator-helper": "^3.10.0",
+        "@prisma/generator-helper": "^3.11.1",
         "dotenv": "^16.0.0"
     },
     "peerDependencies": {
