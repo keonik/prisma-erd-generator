@@ -1,5 +1,5 @@
 {
-    "version": "0.10.1",
+    "version": "0.10.2",
     "license": "MIT",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
@@ -20,7 +20,7 @@
         "build": " tsc -p .",
         "prepare": "husky install",
         "pretest": "npm run build",
-        "release": "np"
+        "release": "np && standard-version"
     },
     "name": "prisma-erd-generator",
     "author": "John Fay",
@@ -54,6 +54,7 @@
         "np": "^7.6.1",
         "prettier": "2.6.2",
         "prisma": "^3.11.1",
+        "standard-version": "^9.3.2",
         "tslib": "^2.3.1",
         "typescript": "^4.6.3"
     },
@@ -69,7 +70,7 @@
     },
     "peerDependencies": {
         "@mermaid-js/mermaid-cli": "^8.14.0",
-        "@prisma/client": "^3.0.0",
-        "@prisma/generator-helper": "^3.0.0"
+        "@prisma/client": "^3.11.1",
+        "@prisma/generator-helper": "^3.11.1"
     }
 }
