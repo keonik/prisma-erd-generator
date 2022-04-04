@@ -1,0 +1,54 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/66.png"
+}
+
+model Movie {
+    id          Int              @id @default(autoincrement())
+    imdb_id     String
+    title       String
+    description String
+    watched     Boolean          @default(false)
+    genre       MoviesOnGenres[]
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+}
+
+model Genre {
+    id        Int              @id @default(autoincrement())
+    name      String
+    movies    MoviesOnGenres[]
+    createdAt DateTime         @default(now())
+    updatedAt DateTime         @updatedAt
+}
+
+model MoviesOnGenres {
+    movie_id   Int
+    genre_id   Int
+    movie      Movie    @relation(fields: [movie_id], references: [id])
+    genre      Genre    @relation(fields: [genre_id], references: [id])
+    assignedAt DateTime @default(now())
+    assignedBy String
+
+    @@id([movie_id, genre_id])
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    name      String
+    email     String
+    password  String
+    role      Role     @default(USER)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum Role {
+    ADMIN
+    USER
+}
