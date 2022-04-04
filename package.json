@@ -41,21 +41,21 @@
         }
     ],
     "devDependencies": {
-        "@babel/core": "^7.17.5",
+        "@babel/core": "^7.17.8",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-typescript": "^7.16.7",
-        "@types/jest": "^27.4.0",
+        "@types/jest": "^27.4.1",
         "all-contributors-cli": "^6.20.0",
         "babel-jest": "^27.5.1",
-        "concurrently": "^7.0.0",
+        "concurrently": "^7.1.0",
         "husky": "^7.0.4",
         "jest": "^27.5.1",
-        "lint-staged": "^12.3.4",
-        "np": "^7.6.0",
-        "prettier": "2.5.1",
-        "prisma": "^3.10.0",
+        "lint-staged": "^12.3.7",
+        "np": "^7.6.1",
+        "prettier": "2.6.2",
+        "prisma": "^3.11.1",
         "tslib": "^2.3.1",
-        "typescript": "^4.5.5"
+        "typescript": "^4.6.3"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown",
@@ -63,8 +63,8 @@
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^8.14.0",
-        "@prisma/client": "^3.10.0",
-        "@prisma/generator-helper": "^3.10.0",
+        "@prisma/client": "^3.11.1",
+        "@prisma/generator-helper": "^3.11.1",
         "dotenv": "^16.0.0"
     },
     "peerDependencies": {
