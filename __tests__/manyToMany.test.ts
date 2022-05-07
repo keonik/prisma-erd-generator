@@ -19,7 +19,6 @@ test('many-to-many.prisma', async () => {
     expect(svgAsString).toContain(`<svg`);
     expect(svgAsString).toContain(`Booking`);
     expect(svgAsString).toContain(`Event`);
-    expect(svgAsString).toContain(
-        `marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ZERO_OR_MORE_START)"`
-    );
+    expect(svgAsString).toContain(`marker-start="url(#ZERO_OR_MORE_START)"`);
+    expect(svgAsString).toContain(`marker-end="url(#ZERO_OR_MORE_END)"`);
 });

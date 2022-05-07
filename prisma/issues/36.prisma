@@ -1,15 +1,7 @@
 generator erd {
   provider = "node ./dist/index.js"
-  output   = "../__tests__/36.png"
+  output   = "../../__tests__/36.png"
 }
-
-// generator nestgraphql {
-//   provider               = "node ../../../node_modules/prisma-nestjs-graphql"
-//   output                 = "../src/@generated/"
-//   reExport               = Single
-//   fields_Validator_from  = "class-validator"
-//   fields_Validator_input = true
-// }
 
 datasource db {
   provider = "postgresql"

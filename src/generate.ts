@@ -171,7 +171,12 @@ function renderDml(dml: DML) {
               )
       )
       // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
-      .map((field) => `    ${field.type} ${field.name.replace(/^_/, 'z_')}`)
+      .map(
+          (field) =>
+              `    ${field.type} ${field.name
+                  .replace(/^_/, 'z_')
+                  .replace(' ', '')}`
+      )
       .join('\n')}
     }
   `

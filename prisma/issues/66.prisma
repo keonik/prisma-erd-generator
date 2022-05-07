@@ -5,7 +5,7 @@ datasource db {
 
 generator erd {
     provider = "node ./dist/index.js"
-    output   = "../__tests__/66.png"
+    output   = "../../__tests__/66.png"
 }
 
 model Movie {

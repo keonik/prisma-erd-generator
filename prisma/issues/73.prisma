@@ -1,0 +1,375 @@
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../../__tests__/73.png"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = "mongodb+srv://us...b.net/sample_training"
+}
+
+type CompaniesAcquisition {
+    acquired_day        Int?
+    acquired_month      Int?
+    acquired_year       Int?
+    acquiring_company   CompaniesAcquisitionAcquiringCompany
+    /// Multiple data types found: Int32: 99%, Int64: 1% out of 259 sampled entries
+    price_amount        Int?
+    price_currency_code String
+    source_description  String?
+    source_url          String?
+    term_code           String?
+}
+
+type CompaniesAcquisitionAcquiringCompany {
+    name      String
+    permalink String
+}
+
+type CompaniesAcquisitions {
+    acquired_day        Int?
+    acquired_month      Int?
+    acquired_year       Int
+    company             CompaniesAcquisitionsCompany
+    /// Multiple data types found: Int32: 95.2%, Int64: 4.8% out of 945 sampled entries
+    price_amount        Int?
+    price_currency_code String
+    source_description  String?
+    source_url          String?
+    term_code           String?
+}
+
+type CompaniesAcquisitionsCompany {
+    name      String
+    permalink String
+}
+
+type CompaniesCompetitions {
+    competitor CompaniesCompetitionsCompetitor
+}
+
+type CompaniesCompetitionsCompetitor {
+    name      String
+    permalink String
+}
+
+type CompaniesExternalLinks {
+    external_url String
+    title        String
+}
+
+type CompaniesFundingRounds {
+    funded_day           Int?
+    funded_month         Int?
+    funded_year          Int?
+    id                   Int
+    investments          CompaniesFundingRoundsInvestments[]
+    raised_amount        Int?
+    raised_currency_code String?
+    round_code           String
+    source_description   String?
+    source_url           String?
+}
+
+type CompaniesFundingRoundsInvestments {
+    company       CompaniesFundingRoundsInvestmentsCompany?
+    financial_org CompaniesFundingRoundsInvestmentsFinancialOrg?
+    person        CompaniesFundingRoundsInvestmentsPerson?
+}
+
+type CompaniesFundingRoundsInvestmentsCompany {
+    name      String
+    permalink String
+}
+
+type CompaniesFundingRoundsInvestmentsFinancialOrg {
+    name      String
+    permalink String
+}
+
+type CompaniesFundingRoundsInvestmentsPerson {
+    first_name String
+    last_name  String
+    permalink  String
+}
+
+type CompaniesImage {
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    attribution     Json?
+    available_sizes Int[]
+}
+
+type CompaniesInvestments {
+    funding_round CompaniesInvestmentsFundingRound
+}
+
+type CompaniesInvestmentsFundingRound {
+    company              CompaniesInvestmentsFundingRoundCompany
+    funded_day           Int?
+    funded_month         Int?
+    funded_year          Int
+    /// Multiple data types found: Int32: 99.7%, Int64: 0.3% out of 573 sampled entries
+    raised_amount        Int?
+    raised_currency_code String?
+    round_code           String
+    source_description   String?
+    source_url           String?
+}
+
+type CompaniesInvestmentsFundingRoundCompany {
+    name      String
+    permalink String
+}
+
+type CompaniesIpo {
+    pub_day                 Int?
+    pub_month               Int?
+    pub_year                Int?
+    stock_symbol            String
+    /// Multiple data types found: Int32: 41.7%, Int64: 58.3% out of 43 sampled entries
+    valuation_amount        BigInt?
+    valuation_currency_code String
+}
+
+type CompaniesMilestones {
+    description        String
+    id                 Int
+    source_description String
+    source_text        String?
+    source_url         String
+    stoneable          CompaniesMilestonesStoneable
+    stoneable_type     String
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    stoned_acquirer    Json?
+    stoned_day         Int?
+    stoned_month       Int?
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    stoned_value       Json?
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    stoned_value_type  Json?
+    stoned_year        Int
+}
+
+type CompaniesMilestonesStoneable {
+    name      String
+    permalink String
+}
+
+type CompaniesOffices {
+    address1     String?
+    address2     String?
+    city         String?
+    country_code String
+    description  String?
+    latitude     Float?
+    longitude    Float?
+    state_code   String?
+    zip_code     String?
+}
+
+type CompaniesPartners {
+    homepage_url String
+    link_1_name  String?
+    link_1_url   String?
+    link_2_name  String?
+    link_2_url   String?
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    link_3_name  Json?
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    link_3_url   Json?
+    partner_name String
+}
+
+type CompaniesProducts {
+    name      String
+    permalink String
+}
+
+type CompaniesProviderships {
+    is_past  Boolean?
+    provider CompaniesProvidershipsProvider
+    title    String
+}
+
+type CompaniesProvidershipsProvider {
+    name      String
+    permalink String
+}
+
+type CompaniesRelationships {
+    is_past Boolean?
+    person  CompaniesRelationshipsPerson
+    title   String
+}
+
+type CompaniesRelationshipsPerson {
+    first_name String
+    last_name  String
+    permalink  String
+}
+
+type CompaniesScreenshots {
+    /// Could not determine type: the field only had null or empty values in the sample set.
+    attribution     Json?
+    available_sizes Int[]
+}
+
+type CompaniesVideoEmbeds {
+    description String
+    embed_code  String
+}
+
+type GradesScores {
+    score Float
+    type  String
+}
+
+type InspectionsAddress {
+    city   String
+    /// Multiple data types found: String: 10%, Int32: 90% out of 1000 sampled entries
+    number Int
+    /// Multiple data types found: String: 99.9%, Int32: 0.1% out of 1000 sampled entries
+    street String
+    /// Multiple data types found: String: 6.9%, Int32: 93.1% out of 1000 sampled entries
+    zip    Int
+}
+
+type PostsComments {
+    author String
+    body   String
+    email  String
+}
+
+type RoutesAirline {
+    alias String
+    iata  String
+    id    Int
+    name  String
+}
+
+type TripsEndStationLocation {
+    coordinates Float[]
+    type        String
+}
+
+type TripsStartStationLocation {
+    coordinates Float[]
+    type        String
+}
+
+type ZipsLoc {
+    x Float
+    y Float
+}
+
+model companies {
+    id                  String                   @id @default(auto()) @map("_id") @db.ObjectId
+    acquisition         CompaniesAcquisition?
+    acquisitions        CompaniesAcquisitions[]
+    alias_list          String?
+    blog_feed_url       String?
+    blog_url            String?
+    category_code       String?
+    competitions        CompaniesCompetitions[]
+    /// Multiple data types found: String: 99.8%, Date: 0.2% out of 1000 sampled entries
+    created_at          String
+    crunchbase_url      String
+    deadpooled_day      Int?
+    deadpooled_month    Int?
+    deadpooled_url      String?
+    deadpooled_year     Int?
+    description         String?
+    email_address       String?
+    external_links      CompaniesExternalLinks[]
+    founded_day         Int?
+    founded_month       Int?
+    founded_year        Int?
+    funding_rounds      CompaniesFundingRounds[]
+    homepage_url        String?
+    image               CompaniesImage?
+    investments         CompaniesInvestments[]
+    ipo                 CompaniesIpo?
+    milestones          CompaniesMilestones[]
+    name                String
+    number_of_employees Int?
+    offices             CompaniesOffices[]
+    overview            String?
+    partners            CompaniesPartners[]
+    permalink           String
+    phone_number        String?
+    products            CompaniesProducts[]
+    providerships       CompaniesProviderships[]
+    relationships       CompaniesRelationships[]
+    screenshots         CompaniesScreenshots[]
+    tag_list            String?
+    total_money_raised  String
+    twitter_username    String?
+    updated_at          String
+    video_embeds        CompaniesVideoEmbeds[]
+}
+
+model grades {
+    id         String         @id @default(auto()) @map("_id") @db.ObjectId
+    class_id   Float
+    scores     GradesScores[]
+    student_id Float
+}
+
+model inspections {
+    id                 String             @id @default(auto()) @map("_id") @db.ObjectId
+    address            InspectionsAddress
+    business_name      String
+    certificate_number Int
+    date               String
+    id_                String             @map("id")
+    result             String
+    sector             String
+}
+
+model posts {
+    id        String          @id @default(auto()) @map("_id") @db.ObjectId
+    author    String
+    body      String
+    comments  PostsComments[]
+    date      DateTime        @db.Date
+    permalink String
+    tags      String[]
+    title     String
+}
+
+model routes {
+    id          String        @id @default(auto()) @map("_id") @db.ObjectId
+    airline     RoutesAirline
+    /// Multiple data types found: String: 38.6%, Int32: 61.4% out of 1000 sampled entries
+    airplane    Int
+    codeshare   String
+    dst_airport String
+    src_airport String
+    stops       Int
+}
+
+model trips {
+    id                     String                    @id @default(auto()) @map("_id") @db.ObjectId
+    bikeid                 Int
+    /// Multiple data types found: String: 16.3%, Int32: 83.7% out of 1000 sampled entries
+    birth_year             Int                       @map("birth year")
+    end_station_id         Int                       @map("end station id")
+    end_station_location   TripsEndStationLocation   @map("end station location")
+    end_station_name       String                    @map("end station name")
+    start_station_id       Int                       @map("start station id")
+    start_station_location TripsStartStationLocation @map("start station location")
+    start_station_name     String                    @map("start station name")
+    start_time             DateTime                  @map("start time") @db.Date
+    stop_time              DateTime                  @map("stop time") @db.Date
+    tripduration           Int
+    usertype               String
+}
+
+model zips {
+    id    String  @id @default(auto()) @map("_id") @db.ObjectId
+    city  String
+    loc   ZipsLoc
+    pop   Int
+    state String
+    zip   String
+}
