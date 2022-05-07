@@ -1,6 +1,6 @@
 generator erd {
     provider = "node ./dist/index.js"
-    output   = "../../__tests__/73.png"
+    output   = "../../__tests__/73.svg"
 }
 
 datasource db {

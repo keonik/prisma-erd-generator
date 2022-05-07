@@ -170,13 +170,7 @@ function renderDml(dml: DML) {
                       relationFromFields.includes(field.name)
               )
       )
-      // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
-      .map(
-          (field) =>
-              `    ${field.type} ${field.name
-                  .replace(/^_/, 'z_')
-                  .replace(' ', '')}`
-      )
+      .map((field) => `    ${field.type} ${field.name}`)
       .join('\n')}
     }
   `
@@ -296,7 +290,14 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                             .indexOf('")') + startingMapIndex
                     );
                     if (modelField) {
-                        field = { ...field, name: modelField };
+                        // remove spaces
+                        field = {
+                            ...field,
+                            name: modelField
+                                // replace leading underscores and spaces in @map column
+                                .replace(/^_/, 'z_')
+                                .replace(/\s/g, ''),
+                        };
                     }
                 }
 
