@@ -17,8 +17,18 @@ test('table-only.prisma', async () => {
 
     // did it generate a file without enum
     expect(svgAsString).toContain(`<svg`);
-    expect(svgAsString).toContain(`Status`);
+    // include tables
+    expect(svgAsString).toContain(`Booking`);
+    expect(svgAsString).toContain(`Event`);
+    // exclude enums
     expect(svgAsString).not.toContain(`PENDING`);
     expect(svgAsString).not.toContain(`CONFIRMED`);
     expect(svgAsString).not.toContain(`CANCELLED`);
+    // exclude table columns
+    expect(svgAsString).not.toContain(`name`);
+    expect(svgAsString).not.toContain(`startDate`);
+    expect(svgAsString).not.toContain(`status`);
+    expect(svgAsString).not.toContain(`inviteeEmail`);
+    expect(svgAsString).not.toContain(`startDateUTC`);
+    expect(svgAsString).not.toContain(`cancelCode`);
 });

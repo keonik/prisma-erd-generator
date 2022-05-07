@@ -168,19 +168,29 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         .map(
             (model) =>
                 `  ${model.dbName || model.name} {
-  ${model.fields
-      .filter(
-          (field) =>
-              field.kind !== 'object' &&
-              !model.fields.find(
-                  ({ relationFromFields }) =>
-                      relationFromFields &&
-                      relationFromFields.includes(field.name)
+${
+    tableOnly
+        ? ''
+        : model.fields
+              .filter(
+                  (field) =>
+                      field.kind !== 'object' &&
+                      !model.fields.find(
+                          ({ relationFromFields }) =>
+                              relationFromFields &&
+                              relationFromFields.includes(field.name)
+                      )
               )
-      )
-      // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
-      .map((field) => `    ${field.type} ${field.name.replace(/^_/, 'z_')}`)
-      .join('\n')}
+              // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
+              .map(
+                  (field) =>
+                      `    ${field.type.trimStart()} ${field.name.replace(
+                          /^_/,
+                          'z_'
+                      )}`
+              )
+              .join('\n')
+}
     }
   `
         )
