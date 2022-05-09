@@ -19,7 +19,6 @@ test('mongodb.prisma', async () => {
     expect(svgAsString).toContain(`<svg`);
     expect(svgAsString).toContain(`Product`);
     expect(svgAsString).toContain(`Foo`);
-    expect(svgAsString).toContain(
-        `marker-end="url(#ONLY_ONE_END)" marker-start="url(#ZERO_OR_MORE_START)"`
-    );
+    expect(svgAsString).toContain(`marker-end="url(#ONLY_ONE_END)"`);
+    expect(svgAsString).toContain(`marker-start="url(#ZERO_OR_MORE_START)"`);
 });

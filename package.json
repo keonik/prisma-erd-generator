@@ -43,36 +43,36 @@
         }
     ],
     "devDependencies": {
-        "@babel/core": "^7.17.8",
-        "@babel/preset-env": "^7.16.11",
+        "@babel/core": "^7.17.10",
+        "@babel/preset-env": "^7.17.10",
         "@babel/preset-typescript": "^7.16.7",
-        "@types/jest": "^27.4.1",
+        "@types/jest": "^27.5.0",
         "all-contributors-cli": "^6.20.0",
-        "babel-jest": "^27.5.1",
+        "babel-jest": "^28.1.0",
         "concurrently": "^7.1.0",
         "husky": "^7.0.4",
-        "jest": "^27.5.1",
-        "lint-staged": "^12.3.7",
+        "jest": "^28.1.0",
+        "lint-staged": "^12.4.1",
         "np": "^7.6.1",
         "prettier": "2.6.2",
-        "prisma": "^3.11.1",
+        "prisma": "^3.13.0",
         "standard-version": "^9.3.2",
-        "tslib": "^2.3.1",
-        "typescript": "^4.6.3"
+        "tslib": "^2.4.0",
+        "typescript": "^4.6.4"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown",
         "**/*.ts": "npm run test"
     },
     "dependencies": {
-        "@mermaid-js/mermaid-cli": "^8.14.0",
-        "@prisma/client": "^3.11.1",
-        "@prisma/generator-helper": "^3.11.1",
+        "@mermaid-js/mermaid-cli": "^9.0.3",
+        "@prisma/client": "^3.13.0",
+        "@prisma/generator-helper": "^3.13.0",
         "dotenv": "^16.0.0"
     },
     "peerDependencies": {
-        "@mermaid-js/mermaid-cli": "^8.14.0",
-        "@prisma/client": "^3.11.1",
-        "@prisma/generator-helper": "^3.11.1"
+        "@mermaid-js/mermaid-cli": "^9.0.3",
+        "@prisma/client": "^3.11.0",
+        "@prisma/generator-helper": "^3.11.0"
     }
 }

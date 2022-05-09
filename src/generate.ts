@@ -313,7 +313,14 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                             .indexOf('")') + startingMapIndex
                     );
                     if (modelField) {
-                        field = { ...field, name: modelField };
+                        // remove spaces
+                        field = {
+                            ...field,
+                            name: modelField
+                                // replace leading underscores and spaces in @map column
+                                .replace(/^_/, 'z_')
+                                .replace(/\s/g, ''),
+                        };
                     }
                 }
 
