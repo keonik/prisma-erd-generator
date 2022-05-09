@@ -20,7 +20,9 @@
         "build": " tsc -p .",
         "prepare": "husky install",
         "pretest": "npm run build",
-        "release": "np && standard-version"
+        "prepublish": "npm run build",
+        "release": "git push --follow-tags origin main && npm publish",
+        "version": "standard-version"
     },
     "name": "prisma-erd-generator",
     "author": "John Fay",
