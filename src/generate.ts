@@ -34,6 +34,10 @@ export interface DMLModel {
     isGenerated: boolean;
 }
 
+export interface DMLRendererOptions {
+    tableOnly?: boolean;
+}
+
 // Copy paste of the DMLModel
 // TODO Adapt to real type of composite types - and then make them concat-enable anyway
 export interface DMLType {
@@ -133,15 +137,19 @@ export async function parseDatamodel(
     return getDataModelFieldWithoutParsing(parsed);
 }
 
-function renderDml(dml: DML) {
+function renderDml(dml: DML, options?: DMLRendererOptions) {
+    const { tableOnly = false } = options ?? {};
+
     const diagram = 'erDiagram';
 
     // Combine Models and Types as they are pretty similar
     const modellikes = dml.models.concat(dml.types);
 
-    const enums = dml.enums
-        .map(
-            (model: DMLEnum) => `
+    const enums = tableOnly
+        ? ''
+        : dml.enums
+              .map(
+                  (model: DMLEnum) => `
         ${model.dbName || model.name} {
             ${model.values
                 .map(
@@ -153,26 +161,36 @@ function renderDml(dml: DML) {
                 .join('\n')}
         }
     `
-        )
-        .join('\n\n');
+              )
+              .join('\n\n');
 
     const classes = modellikes
         .map(
             (model) =>
                 `  ${model.dbName || model.name} {
-  ${model.fields
-      .filter(
-          (field) =>
-              field.kind !== 'object' &&
-              !model.fields.find(
-                  ({ relationFromFields }) =>
-                      relationFromFields &&
-                      relationFromFields.includes(field.name)
+${
+    tableOnly
+        ? ''
+        : model.fields
+              .filter(
+                  (field) =>
+                      field.kind !== 'object' &&
+                      !model.fields.find(
+                          ({ relationFromFields }) =>
+                              relationFromFields &&
+                              relationFromFields.includes(field.name)
+                      )
               )
-      )
-      // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
-      .map((field) => `    ${field.type} ${field.name.replace(/^_/, 'z_')}`)
-      .join('\n')}
+              // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
+              .map(
+                  (field) =>
+                      `    ${field.type.trimStart()} ${field.name.replace(
+                          /^_/,
+                          'z_'
+                      )}`
+              )
+              .join('\n')
+}
     }
   `
         )
@@ -181,6 +199,10 @@ function renderDml(dml: DML) {
     let relationships = '';
     for (const model of modellikes) {
         for (const field of model.fields) {
+            if (tableOnly && field.kind === 'enum') {
+                continue;
+            }
+
             const relationshipName = `${field.kind === 'enum' ? 'enum:' : ''}${
                 field.name
             }`;
@@ -306,6 +328,7 @@ export default async (options: GeneratorOptions) => {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
         const theme = config.theme || 'forest';
+        const tableOnly = config.tableOnly === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
         const debug = Boolean(process.env.ERD_DEBUG);
 
@@ -341,7 +364,7 @@ export default async (options: GeneratorOptions) => {
         }
         if (debug && dml.models) console.log('mapped models: ', dml.models);
 
-        const mermaid = renderDml(dml);
+        const mermaid = renderDml(dml, { tableOnly });
         if (debug && mermaid) console.log('mermaid string: ', mermaid);
 
         if (!mermaid)
