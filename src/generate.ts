@@ -187,7 +187,9 @@ ${
                       `    ${field.type.trimStart()} ${field.name.replace(
                           /^_/,
                           'z_'
-                      )}`
+                      )} ${field.isId ? 'PK' : ''} ${
+                          field.isRequired ? '' : '"nullable"'
+                      }`
               )
               .join('\n')
 }
