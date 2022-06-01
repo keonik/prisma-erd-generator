@@ -52,7 +52,7 @@
         "concurrently": "^7.2.1",
         "husky": "^8.0.1",
         "jest": "^28.1.0",
-        "lint-staged": "^12.4.2",
+        "lint-staged": "^12.5.0",
         "np": "^7.6.1",
         "prettier": "2.6.2",
         "prisma": "^3.14.0",
