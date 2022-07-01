@@ -48,7 +48,7 @@
         "@babel/preset-typescript": "^7.17.12",
         "@types/jest": "^27.5.1",
         "all-contributors-cli": "^6.20.0",
-        "babel-jest": "^28.1.0",
+        "babel-jest": "^28.1.2",
         "concurrently": "^7.2.1",
         "husky": "^8.0.1",
         "jest": "^28.1.0",
