@@ -32,6 +32,11 @@ npx prisma generate
 
 ![Example ER Diagram](https://raw.githubusercontent.com/keonik/prisma-erd-generator/main/ERD.svg)
 
+## Versions
+
+-   Prisma >= 4 use 1.x.x
+-   Prisma <4 use 0.11.x
+
 ## Options
 
 Additional configuration
@@ -90,6 +95,17 @@ If you have issues or are contributing to this repository, you may benefit from 
 
 ```bash
 ERD_DEBUG=true
+```
+
+### Table only mode
+
+Table mode only draws your models and skips the attributes and columns associated with your table. This feature is helpful for when you have lots of table columns and they are less helpful than seeing the tables and their relationships
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  tableOnly = true
+}
 ```
 
 ## Contributors ✨
