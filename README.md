@@ -91,11 +91,24 @@ DISABLE_ERD=true
 
 ### Debugging
 
-If you have issues or are contributing to this repository, you may benefit from seeing logs of the steps to making your ERD. Enable debugging by adding the following environment variable and re-running `prisma generate`.
+If you have issues with generating or outputting an ERD as expected, you may benefit from seeing output of the steps to making your ERD. Enable debugging by either adding the following environment variable
 
 ```bash
 ERD_DEBUG=true
 ```
+
+or adding in the debug configuration key set to `true`
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  erdDebug = true
+}
+```
+
+and re-running `prisma generate`. You should see a directory and files created labeling the steps to create an ER diagram under `prisma/debug`.
+
+Please use these files as part of opening an issue if you run into problems.
 
 ### Table only mode
 

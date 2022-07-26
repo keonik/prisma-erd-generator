@@ -182,15 +182,14 @@ ${
                       )
               )
               // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
-              .map(
-                  (field) =>
-                      `    ${field.type.trimStart()} ${field.name.replace(
-                          /^_/,
-                          'z_'
-                      )} ${field.isId ? 'PK' : ''} ${
-                          field.isRequired ? '' : '"nullable"'
-                      }`
-              )
+              .map((field) => {
+                  return `    ${field.type.trimStart()} ${field.name.replace(
+                      /^_/,
+                      'z_'
+                  )} ${field.isId ? 'PK' : ''} ${
+                      field.isRequired ? '' : '"nullable"'
+                  }`;
+              })
               .join('\n')
 }
     }
@@ -294,7 +293,7 @@ ${
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
-        .filter((line) => line.includes('@map'))
+        .filter((line) => line.includes('@map') || line.includes('model '))
         .map((line) => line.trim());
 
     return dmlModels.map((model) => {
@@ -302,23 +301,22 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
             ...model,
             fields: model.fields.map((field) => {
                 // get line with field to \n
-                const lineInDataModel = splitDataModel.find((line) =>
-                    line.includes(`${field.name}`)
-                );
+                const lineInDataModel = splitDataModel
+                    // skip lines before the current model
+                    .slice(
+                        splitDataModel.findIndex((line) =>
+                            line.includes(`model ${model.name}`)
+                        )
+                    )
+                    .find((line) => line.includes(`${field.name}`));
                 if (lineInDataModel) {
-                    const startingMapIndex =
-                        lineInDataModel.indexOf('@map') + 6;
-                    const modelField = lineInDataModel.substring(
-                        startingMapIndex,
-                        lineInDataModel
-                            .substring(startingMapIndex)
-                            .indexOf('")') + startingMapIndex
-                    );
-                    if (modelField) {
+                    const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
+                    const match = regex.exec(lineInDataModel);
+                    if (match?.[1]) {
                         // remove spaces
                         field = {
                             ...field,
-                            name: modelField
+                            name: match[1]
                                 // replace leading underscores and spaces in @map column
                                 .replace(/^_/, 'z_')
                                 .replace(/\s/g, ''),
@@ -339,7 +337,8 @@ export default async (options: GeneratorOptions) => {
         const theme = config.theme || 'forest';
         const tableOnly = config.tableOnly === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
-        const debug = Boolean(process.env.ERD_DEBUG);
+        const debug =
+            config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
 
         if (disabled) {
             return console.log('ERD generator is disabled');
@@ -359,22 +358,40 @@ export default async (options: GeneratorOptions) => {
             options.datamodel,
             tmpDir
         );
-        if (!datamodelString) throw new Error('could not parse datamodel');
-        if (debug && datamodelString)
-            console.log('datamodelString: ', datamodelString);
+        if (!datamodelString) {
+            throw new Error('could not parse datamodel');
+        }
+
+        if (debug && datamodelString) {
+            fs.mkdirSync(path.resolve('prisma/debug'), { recursive: true });
+            const dataModelFile = path.resolve('prisma/debug/1-datamodel.json');
+            fs.writeFileSync(dataModelFile, datamodelString);
+            console.log(`data model written to ${dataModelFile}`);
+        }
 
         let dml: DML = JSON.parse(datamodelString);
 
         // updating dml to map to db table and column names (@map && @@map)
         dml.models = mapPrismaToDb(dml.models, options.datamodel);
+
         // default types to empty array
         if (!dml.types) {
             dml.types = [];
         }
-        if (debug && dml.models) console.log('mapped models: ', dml.models);
+        if (debug && dml.models) {
+            const mapAppliedFile = path.resolve(
+                'prisma/debug/2-datamodel-map-applied.json'
+            );
+            fs.writeFileSync(mapAppliedFile, JSON.stringify(dml, null, 2));
+            console.log(`applied @map to fields written to ${mapAppliedFile}`);
+        }
 
         const mermaid = renderDml(dml, { tableOnly });
-        if (debug && mermaid) console.log('mermaid string: ', mermaid);
+        if (debug && mermaid) {
+            const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd');
+            fs.writeFileSync(mermaidFile, mermaid);
+            console.log(`mermaid written to ${mermaidFile}`);
+        }
 
         if (!mermaid)
             throw new Error('failed to construct mermaid instance from dml');
