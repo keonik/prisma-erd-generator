@@ -1,0 +1,49 @@
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../../__tests__/114.svg"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Store {
+    id String @id @default(uuid()) @map("store_id")
+
+    employees Employee[]
+    customers Customer[]
+
+    @@map("stores")
+}
+
+model Employee {
+    id      String @id @default(uuid()) @map("employee_id")
+    storeId String @map("store_id")
+
+    store  Store   @relation(fields: [storeId], references: [id])
+    orders Order[]
+
+    @@map("employees")
+}
+
+model Customer {
+    id      String @id @default(uuid()) @map("customer_id")
+    storeId String @map("store_id")
+
+    store  Store   @relation(fields: [storeId], references: [id])
+    orders Order[]
+
+    @@map("customers")
+}
+
+model Order {
+    id         String @id @default(uuid()) @map("order_id")
+    employeeId String @map("employee_id")
+    customerId String @map("customer_id")
+
+    employee Employee @relation(fields: [employeeId], references: [id])
+    customer Customer @relation(fields: [customerId], references: [id])
+
+    @@map("orders")
+}
