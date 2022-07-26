@@ -1,9 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -128,6 +126,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://lukevers.com/"><img src="https://avatars.githubusercontent.com/u/1558388?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luke Evers</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=lukevers" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ripry"><img src="https://avatars.githubusercontent.com/u/59201481?v=4?s=100" width="100px;" alt=""/><br /><sub><b>rikuyam</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=ripry" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/francismanansala"><img src="https://avatars.githubusercontent.com/u/10519099?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Francis Manansala</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Afrancismanansala" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
