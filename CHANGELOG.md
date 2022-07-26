@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/keonik/prisma-erd-generator/compare/v1.0.1...v1.0.2) (2022-07-26)
+
+### Bug Fixes
+
+-   Issue with matching names when overwritting field names to [@map](https://github.com/map) names ([#115](https://github.com/keonik/prisma-erd-generator/issues/115)) ([6ffc13f](https://github.com/keonik/prisma-erd-generator/commit/6ffc13fb20d939c9a778feb5455588b8b1710b85))
+
 ### [1.0.1](https://github.com/keonik/prisma-erd-generator/compare/v0.11.4...v1.0.1) (2022-07-11)
 
 ### [0.11.5](https://github.com/keonik/prisma-erd-generator/compare/v0.11.4...v0.11.5) (2022-07-11)
