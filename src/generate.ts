@@ -200,13 +200,12 @@ ${
     let relationships = '';
     for (const model of modellikes) {
         for (const field of model.fields) {
-            if (tableOnly && field.kind === 'enum') {
+            const isEnum = field.kind === 'enum';
+            if (tableOnly && isEnum) {
                 continue;
             }
 
-            const relationshipName = `${field.kind === 'enum' ? 'enum:' : ''}${
-                field.name
-            }`;
+            const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
             const thisSide = model.dbName || model.name;
             const otherSide = field.type;
 
@@ -214,7 +213,7 @@ ${
             if (
                 (field.relationFromFields &&
                     field.relationFromFields.length > 0) ||
-                field.kind === 'enum'
+                isEnum
             ) {
                 let thisSideMultiplicity = '||';
                 if (field.isList) {
@@ -231,7 +230,7 @@ ${
                     ({ relationName }) => relationName === field.relationName
                 );
 
-                let otherSideMultiplicity = '||';
+                let otherSideMultiplicity = thisSideMultiplicity;
                 if (otherField?.isList) {
                     thisSideMultiplicity = 'o{';
                 } else if (!otherField?.isRequired) {
@@ -272,7 +271,7 @@ ${
                             relationName === field.relationName
                     );
 
-                    let otherSideMultiplicity = '||';
+                    let otherSideMultiplicity = thisSideMultiplicity;
                     if (otherField?.isList) {
                         thisSideMultiplicity = 'o{';
                     } else if (!otherField?.isRequired) {
