@@ -67,13 +67,13 @@
         "**/*.ts": "npm run test"
     },
     "dependencies": {
-        "@mermaid-js/mermaid-cli": "^9.1.4",
-        "@prisma/client": "^4.1.0",
-        "@prisma/generator-helper": "^4.1.0",
-        "dotenv": "^16.0.1"
+        "@prisma/client": "^4.0.0",
+        "@prisma/generator-helper": "^4.0.0",
+        "dotenv": "^16.0.1",
+        "graphviz": "^0.0.9",
+        "handlebars": "^4.7.7"
     },
     "peerDependencies": {
-        "@mermaid-js/mermaid-cli": "^9.1.4",
         "@prisma/client": "^4.0.0",
         "@prisma/generator-helper": "^4.0.0"
     },
