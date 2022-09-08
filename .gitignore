@@ -6,3 +6,5 @@ prisma.mmd
 prisma/debug
 coverage
 !__test__/*.ts
+__tests__/*.svg
+__tests__/*.png
