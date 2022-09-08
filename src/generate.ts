@@ -311,14 +311,15 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                 if (lineInDataModel) {
                     const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
                     const match = regex.exec(lineInDataModel);
+
                     if (match?.[1]) {
-                        // remove spaces
+                        const name = match[1]
+                            .replace(/^_/, 'z_') // replace leading underscores
+                            .replace(/\s/g, ''); // remove spaces
+
                         field = {
                             ...field,
-                            name: match[1]
-                                // replace leading underscores and spaces in @map column
-                                .replace(/^_/, 'z_')
-                                .replace(/\s/g, ''),
+                            name: name,
                         };
                     }
                 }
