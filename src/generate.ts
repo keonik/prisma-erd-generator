@@ -32,6 +32,10 @@ export interface DMLModel {
     uniqueFields: any[];
     uniqueIndexes: any[];
     isGenerated: boolean;
+    primaryKey: {
+        name: string | null;
+        fields: string[];
+    } | null;
 }
 
 export interface DMLRendererOptions {
@@ -65,6 +69,10 @@ export interface DMLType {
     uniqueFields: any[];
     uniqueIndexes: any[];
     isGenerated: boolean;
+    primaryKey: {
+        name: string | null;
+        fields: string[];
+    } | null;
 }
 
 export interface DMLEnum {
@@ -186,9 +194,12 @@ ${
                   return `    ${field.type.trimStart()} ${field.name.replace(
                       /^_/,
                       'z_'
-                  )} ${field.isId ? 'PK' : ''} ${
-                      field.isRequired ? '' : '"nullable"'
-                  }`;
+                  )} ${
+                      field.isId ||
+                      model.primaryKey?.fields?.includes(field.name)
+                          ? 'PK'
+                          : ''
+                  } ${field.isRequired ? '' : '"nullable"'}`;
               })
               .join('\n')
 }
