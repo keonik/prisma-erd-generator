@@ -5,3 +5,4 @@ dist
 prisma.mmd
 prisma/debug
 coverage
+!__test__/*.ts
