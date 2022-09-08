@@ -4,3 +4,4 @@ node_modules
 dist
 prisma.mmd
 prisma/debug
+coverage
