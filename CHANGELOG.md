@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/keonik/prisma-erd-generator/compare/v1.1.2...v1.2.0) (2022-09-10)
+
+### Features
+
+-   Added possibility to generate diagram with relation fields and Fixed generation of ERD with composite keys.(Closes [#135](https://github.com/keonik/prisma-erd-generator/issues/135)) ([#136](https://github.com/keonik/prisma-erd-generator/issues/136)) ([f36325b](https://github.com/keonik/prisma-erd-generator/commit/f36325b719ddc9a58de0343ee706bd7d03f3c59c))
+
 ### [1.1.2](https://github.com/keonik/prisma-erd-generator/compare/v1.1.1...v1.1.2) (2022-09-08)
 
 ### Bug Fixes
