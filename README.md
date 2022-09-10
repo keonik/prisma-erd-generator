@@ -1,7 +1,9 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -116,6 +118,44 @@ Table mode only draws your models and skips the attributes and columns associate
 generator erd {
   provider = "prisma-erd-generator"
   tableOnly = true
+}
+```
+
+### Include relation from field
+
+By default this module skips relation fields in the result diagram. For example fields `userId` and `productId` will not be generated from this prisma schema.
+
+```prisma
+model User {
+  id            String         @id
+  email         String
+  favoriteProducts  FavoriteProducts[]
+}
+
+
+model Product {
+  id              String        @id
+  title           String
+  inFavorites  FavoriteProducts[]
+}
+
+model FavoriteProducts {
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId])
+}
+
+```
+
+It can be useful to show them when working with RDBMS. To show them use `includeRelationFromFields = true`
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  includeRelationFromFields = true
 }
 ```
 

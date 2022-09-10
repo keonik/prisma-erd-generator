@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/includeRelationFromFields.svg"
+    theme    = "forest"
+    includeRelationFromFields = true
+}
+
+model User {
+  id            String         @id
+  email         String
+  favoriteProducts  FavoriteProducts[]
+}
+
+
+model Product {
+  id              String        @id
+  title           String
+  inFavorites  FavoriteProducts[]
+}
+
+model FavoriteProducts {
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId])
+}

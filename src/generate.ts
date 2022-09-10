@@ -11,31 +11,20 @@ export interface DMLModel {
     name: string;
     isEmbedded: boolean;
     dbName: string | null;
-    fields: {
-        name: string;
-        hasDefaultValue: boolean;
-        isGenerated: boolean;
-        isId: boolean;
-        isList: boolean;
-        isReadOnly: boolean;
-        isRequired: boolean;
-        isUnique: boolean;
-        isUpdatedAt: boolean;
-        kind: 'scalar' | 'object' | 'enum';
-        type: string;
-        relationFromFields?: any[];
-        relationName?: string;
-        relationOnDelete?: string;
-        relationToFields?: any[];
-    }[];
+    fields: DMLField[];
     idFields: any[];
     uniqueFields: any[];
     uniqueIndexes: any[];
     isGenerated: boolean;
+    primaryKey: {
+        name: string | null;
+        fields: string[];
+    } | null;
 }
 
 export interface DMLRendererOptions {
     tableOnly?: boolean;
+    includeRelationFromFields?: boolean;
 }
 
 // Copy paste of the DMLModel
@@ -44,27 +33,33 @@ export interface DMLType {
     name: string;
     isEmbedded: boolean;
     dbName: string | null;
-    fields: {
-        name: string;
-        hasDefaultValue: boolean;
-        isGenerated: boolean;
-        isId: boolean;
-        isList: boolean;
-        isReadOnly: boolean;
-        isRequired: boolean;
-        isUnique: boolean;
-        isUpdatedAt: boolean;
-        kind: 'scalar' | 'object' | 'enum';
-        type: string;
-        relationFromFields?: any[];
-        relationName?: string;
-        relationOnDelete?: string;
-        relationToFields?: any[];
-    }[];
+    fields: DMLField[];
     idFields: any[];
     uniqueFields: any[];
     uniqueIndexes: any[];
     isGenerated: boolean;
+    primaryKey: {
+        name: string | null;
+        fields: string[];
+    } | null;
+}
+
+export interface DMLField {
+    name: string;
+    hasDefaultValue: boolean;
+    isGenerated: boolean;
+    isId: boolean;
+    isList: boolean;
+    isReadOnly: boolean;
+    isRequired: boolean;
+    isUnique: boolean;
+    isUpdatedAt: boolean;
+    kind: 'scalar' | 'object' | 'enum';
+    type: string;
+    relationFromFields?: any[];
+    relationName?: string;
+    relationOnDelete?: string;
+    relationToFields?: any[];
 }
 
 export interface DMLEnum {
@@ -138,7 +133,8 @@ export async function parseDatamodel(
 }
 
 function renderDml(dml: DML, options?: DMLRendererOptions) {
-    const { tableOnly = false } = options ?? {};
+    const { tableOnly = false, includeRelationFromFields = false } =
+        options ?? {};
 
     const diagram = 'erDiagram';
 
@@ -172,23 +168,18 @@ ${
     tableOnly
         ? ''
         : model.fields
-              .filter(
-                  (field) =>
-                      field.kind !== 'object' &&
-                      !model.fields.find(
-                          ({ relationFromFields }) =>
-                              relationFromFields &&
-                              relationFromFields.includes(field.name)
-                      )
-              )
+              .filter(isFieldShownInSchema(model, includeRelationFromFields))
               // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
               .map((field) => {
                   return `    ${field.type.trimStart()} ${field.name.replace(
                       /^_/,
                       'z_'
-                  )} ${field.isId ? 'PK' : ''} ${
-                      field.isRequired ? '' : '"nullable"'
-                  }`;
+                  )} ${
+                      field.isId ||
+                      model.primaryKey?.fields?.includes(field.name)
+                          ? 'PK'
+                          : ''
+                  } ${field.isRequired ? '' : '"nullable"'}`;
               })
               .join('\n')
 }
@@ -289,6 +280,23 @@ ${
     return diagram + '\n' + enums + '\n' + classes + '\n' + relationships;
 }
 
+const isFieldShownInSchema =
+    (model: DMLModel, includeRelationFromFields: boolean) =>
+    (field: DMLField) => {
+        if (includeRelationFromFields) {
+            return field.kind !== 'object';
+        }
+
+        return (
+            field.kind !== 'object' &&
+            !model.fields.find(
+                ({ relationFromFields }) =>
+                    relationFromFields &&
+                    relationFromFields.includes(field.name)
+            )
+        );
+    };
+
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
@@ -336,6 +344,8 @@ export default async (options: GeneratorOptions) => {
         const config = options.generator.config;
         const theme = config.theme || 'forest';
         const tableOnly = config.tableOnly === 'true';
+        const includeRelationFromFields =
+            config.includeRelationFromFields === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
         const debug =
             config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
@@ -386,7 +396,10 @@ export default async (options: GeneratorOptions) => {
             console.log(`applied @map to fields written to ${mapAppliedFile}`);
         }
 
-        const mermaid = renderDml(dml, { tableOnly });
+        const mermaid = renderDml(dml, {
+            tableOnly,
+            includeRelationFromFields,
+        });
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd');
             fs.writeFileSync(mermaidFile, mermaid);
