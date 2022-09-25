@@ -5,7 +5,7 @@ test('schema.prisma', async () => {
     child_process.execSync(`npx prisma generate`);
     const listFile = child_process.execSync(`ls -la ERD.svg`);
     // did it generate a file
-    expect(listFile.toString()).toContain('ERD.svg');
+    expect(listFile.toString()).toContain('ERD_.svg');
 
     const svgAsString = child_process.execSync(`cat ERD.svg`).toString();
     // did it generate a file with the correct content
