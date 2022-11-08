@@ -4,9 +4,7 @@ test('enums.prisma', async () => {
     const fileName = 'Enums.svg';
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
-    child_process.execSync(
-        `npx prisma generate --schema ./prisma/enums.prisma`
-    );
+    child_process.execSync(`prisma generate --schema ./prisma/enums.prisma`);
     const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
     // did it generate a file
     expect(listFile.toString()).toContain(fileName);

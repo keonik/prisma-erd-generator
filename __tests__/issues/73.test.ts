@@ -5,7 +5,7 @@ test('space removal in mapped field names', async () => {
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
     child_process.execSync(
-        `npx prisma generate --schema ./prisma/issues/73.prisma`
+        `prisma generate --schema ./prisma/issues/73.prisma`
     );
     const svgContent = child_process
         .execSync(`cat ${folderName}/${fileName}`)

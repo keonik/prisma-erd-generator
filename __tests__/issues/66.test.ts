@@ -5,7 +5,7 @@ test('many-to-many.prisma', async () => {
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
     child_process.execSync(
-        `npx prisma generate --schema ./prisma/issues/66.prisma`
+        `prisma generate --schema ./prisma/issues/66.prisma`
     );
     const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
     // did it generate a file

@@ -5,7 +5,7 @@ test('nullables.prisma', async () => {
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
     child_process.execSync(
-        `npx prisma generate --schema ./prisma/nullables.prisma`
+        `prisma generate --schema ./prisma/nullables.prisma`
     );
     const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
     // did it generate a file
