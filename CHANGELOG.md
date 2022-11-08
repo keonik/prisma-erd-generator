@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/keonik/prisma-erd-generator/compare/v1.2.2...v1.2.3) (2022-11-08)
+
+### Bug Fixes
+
+-   Remove prefix npx from tests to ensure current version in package.json usage of prisma ([1c6e285](https://github.com/keonik/prisma-erd-generator/commit/1c6e285bd549c336e863a8604d7e3b02551ce815))
+
 ### [1.2.2](https://github.com/keonik/prisma-erd-generator/compare/v1.2.1...v1.2.2) (2022-10-31)
 
 ### [1.2.1](https://github.com/keonik/prisma-erd-generator/compare/v1.2.0...v1.2.1) (2022-09-29)
