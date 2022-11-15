@@ -347,11 +347,18 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                         }
                         return filterStatus === 'Match';
                     })
-                    .find((line) => line.includes(`${field.name}`));
+                    .find(
+                        (line) =>
+                            line.includes(`${field.name} `) &&
+                            line.includes('@map')
+                    );
                 if (lineInDataModel) {
                     const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
                     const match = regex.exec(lineInDataModel);
 
+                    console.log(lineInDataModel);
+                    console.log('field', field.name);
+                    console.log('match', match);
                     if (match?.[1]) {
                         const name = match[1]
                             .replace(/^_/, 'z_') // replace leading underscores

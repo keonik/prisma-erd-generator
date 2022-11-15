@@ -19,8 +19,12 @@ test('id not override before key name', async () => {
         'id="entity-User-attr-1-name" class="er entityLabel">id</text>'
     );
     // UserSetting has id and userId
-    // expect(svgContent).toContain('id="entity-UserSetting-attr-1-name" class="er entityLabel">id');
-    // expect(svgContent).toContain('id="entity-UserSetting-attr-2-name" class="er entityLabel">user_id');
+    expect(svgContent).toContain(
+        'id="entity-UserSetting-attr-1-name" class="er entityLabel">id'
+    );
+    expect(svgContent).toContain(
+        'id="entity-UserSetting-attr-2-name" class="er entityLabel">user_id'
+    );
     // // UserSetting has a relation to User
-    // expect(svgContent).toContain('id="rel1" class="er relationshipLabel">user_id -> id');
+    expect(svgContent).toContain('id="rel1" class="er relationshipLabel">user');
 });
