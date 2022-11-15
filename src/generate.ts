@@ -307,14 +307,46 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
         return {
             ...model,
             fields: model.fields.map((field) => {
+                let filterStatus: 'None' | 'Match' | 'End' = 'None';
+                // console.log('field', field.name);
+                // console.log(
+                //     splitDataModel
+                //         // skip lines before the current model
+                //         .filter((line) => {
+                //             if (
+                //                 filterStatus === 'Match' &&
+                //                 line.includes('model ')
+                //             ) {
+                //                 filterStatus = 'End';
+                //             }
+                //             if (
+                //                 filterStatus === 'None' &&
+                //                 line.includes(`model ${model.name} `)
+                //             ) {
+                //                 filterStatus = 'Match';
+                //             }
+                //             return filterStatus === 'Match';
+                //         })
+                //         .find((line) => line.includes(`${field.name}`))
+                // );
                 // get line with field to \n
                 const lineInDataModel = splitDataModel
-                    // skip lines before the current model
-                    .slice(
-                        splitDataModel.findIndex((line) =>
-                            line.includes(`model ${model.name}`)
-                        )
-                    )
+                    // filter the current model
+                    .filter((line) => {
+                        if (
+                            filterStatus === 'Match' &&
+                            line.includes('model ')
+                        ) {
+                            filterStatus = 'End';
+                        }
+                        if (
+                            filterStatus === 'None' &&
+                            line.includes(`model ${model.name} `)
+                        ) {
+                            filterStatus = 'Match';
+                        }
+                        return filterStatus === 'Match';
+                    })
                     .find((line) => line.includes(`${field.name}`));
                 if (lineInDataModel) {
                     const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
@@ -339,6 +371,7 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 };
 
 export default async (options: GeneratorOptions) => {
+    console.log(options);
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
