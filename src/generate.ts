@@ -308,27 +308,6 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
             ...model,
             fields: model.fields.map((field) => {
                 let filterStatus: 'None' | 'Match' | 'End' = 'None';
-                // console.log('field', field.name);
-                // console.log(
-                //     splitDataModel
-                //         // skip lines before the current model
-                //         .filter((line) => {
-                //             if (
-                //                 filterStatus === 'Match' &&
-                //                 line.includes('model ')
-                //             ) {
-                //                 filterStatus = 'End';
-                //             }
-                //             if (
-                //                 filterStatus === 'None' &&
-                //                 line.includes(`model ${model.name} `)
-                //             ) {
-                //                 filterStatus = 'Match';
-                //             }
-                //             return filterStatus === 'Match';
-                //         })
-                //         .find((line) => line.includes(`${field.name}`))
-                // );
                 // get line with field to \n
                 const lineInDataModel = splitDataModel
                     // filter the current model
@@ -356,9 +335,6 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                     const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
                     const match = regex.exec(lineInDataModel);
 
-                    console.log(lineInDataModel);
-                    console.log('field', field.name);
-                    console.log('match', match);
                     if (match?.[1]) {
                         const name = match[1]
                             .replace(/^_/, 'z_') // replace leading underscores
