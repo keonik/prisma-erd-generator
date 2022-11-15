@@ -354,7 +354,6 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 };
 
 export default async (options: GeneratorOptions) => {
-    console.log(options);
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
