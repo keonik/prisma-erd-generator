@@ -119,13 +119,21 @@
       ]
     },
     {
-      "login": "dznbk",
+      "login": "balzafin",
+      "name": "Petri Julkunen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4311269?v=4",
+      "profile": "https://github.com/balzafin",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+    "login": "dznbk",
       "name": "D-PONTARO",
       "avatar_url": "https://avatars.githubusercontent.com/u/46421953?v=4",
       "profile": "https://github.com/dznbk",
       "contributions": [
         "code"
-      ]
     }
   ],
   "contributorsPerLine": 7,
