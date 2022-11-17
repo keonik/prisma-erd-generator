@@ -1,0 +1,23 @@
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../../__tests__/138.svg"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id   Int    @id @default(autoincrement())
+    name String
+
+    userSettings UserSetting[]
+}
+
+model UserSetting {
+    id     Int @id @default(autoincrement())
+    userId Int @map("user_id")
+
+    user User @relation(fields: [userId], references: [id])
+}
