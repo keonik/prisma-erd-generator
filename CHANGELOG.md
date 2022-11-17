@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.4](https://github.com/keonik/prisma-erd-generator/compare/v1.2.3...v1.2.4) (2022-11-17)
+
+### Bug Fixes
+
+-   Issue 138 map FK and PK overwrite ([#149](https://github.com/keonik/prisma-erd-generator/issues/149)) ([d5208cf](https://github.com/keonik/prisma-erd-generator/commit/d5208cfc5ee2d9ca37cd6b0250469ee0dd9fac24))
+
 ### [1.2.3](https://github.com/keonik/prisma-erd-generator/compare/v1.2.2...v1.2.3) (2022-11-08)
 
 ### Bug Fixes
