@@ -181,6 +181,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="https://github.com/francismanansala"><img src="https://avatars.githubusercontent.com/u/10519099?v=4?s=100" width="100px;" alt="Francis Manansala"/><br /><sub><b>Francis Manansala</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Afrancismanansala" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://github.com/Vitalii4as"><img src="https://avatars.githubusercontent.com/u/71256742?v=4?s=100" width="100px;" alt="Vitalii Yarmus"/><br /><sub><b>Vitalii Yarmus</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=Vitalii4as" title="Code">💻</a></td>
       <td align="center"><a href="https://github.com/balzafin"><img src="https://avatars.githubusercontent.com/u/4311269?v=4?s=100" width="100px;" alt="Petri Julkunen"/><br /><sub><b>Petri Julkunen</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Abalzafin" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/dznbk"><img src="https://avatars.githubusercontent.com/u/46421953?v=4?s=100" width="100px;" alt="D-PONTARO"/><br /><sub><b>D-PONTARO</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=dznbk" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
