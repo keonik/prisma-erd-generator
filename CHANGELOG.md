@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/keonik/prisma-erd-generator/compare/v1.2.4...v1.2.5) (2023-01-12)
+
+### Bug Fixes
+
+-   Downgrade @mermaid/cli to version 8 to resolve deterministic id configuration parameter. Fix for test issue 138 ([#162](https://github.com/keonik/prisma-erd-generator/issues/162)) ([84a6287](https://github.com/keonik/prisma-erd-generator/commit/84a6287d3059c4e0ccc80be3ece88fe472a19adf))
+
 ### [1.2.4](https://github.com/keonik/prisma-erd-generator/compare/v1.2.3...v1.2.4) (2022-11-17)
 
 ### Bug Fixes
