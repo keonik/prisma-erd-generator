@@ -12,114 +12,39 @@ generator erd {
   theme    = "default"
 }
 
+
 model User {
-  id              Int                 @id @default(autoincrement())
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  name            String
-  username        String              @unique
-  email           String              @unique
-  hashedPassword  String?             @map("hashed_password")
-  role            String              @default("user")
-  sessions        Session[]
-  calendars       ConnectedCalendar[]
-  Meeting         Meeting[]
-  Schedule        Schedule[]
-  DefaultCalendar DefaultCalendar[]
-
-  @@map("users")
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  firstName String?
+  lastName  String?
+  username  String    @unique
+  password  String?
+  isValid   Boolean?
+  roles     String[]
+  Store    Store[]
 }
 
-model DefaultCalendar {
-  id         Int               @id @default(autoincrement())
-  userId     Int               @unique
-  user       User              @relation(fields: [userId], references: [id])
-  calendarId Int
-  calendar   ConnectedCalendar @relation(fields: [calendarId], references: [id])
+model Product {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  name      String?
+  quantity  String?
+  Store     Store[]
 }
 
-model Session {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt @map("updated_at")
-  expiresAt          DateTime? @map("expires_at")
-  handle             String    @unique
-  user               User?     @relation(fields: [userId], references: [id])
-  userId             Int?
-  hashedSessionToken String?   @map("hashed_session_token")
-  antiCSRFToken      String?   @map("anti_csrf_token")
-  publicData         String?   @map("public_data")
-  privateData        String?   @map("private_data")
-}
-
-enum ConnectedCalendarStatus {
-  active
-}
-
-enum ConnectedCalendarType {
-  CaldavDigest
-  CaldavBasic
-  GoogleCalendar
-  OutlookCalendar
-}
-
-model ConnectedCalendar {
-  id                Int                     @id @default(autoincrement())
-  name              String
-  caldavAddress     String?                 @map("caldav_address")
-  username          String?
-  encryptedPassword String?                 @map("encrypted_password")
-  refreshToken      String?                 @map("refresh_token")
-  owner             User                    @relation(fields: [ownerId], references: [id])
-  ownerId           Int
-  status            ConnectedCalendarStatus
-  type              ConnectedCalendarType
-  DefaultCalendar   DefaultCalendar[]
-  Meeting           Meeting[]
-}
-
-model Meeting {
-  id                         Int               @id @default(autoincrement())
-  name                       String
-  link                       String
-  owner                      User              @relation(fields: [ownerName], references: [username])
-  ownerName                  String
-  description                String
-  duration                   Int
-  startDateUTC               DateTime
-  endDateUTC                 DateTime
-  schedule                   Schedule          @relation(fields: [scheduleId], references: [id])
-  scheduleId                 Int
-  location                   String
-  bookings                   Booking[]
-  defaultConnectedCalendar   ConnectedCalendar @relation(fields: [defaultConnectedCalendarId], references: [id])
-  defaultConnectedCalendarId Int
-}
-
-model DailySchedule {
-  id         Int      @id @default(autoincrement())
-  day        String
-  startTime  String
-  endTime    String
-  schedule   Schedule @relation(fields: [scheduleId], references: [id])
-  scheduleId Int
-}
-
-model Schedule {
-  id             Int             @id @default(autoincrement())
-  name           String
-  timezone       String
-  dailySchedules DailySchedule[]
-  owner          User            @relation(fields: [ownerId], references: [id])
-  ownerId        Int
-  Meeting        Meeting[]
-}
-
-model Booking {
-  id           Int      @id @default(autoincrement())
-  meeting      Meeting  @relation(fields: [meetingId], references: [id])
-  meetingId    Int
-  inviteeEmail String
-  startDateUTC DateTime
-  cancelCode   String
+model Store {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  name      String?
+  userId    String
+  productId String
+  user      User      @relation(fields: [userId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
 }
