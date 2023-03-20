@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/keonik/prisma-erd-generator/compare/v1.2.5...v1.3.0) (2023-03-20)
+
+
+### Features
+
+* Upgrade Mermaid dependency to v10.0.2 ([#175](https://github.com/keonik/prisma-erd-generator/issues/175)) ([efe5959](https://github.com/keonik/prisma-erd-generator/commit/efe5959567ffb095b20f7fb31a5f7ba3dea27908))
+
 ### [1.2.5](https://github.com/keonik/prisma-erd-generator/compare/v1.2.4...v1.2.5) (2023-01-12)
 
 ### Bug Fixes
