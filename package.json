@@ -17,7 +17,6 @@
         "test": "jest",
         "prebuild": "rm -rf dist",
         "build": " tsc -p .",
-        "prepare": "husky install",
         "prepublish": "npm run build",
         "release": "git push --follow-tags origin main && npm publish",
         "version": "standard-version",
@@ -51,18 +50,12 @@
         "all-contributors-cli": "^6.24.0",
         "babel-jest": "^29.5.0",
         "concurrently": "^7.6.0",
-        "husky": "^8.0.3",
         "jest": "^29.5.0",
-        "lint-staged": "^13.2.0",
         "prettier": "2.8.4",
         "prisma": "^4.11.0",
         "standard-version": "^9.5.0",
         "tslib": "^2.5.0",
         "typescript": "^5.0.2"
-    },
-    "lint-staged": {
-        "**/*": "prettier --write --ignore-unknown",
-        "**/*.ts": "npm run test"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^10.0.2",

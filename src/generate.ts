@@ -205,7 +205,6 @@ ${
                     field.relationFromFields.length > 0) ||
                 isEnum
             ) {
-                console.log('normal relationship');
                 let thisSideMultiplicity = '||';
                 if (field.isList) {
                     thisSideMultiplicity = '}o';
@@ -240,13 +239,10 @@ ${
                 field.relationFromFields?.length === 0
                 // && field.relationToFields?.length
             ) {
-                console.log('many to many relationship', field);
                 relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`;
-                console.log(relationships);
             }
             // composite types
             else if (field.kind == 'object') {
-                console.log('composite type relationship');
                 const otherSideCompositeType = dml.types.find(
                     (model) => model.name === otherSide
                 );
