@@ -199,13 +199,13 @@ ${
             const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
             const thisSide = model.dbName || model.name;
             const otherSide = field.type;
-
             // normal relations
             if (
                 (field.relationFromFields &&
                     field.relationFromFields.length > 0) ||
                 isEnum
             ) {
+                console.log('normal relationship');
                 let thisSideMultiplicity = '||';
                 if (field.isList) {
                     thisSideMultiplicity = '}o';
@@ -237,13 +237,16 @@ ${
                 modellikes.find(
                     (m) => m.name === field.type || m.dbName === field.type
                 ) &&
-                field.relationFromFields?.length === 0 &&
-                field.relationToFields?.length
+                field.relationFromFields?.length === 0
+                // && field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`;
+                console.log('many to many relationship', field);
+                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`;
+                console.log(relationships);
             }
             // composite types
             else if (field.kind == 'object') {
+                console.log('composite type relationship');
                 const otherSideCompositeType = dml.types.find(
                     (model) => model.name === otherSide
                 );
@@ -433,10 +436,14 @@ export default async (options: GeneratorOptions) => {
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
         fs.writeFileSync(tempMermaidFile, mermaid);
 
+        // default config parameters https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/defaultConfig.ts
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
         fs.writeFileSync(
             tempConfigFile,
-            JSON.stringify({ deterministicIds: true, maxTextSize: 90000 })
+            JSON.stringify({
+                deterministicIds: true,
+                maxTextSize: 90000,
+            })
         );
 
         let mermaidCliNodePath = path.resolve(

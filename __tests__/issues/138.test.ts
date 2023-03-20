@@ -15,13 +15,18 @@ test('id not override before key name', async () => {
     expect(svgContent).toContain('UserSetting');
 
     // User has id
-    expect(svgContent).toContain('id="entity-User-attr-1-name"');
-    expect(svgContent).toContain('>id</text>');
+    expect(svgContent).toMatch(
+        /id="text-entity-User([^\><]*)-attr-1-name"([^<\>]*)\>id<\/text\>/
+    );
 
     // UserSetting has id and userId
-    expect(svgContent).toContain('id="entity-UserSetting-attr-1-name"');
-    expect(svgContent).toContain('id="entity-UserSetting-attr-2-name"');
-    expect(svgContent).toContain('>user_id</text>');
-    // // UserSetting has a relation to User
-    expect(svgContent).toContain('>user</text>');
+    expect(svgContent).toMatch(
+        /id="text-entity-UserSetting([^\><]*)-attr-\d-name"([^<\>]*)\>id<\/text\>/
+    );
+    expect(svgContent).toMatch(
+        /id="text-entity-UserSetting([^\><]*)-attr-\d-name"([^<\>]*)\>user_id<\/text\>/
+    );
+    // UserSetting has a relation to User
+    expect(svgContent).toMatch(/<text([^><]*)\>user<\/text\>/);
+    // expect(svgContent).toContain('>user</text>');
 });

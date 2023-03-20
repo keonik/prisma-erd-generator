@@ -1,6 +1,7 @@
 generator erd {
-    provider = "node ./dist/index.js"
-    output   = "../../__tests__/138.svg"
+    provider                  = "node ./dist/index.js"
+    output                    = "../../__tests__/138.svg"
+    includeRelationFromFields = "true"
 }
 
 datasource db {
