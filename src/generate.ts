@@ -199,7 +199,6 @@ ${
             const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
             const thisSide = model.dbName || model.name;
             const otherSide = field.type;
-
             // normal relations
             if (
                 (field.relationFromFields &&
@@ -237,10 +236,10 @@ ${
                 modellikes.find(
                     (m) => m.name === field.type || m.dbName === field.type
                 ) &&
-                field.relationFromFields?.length === 0 &&
-                field.relationToFields?.length
+                field.relationFromFields?.length === 0
+                // && field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`;
+                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`;
             }
             // composite types
             else if (field.kind == 'object') {
@@ -433,10 +432,14 @@ export default async (options: GeneratorOptions) => {
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
         fs.writeFileSync(tempMermaidFile, mermaid);
 
+        // default config parameters https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/defaultConfig.ts
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
         fs.writeFileSync(
             tempConfigFile,
-            JSON.stringify({ deterministicIds: true, maxTextSize: 90000 })
+            JSON.stringify({
+                deterministicIds: true,
+                maxTextSize: 90000,
+            })
         );
 
         let mermaidCliNodePath = path.resolve(
