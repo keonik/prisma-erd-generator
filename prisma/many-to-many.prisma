@@ -7,9 +7,10 @@ datasource db {
 }
 
 generator erd {
-    provider = "node ./dist/index.js"
-    output   = "../__tests__/ManyToMany.svg"
-    theme    = "forest"
+    provider                  = "node ./dist/index.js"
+    output                    = "../__tests__/ManyToMany.svg"
+    theme                     = "forest"
+    includeRelationFromFields = "true"
 }
 
 model Booking {
