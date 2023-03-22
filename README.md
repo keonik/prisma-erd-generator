@@ -1,7 +1,9 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -81,10 +83,18 @@ Options
 
 ### Disabled
 
-You won't always need to generate a new ER diagram. To disabled running this generator just add an environment variable to the environment running `prisma generate`.
+You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. To disabled running this generator just add an environment variable to the environment running `prisma generate`.
 
 ```bash
 DISABLE_ERD=true
+```
+
+Another option used is to remove the generator lines from your schema before installing dependencies and running the `prisma generate` command. I have used `sed` to remove the lines the generator is located on in my `schema.prisma` file to do so. Here is an example of the ERD generator being removed on lines 5-9 in a dockerfile.
+
+```dockerfile
+# remove and replace unnecessary generators (erd generator)
+# Deletes lines 5-9 from prisma/schema.prisma
+RUN sed -i '5,9d' prisma/schema.prisma
 ```
 
 ### Debugging
@@ -156,6 +166,10 @@ generator erd {
   includeRelationFromFields = true
 }
 ```
+
+## Issues
+
+Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppeteer](https://pptr.dev/) issues often are opened that relate to those libraries causing issues between different versions of Node.js and your operating system. As a fallback, if you are one of those people not able to generate an ERD using this generator, try running the generator to output a markdown file `.md` first. Trying to generate a markdown file doesn't run into puppeteer to represent the contents of a mermaid drawing in a browser and often will succeed. This will help get you a functioning ERD while troubleshooting why puppeteer is not working for your machine. Please open an issue if you have any problems or suggestions.
 
 ## Contributors ✨
 
