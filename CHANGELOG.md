@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/keonik/prisma-erd-generator/compare/v1.2.5...v1.3.0) (2023-03-22)
+
+
+### Features
+
+* Upgrade to mermaid version 10. Support for early release branching. Resolve new version of ERD on every generate. ([#185](https://github.com/keonik/prisma-erd-generator/issues/185)) ([2a6f2cb](https://github.com/keonik/prisma-erd-generator/commit/2a6f2cb9b941c0ce083f3ae8e4de293d972fe9e5)), closes [#175](https://github.com/keonik/prisma-erd-generator/issues/175)
+
 ### [1.2.5](https://github.com/keonik/prisma-erd-generator/compare/v1.2.4...v1.2.5) (2023-01-12)
 
 ### Bug Fixes
