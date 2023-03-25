@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/keonik/prisma-erd-generator/compare/v1.4.0...v1.4.1) (2023-03-25)
+
+
+### Bug Fixes
+
+* remove duplicate build step ([23d86c3](https://github.com/keonik/prisma-erd-generator/commit/23d86c382ed3261bfdccfa27a66ec5a7f98aaf19))
+
 ## [1.4.0](https://github.com/keonik/prisma-erd-generator/compare/v1.3.2...v1.4.0) (2023-03-25)
 
 
