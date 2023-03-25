@@ -357,6 +357,9 @@ export default async (options: GeneratorOptions) => {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
         const theme = config.theme || 'forest';
+        let mermaidCliNodePath = path.resolve(
+            config.mmdcPath || path.join('node_modules', '.bin', 'mmdc')
+        );
         const tableOnly = config.tableOnly === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
@@ -442,10 +445,6 @@ export default async (options: GeneratorOptions) => {
             })
         );
 
-        let mermaidCliNodePath = path.resolve(
-            path.join('node_modules', '.bin', 'mmdc')
-        );
-
         if (!fs.existsSync(mermaidCliNodePath)) {
             const findMermaidCli = child_process
                 .execSync('find ../.. -name mmdc')
@@ -458,7 +457,7 @@ export default async (options: GeneratorOptions) => {
                     `Expected mermaid CLI at \n${mermaidCliNodePath}\n\nor\n${findMermaidCli}\n but this package was not found.`
                 );
             } else {
-                mermaidCliNodePath = findMermaidCli;
+                mermaidCliNodePath = path.resolve(findMermaidCli);
             }
         }
 
