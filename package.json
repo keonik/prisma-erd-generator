@@ -17,6 +17,7 @@
         "test": "jest",
         "prebuild": "rm -rf dist",
         "build": " tsc -p .",
+        "prepublish": "npm run build",
         "release": "git push --follow-tags origin main && npm publish",
         "version": "standard-version",
         "update-deps": "npx npm-check-updates -i"
