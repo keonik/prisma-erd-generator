@@ -1,6 +1,7 @@
-src/**/*
 node_modules/
 prisma/
 .github/
 .husky/
 __tests__/
+tsconfig.json
+src/
