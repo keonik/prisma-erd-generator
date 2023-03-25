@@ -177,7 +177,7 @@ ${
                   )} ${
                       field.isId ||
                       model.primaryKey?.fields?.includes(field.name)
-                          ? 'PK'
+                          ? 'PK🗝️'
                           : ''
                   } ${field.isRequired ? '' : '"nullable"'}`;
               })
