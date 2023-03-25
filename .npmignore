@@ -4,3 +4,4 @@ prisma/
 .github/
 .husky/
 __tests__/
+*.md
