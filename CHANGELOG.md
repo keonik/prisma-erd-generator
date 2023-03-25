@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.3](https://github.com/keonik/prisma-erd-generator/compare/v1.4.2...v1.4.3) (2023-03-25)
+
+
+### Bug Fixes
+
+* Improve labeling of nullable and primary keys in table ([dbd9117](https://github.com/keonik/prisma-erd-generator/commit/dbd911776edf0992dd2879d20097ed2590037e8e))
+
 ### [1.4.4](https://github.com/keonik/prisma-erd-generator/compare/v1.4.2...v1.4.4) (2023-03-25)
 
 ### [1.4.2](https://github.com/keonik/prisma-erd-generator/compare/v1.4.1...v1.4.2) (2023-03-25)
