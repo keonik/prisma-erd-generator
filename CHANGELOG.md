@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * tarball and deployment setup for releaserc ([5f3ee76](https://github.com/keonik/prisma-erd-generator/commit/5f3ee762a25ed583a1db2c588a704ed3b4a61ad9))
 
+### [1.4.4](https://github.com/keonik/prisma-erd-generator/compare/v1.4.3...v1.4.4) (2023-03-25)
+
+
+### Bug Fixes
+
+* tarball and deployment setup for releaserc ([5f3ee76](https://github.com/keonik/prisma-erd-generator/commit/5f3ee762a25ed583a1db2c588a704ed3b4a61ad9))
+
 ### [1.4.3](https://github.com/keonik/prisma-erd-generator/compare/v1.4.2...v1.4.3) (2023-03-25)
 
 
