@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](https://github.com/keonik/prisma-erd-generator/compare/v1.4.4...v1.4.5) (2023-03-25)
+
+
+### Bug Fixes
+
+* Add type definitions to package. remove markdown files from package output. ([561a98f](https://github.com/keonik/prisma-erd-generator/commit/561a98f75dbbde2e723b4e197542f845e0e9619f))
+
 ### [1.4.4](https://github.com/keonik/prisma-erd-generator/compare/v1.4.3...v1.4.4) (2023-03-25)
 
 
