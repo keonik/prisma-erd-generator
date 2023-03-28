@@ -197,8 +197,11 @@ ${
             }
 
             const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
-            const thisSide = model.dbName || model.name;
-            const otherSide = field.type;
+            const thisSide = `"${model.dbName || model.name}"`;
+            const otherSide = `"${
+                modellikes.find((ml) => ml.name === field.type)?.dbName ||
+                field.type
+            }"`;
             // normal relations
             if (
                 (field.relationFromFields &&
