@@ -58,7 +58,8 @@
         "semantic-release": "^21.0.0",
         "standard-version": "^9.5.0",
         "tslib": "^2.5.0",
-        "typescript": "^5.0.2"
+        "typescript": "^5.0.2",
+        "@prisma/generator-helper": "^4.0.0"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^10.0.2",
@@ -66,8 +67,7 @@
     },
     "peerDependencies": {
         "@mermaid-js/mermaid-cli": "^10.0.2",
-        "@prisma/client": "^4.0.0",
-        "@prisma/generator-helper": "^4.0.0"
+        "@prisma/client": "^4.0.0"
     },
     "packageManager": "yarn@3.2.2"
 }
