@@ -1,0 +1,24 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../__tests__/mmdcPath.svg"
+    theme    = "default"
+    mmdcPath = "node_modules/.bin"
+}
+
+model User {
+    id             Int      @id @default(autoincrement())
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    name           String
+    username       String   @unique
+    email          String   @unique
+    hashedPassword String?  @map("hashed_password")
+    role           String   @default("user")
+
+    @@map("users")
+}

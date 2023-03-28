@@ -83,7 +83,15 @@ Options
 
 ### mmdcPath
 
-In order for this generator to succeed you must have `mmdc` installed. This is the mermaid cli tool that is used to generate the ERD. By default the generator searches for an existing binary file at `/node_modules/.bin/mmdc`. If it fails to find that binary it will run `find ../.. -name mmdc` to search through your folder for a `mmdc` binary. If you are using a different package manager or have a different location for your binary files, you can specify the path to the binary file.
+In order for this generator to succeed you must have `mmdc` installed. This is the mermaid cli tool that is used to generate the ERD. By default the generator searches for an existing binary file at `/node_modules/.bin`. If it fails to find that binary it will run `find ../.. -name mmdc` to search through your folder for a `mmdc` binary. If you are using a different package manager or have a different location for your binary files, you can specify the path to the binary file.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  theme = "forest"
+  mmcdPath = "node_modules/.bin"
+}
+```
 
 ### Disabled
 

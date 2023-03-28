@@ -358,7 +358,7 @@ export default async (options: GeneratorOptions) => {
         const config = options.generator.config;
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
-            config.mmdcPath || path.join('node_modules', '.bin', 'mmdc')
+            path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
         );
         const tableOnly = config.tableOnly === 'true';
         const includeRelationFromFields =
@@ -444,8 +444,13 @@ export default async (options: GeneratorOptions) => {
                 maxTextSize: 90000,
             })
         );
-
-        if (!fs.existsSync(mermaidCliNodePath)) {
+        if (config.mmdcPath) {
+            if (!fs.existsSync(mermaidCliNodePath)) {
+                throw new Error(
+                    `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
+                );
+            }
+        } else if (!fs.existsSync(mermaidCliNodePath)) {
             const findMermaidCli = child_process
                 .execSync('find ../.. -name mmdc')
                 .toString()
