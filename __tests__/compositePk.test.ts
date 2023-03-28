@@ -15,7 +15,7 @@ test('composite-pk.prisma', async () => {
         .execSync(`cat ${folderName}/${fileName}`)
         .toString();
 
-    const pks = svgAsString.match(/PK/g);
+    const pks = svgAsString.match(/🗝️/g);
 
     // did it generate a file with the correct content
     expect(svgAsString).toContain(`<svg`);

@@ -163,7 +163,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const classes = modellikes
         .map(
             (model) =>
-                `  ${model.dbName || model.name} {
+                `  "${model.dbName || model.name}" {
 ${
     tableOnly
         ? ''
@@ -177,9 +177,9 @@ ${
                   )} ${
                       field.isId ||
                       model.primaryKey?.fields?.includes(field.name)
-                          ? 'PK'
+                          ? '"🗝️"'
                           : ''
-                  } ${field.isRequired ? '' : '"nullable"'}`;
+                  }${field.isRequired ? '' : '"❓"'}`;
               })
               .join('\n')
 }
@@ -357,6 +357,9 @@ export default async (options: GeneratorOptions) => {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
         const theme = config.theme || 'forest';
+        let mermaidCliNodePath = path.resolve(
+            path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
+        );
         const tableOnly = config.tableOnly === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
@@ -441,12 +444,13 @@ export default async (options: GeneratorOptions) => {
                 maxTextSize: 90000,
             })
         );
-
-        let mermaidCliNodePath = path.resolve(
-            path.join('node_modules', '.bin', 'mmdc')
-        );
-
-        if (!fs.existsSync(mermaidCliNodePath)) {
+        if (config.mmdcPath) {
+            if (!fs.existsSync(mermaidCliNodePath)) {
+                throw new Error(
+                    `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
+                );
+            }
+        } else if (!fs.existsSync(mermaidCliNodePath)) {
             const findMermaidCli = child_process
                 .execSync('find ../.. -name mmdc')
                 .toString()
@@ -458,7 +462,7 @@ export default async (options: GeneratorOptions) => {
                     `Expected mermaid CLI at \n${mermaidCliNodePath}\n\nor\n${findMermaidCli}\n but this package was not found.`
                 );
             } else {
-                mermaidCliNodePath = findMermaidCli;
+                mermaidCliNodePath = path.resolve(findMermaidCli);
             }
         }
 

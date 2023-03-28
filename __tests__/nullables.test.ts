@@ -17,7 +17,7 @@ test('nullables.prisma', async () => {
 
     // did it generate a file with the correct content
     expect(svgAsString).toContain(`<svg`);
-    expect(svgAsString).toContain(`nullable`);
+    expect(svgAsString).toContain(`❓`);
     expect(svgAsString).toContain(`inviteeEmail`);
     expect(svgAsString).toContain(`cancelCode`);
     expect(svgAsString).toContain(`name`);
