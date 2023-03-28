@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.6](https://github.com/keonik/prisma-erd-generator/compare/v1.4.5...v1.4.6) (2023-03-28)
+
+
+### Bug Fixes
+
+* Trim mmdc from mmdcPath. Added test and documentation for how to utilize new config ption. Resolve tests from nullable and primary key changes. ([9c56a47](https://github.com/keonik/prisma-erd-generator/commit/9c56a4767f00317d6e87cf67ff6443a7a7b48406))
+
 ### [1.4.5](https://github.com/keonik/prisma-erd-generator/compare/v1.4.4...v1.4.5) (2023-03-25)
 
 
