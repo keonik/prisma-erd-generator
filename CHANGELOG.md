@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](https://github.com/keonik/prisma-erd-generator/compare/v1.3.2...v1.3.4) (2023-03-28)
+
+
+### Bug Fixes
+
+* Merge in alpha branch. Replace node v14 with node v18 for github actions tests ([#191](https://github.com/keonik/prisma-erd-generator/issues/191)) ([1b1d618](https://github.com/keonik/prisma-erd-generator/commit/1b1d618dee8741b6ca3478a232cf6e9f5d107ba0)), closes [#175](https://github.com/keonik/prisma-erd-generator/issues/175) [#188](https://github.com/keonik/prisma-erd-generator/issues/188) [#190](https://github.com/keonik/prisma-erd-generator/issues/190)
+
 ### [1.4.5](https://github.com/keonik/prisma-erd-generator/compare/v1.4.4...v1.4.5) (2023-03-25)
 
 
