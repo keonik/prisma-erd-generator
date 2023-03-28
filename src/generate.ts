@@ -163,7 +163,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const classes = modellikes
         .map(
             (model) =>
-                `  ${model.dbName || model.name} {
+                `  "${model.dbName || model.name}" {
 ${
     tableOnly
         ? ''
