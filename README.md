@@ -89,7 +89,7 @@ In order for this generator to succeed you must have `mmdc` installed. This is t
 generator erd {
   provider = "prisma-erd-generator"
   theme = "forest"
-  mmcdPath = "node_modules/.bin"
+  mmdcPath = "node_modules/.bin"
 }
 ```
 
