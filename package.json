@@ -58,7 +58,7 @@
         "semantic-release": "^21.0.0",
         "standard-version": "^9.5.0",
         "tslib": "^2.5.0",
-        "typescript": "^5.0.2"
+        "typescript": "^5.0.3"
     },
     "dependencies": {
         "@mermaid-js/mermaid-cli": "^10.0.2",
