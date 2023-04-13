@@ -134,19 +134,23 @@ export async function parseDatamodel(
 }
 
 function renderDml(dml: DML, options?: DMLRendererOptions) {
-    const { tableOnly = false, ignoreEnums = false, includeRelationFromFields = false } =
-        options ?? {};
+    const {
+        tableOnly = false,
+        ignoreEnums = false,
+        includeRelationFromFields = false,
+    } = options ?? {};
 
     const diagram = 'erDiagram';
 
     // Combine Models and Types as they are pretty similar
     const modellikes = dml.models.concat(dml.types);
 
-    const enums = (tableOnly || ignoreEnums)
-        ? ''
-        : dml.enums
-              .map(
-                  (model: DMLEnum) => `
+    const enums =
+        tableOnly || ignoreEnums
+            ? ''
+            : dml.enums
+                  .map(
+                      (model: DMLEnum) => `
         ${model.dbName || model.name} {
             ${model.values
                 .map(
@@ -158,8 +162,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
                 .join('\n')}
         }
     `
-              )
-              .join('\n\n');
+                  )
+                  .join('\n\n');
 
     const classes = modellikes
         .map(
