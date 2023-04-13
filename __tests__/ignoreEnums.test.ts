@@ -1,11 +1,11 @@
 import * as child_process from 'child_process';
 
-test('hide-enums.prisma', async () => {
-    const fileName = 'hideEnums.svg';
+test('ignore-enums.prisma', async () => {
+    const fileName = 'ignoreEnums.svg';
     const folderName = '__tests__';
     child_process.execSync(`rm -f ${folderName}/${fileName}`);
     child_process.execSync(
-        `prisma generate --schema ./prisma/hide-enums.prisma`
+        `prisma generate --schema ./prisma/ignore-enums.prisma`
     );
     const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
     // did it generate a file

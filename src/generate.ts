@@ -24,7 +24,7 @@ export interface DMLModel {
 
 export interface DMLRendererOptions {
     tableOnly?: boolean;
-    hideEnums?: boolean;
+    ignoreEnums?: boolean;
     includeRelationFromFields?: boolean;
 }
 
@@ -134,7 +134,7 @@ export async function parseDatamodel(
 }
 
 function renderDml(dml: DML, options?: DMLRendererOptions) {
-    const { tableOnly = false, hideEnums = false, includeRelationFromFields = false } =
+    const { tableOnly = false, ignoreEnums = false, includeRelationFromFields = false } =
         options ?? {};
 
     const diagram = 'erDiagram';
@@ -142,7 +142,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     // Combine Models and Types as they are pretty similar
     const modellikes = dml.models.concat(dml.types);
 
-    const enums = (tableOnly || hideEnums)
+    const enums = (tableOnly || ignoreEnums)
         ? ''
         : dml.enums
               .map(
@@ -193,7 +193,7 @@ ${
     for (const model of modellikes) {
         for (const field of model.fields) {
             const isEnum = field.kind === 'enum';
-            if (isEnum && (tableOnly || hideEnums)) {
+            if (isEnum && (tableOnly || ignoreEnums)) {
                 continue;
             }
 
@@ -365,7 +365,7 @@ export default async (options: GeneratorOptions) => {
             path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
         );
         const tableOnly = config.tableOnly === 'true';
-        const hideEnums = config.hideEnums === 'true';
+        const ignoreEnums = config.ignoreEnums === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
@@ -420,7 +420,7 @@ export default async (options: GeneratorOptions) => {
 
         const mermaid = renderDml(dml, {
             tableOnly,
-            hideEnums,
+            ignoreEnums,
             includeRelationFromFields,
         });
         if (debug && mermaid) {

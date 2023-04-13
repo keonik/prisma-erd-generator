@@ -8,9 +8,9 @@ datasource db {
 
 generator erd {
     provider  = "node ./dist/index.js"
-    output    = "../__tests__/hideEnums.svg"
+    output    = "../__tests__/ignoreEnums.svg"
     theme     = "forest"
-    hideEnums = true
+    ignoreEnums = true
 }
 
 model Booking {
