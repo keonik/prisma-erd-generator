@@ -43,7 +43,7 @@
     "devDependencies": {
         "@babel/core": "^7.21.3",
         "@babel/preset-env": "^7.20.2",
-        "@babel/preset-typescript": "^7.21.0",
+        "@babel/preset-typescript": "^7.21.5",
         "@semantic-release/commit-analyzer": "^9.0.2",
         "@semantic-release/git": "^10.0.1",
         "@semantic-release/npm": "^10.0.2",
