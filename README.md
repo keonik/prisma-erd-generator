@@ -1,7 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -218,6 +218,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Vitalii4as"><img src="https://avatars.githubusercontent.com/u/71256742?v=4?s=100" width="100px;" alt="Vitalii Yarmus"/><br /><sub><b>Vitalii Yarmus</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=Vitalii4as" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/balzafin"><img src="https://avatars.githubusercontent.com/u/4311269?v=4?s=100" width="100px;" alt="Petri Julkunen"/><br /><sub><b>Petri Julkunen</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Abalzafin" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dznbk"><img src="https://avatars.githubusercontent.com/u/46421953?v=4?s=100" width="100px;" alt="D-PONTARO"/><br /><sub><b>D-PONTARO</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=dznbk" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/stephenramthun"><img src="https://avatars.githubusercontent.com/u/4243438?v=4?s=100" width="100px;" alt="Stephen Ramthun"/><br /><sub><b>Stephen Ramthun</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=stephenramthun" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
