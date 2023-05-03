@@ -141,6 +141,18 @@ generator erd {
 }
 ```
 
+### Ignore enums
+
+If you enable this option, enum entities will be hidden.
+This is useful if you want to reduce the number of entities and focus on the tables and their columns and relationships.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  ignoreEnums = true
+}
+```
+
 ### Include relation from field
 
 By default this module skips relation fields in the result diagram. For example fields `userId` and `productId` will not be generated from this prisma schema.
