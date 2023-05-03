@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.7.0) (2023-05-03)
+
+
+### Features
+
+* Add option to hide enums ([#201](https://github.com/keonik/prisma-erd-generator/issues/201)) ([8b3bf99](https://github.com/keonik/prisma-erd-generator/commit/8b3bf99a3fcc420e6bdcf49c35686014c0b3af27))
+
+
+### Bug Fixes
+
+* Typo in documentation ([#193](https://github.com/keonik/prisma-erd-generator/issues/193)) ([e6a3838](https://github.com/keonik/prisma-erd-generator/commit/e6a38382aed47c940cb37c645c5ec81079d23c05))
+
 ### [1.5.2](https://github.com/keonik/prisma-erd-generator/compare/v1.5.1...v1.5.2) (2023-03-28)
 
 
