@@ -144,7 +144,6 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
 
     // Combine Models and Types as they are pretty similar
     const modellikes = dml.models.concat(dml.types);
-
     const enums =
         tableOnly || ignoreEnums
             ? ''
@@ -252,8 +251,12 @@ ${
             // composite types
             else if (field.kind == 'object') {
                 const otherSideCompositeType = dml.types.find(
-                    (model) => model.name === otherSide
+                    (model) =>
+                        model.name
+                            .replace(/^_/, 'z_') // replace leading underscores
+                            .replace(/\s/g, '') // remove spaces === otherSide
                 );
+                console.log(otherSide, otherSideCompositeType);
                 if (otherSideCompositeType) {
                     // most logic here is a copy/paste from the normal relation logic
                     // TODO extract and reuse
