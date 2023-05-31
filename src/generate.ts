@@ -116,7 +116,7 @@ export async function parseDatamodel(
 
     const parsed: string = await new Promise((resolve, reject) => {
         const process = child_process.exec(
-            `${engine} --datamodel-path=${tmpSchema} cli dmmf`
+            `"${engine}" --datamodel-path="${tmpSchema}" cli dmmf`
         );
         let output = '';
         process.stderr?.on('data', (l) => {
@@ -479,7 +479,7 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        const mermaidCommand = `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}"`;
         if (debug && mermaidCommand)
             console.log('mermaid command: ', mermaidCommand);
         child_process.execSync(mermaidCommand, {
