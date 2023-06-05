@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/keonik/prisma-erd-generator/compare/v1.6.0...v1.6.2) (2023-06-05)
+
+
+### Bug Fixes
+
+* generator fails when path contains spaces ([#211](https://github.com/keonik/prisma-erd-generator/issues/211)) ([d554115](https://github.com/keonik/prisma-erd-generator/commit/d554115e7e87668d281146a2b06642d1b0583f2a))
+
 ## [1.6.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.6.0) (2023-05-25)
 
 
