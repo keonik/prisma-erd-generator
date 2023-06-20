@@ -22,9 +22,25 @@ export interface DMLModel {
     } | null;
 }
 
+export interface DMLView {
+    name: string;
+    isEmbedded: boolean;
+    dbName: string | null;
+    fields: DMLField[];
+    idFields: any[];
+    uniqueFields: any[];
+    uniqueIndexes: any[];
+    isGenerated: boolean;
+    primaryKey: {
+        name: string | null;
+        fields: string[];
+    } | null;
+}
+
 export interface DMLRendererOptions {
     tableOnly?: boolean;
     ignoreEnums?: boolean;
+    ignoreViews?: boolean;
     includeRelationFromFields?: boolean;
 }
 
@@ -55,7 +71,7 @@ export interface DMLField {
     isRequired: boolean;
     isUnique: boolean;
     isUpdatedAt: boolean;
-    kind: 'scalar' | 'object' | 'enum';
+    kind: 'scalar' | 'object' | 'enum' | 'view';
     type: string;
     relationFromFields?: any[];
     relationName?: string;
@@ -75,6 +91,7 @@ export interface DMLEnum {
 export interface DML {
     enums: DMLEnum[];
     models: DMLModel[];
+    views: DMLView[];
     types: DMLType[];
 }
 
@@ -137,6 +154,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const {
         tableOnly = false,
         ignoreEnums = false,
+        ignoreViews = false,
         includeRelationFromFields = false,
     } = options ?? {};
 
@@ -196,7 +214,11 @@ ${
     for (const model of modellikes) {
         for (const field of model.fields) {
             const isEnum = field.kind === 'enum';
+            const isView = field.kind === 'view';
             if (isEnum && (tableOnly || ignoreEnums)) {
+                continue;
+            }
+            if (isView && (tableOnly || ignoreViews)) {
                 continue;
             }
 
@@ -373,6 +395,7 @@ export default async (options: GeneratorOptions) => {
         );
         const tableOnly = config.tableOnly === 'true';
         const ignoreEnums = config.ignoreEnums === 'true';
+        const ignoreViews = config.ignoreViews === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
@@ -428,6 +451,7 @@ export default async (options: GeneratorOptions) => {
         const mermaid = renderDml(dml, {
             tableOnly,
             ignoreEnums,
+            ignoreViews,
             includeRelationFromFields,
         });
         if (debug && mermaid) {

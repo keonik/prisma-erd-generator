@@ -153,6 +153,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "hakandilek",
+      "name": "Hakan Dilek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1072473?v=4",
+      "profile": "http://www.dilek.me/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
