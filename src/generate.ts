@@ -493,9 +493,8 @@ export default async (options: GeneratorOptions) => {
                 } catch (error) {
                     console.error(error);
                     console.log(
-                        '\n\nUnable to find chromium path for you MacOS Arm64 machine\n\n'
+                        '\n\nUnable to find chromium path for you MacOS arm64 machine. Attempting to use the default.\n\n'
                     );
-                    throw error;
                 }
             }
             fs.writeFileSync(
