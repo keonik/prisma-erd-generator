@@ -128,14 +128,43 @@
       ]
     },
     {
-    "login": "dznbk",
+      "login": "dznbk",
       "name": "D-PONTARO",
       "avatar_url": "https://avatars.githubusercontent.com/u/46421953?v=4",
       "profile": "https://github.com/dznbk",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "stephenramthun",
+      "name": "Stephen Ramthun",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4243438?v=4",
+      "profile": "https://github.com/stephenramthun",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "maxijonson",
+      "name": "Tristan Chin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23557893?v=4",
+      "profile": "https://www.chintristan.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "bcanfield",
+      "name": "Brandin Canfield",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12603953?v=4",
+      "profile": "https://github.com/bcanfield",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }

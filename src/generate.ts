@@ -4,6 +4,7 @@ import * as child_process from 'child_process';
 import fs from 'fs';
 import os from 'os';
 import * as dotenv from 'dotenv';
+import { Configuration as PuppeteerConfiguration } from 'puppeteer';
 
 dotenv.config(); // Load the environment variables
 
@@ -24,6 +25,7 @@ export interface DMLModel {
 
 export interface DMLRendererOptions {
     tableOnly?: boolean;
+    ignoreEnums?: boolean;
     includeRelationFromFields?: boolean;
 }
 
@@ -115,7 +117,7 @@ export async function parseDatamodel(
 
     const parsed: string = await new Promise((resolve, reject) => {
         const process = child_process.exec(
-            `${engine} --datamodel-path=${tmpSchema} cli dmmf`
+            `"${engine}" --datamodel-path="${tmpSchema}" cli dmmf`
         );
         let output = '';
         process.stderr?.on('data', (l) => {
@@ -133,19 +135,22 @@ export async function parseDatamodel(
 }
 
 function renderDml(dml: DML, options?: DMLRendererOptions) {
-    const { tableOnly = false, includeRelationFromFields = false } =
-        options ?? {};
+    const {
+        tableOnly = false,
+        ignoreEnums = false,
+        includeRelationFromFields = false,
+    } = options ?? {};
 
     const diagram = 'erDiagram';
 
     // Combine Models and Types as they are pretty similar
     const modellikes = dml.models.concat(dml.types);
-
-    const enums = tableOnly
-        ? ''
-        : dml.enums
-              .map(
-                  (model: DMLEnum) => `
+    const enums =
+        tableOnly || ignoreEnums
+            ? ''
+            : dml.enums
+                  .map(
+                      (model: DMLEnum) => `
         ${model.dbName || model.name} {
             ${model.values
                 .map(
@@ -157,8 +162,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
                 .join('\n')}
         }
     `
-              )
-              .join('\n\n');
+                  )
+                  .join('\n\n');
 
     const classes = modellikes
         .map(
@@ -192,13 +197,16 @@ ${
     for (const model of modellikes) {
         for (const field of model.fields) {
             const isEnum = field.kind === 'enum';
-            if (tableOnly && isEnum) {
+            if (isEnum && (tableOnly || ignoreEnums)) {
                 continue;
             }
 
             const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
-            const thisSide = model.dbName || model.name;
-            const otherSide = field.type;
+            const thisSide = `"${model.dbName || model.name}"`;
+            const otherSide = `"${
+                modellikes.find((ml) => ml.name === field.type)?.dbName ||
+                field.type
+            }"`;
             // normal relations
             if (
                 (field.relationFromFields &&
@@ -244,8 +252,12 @@ ${
             // composite types
             else if (field.kind == 'object') {
                 const otherSideCompositeType = dml.types.find(
-                    (model) => model.name === otherSide
+                    (model) =>
+                        model.name
+                            .replace(/^_/, 'z_') // replace leading underscores
+                            .replace(/\s/g, '') // remove spaces === otherSide
                 );
+                console.log(otherSide, otherSideCompositeType);
                 if (otherSideCompositeType) {
                     // most logic here is a copy/paste from the normal relation logic
                     // TODO extract and reuse
@@ -356,11 +368,13 @@ export default async (options: GeneratorOptions) => {
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
+
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
             path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
         );
         const tableOnly = config.tableOnly === 'true';
+        const ignoreEnums = config.ignoreEnums === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
         const disabled = Boolean(process.env.DISABLE_ERD);
@@ -415,6 +429,7 @@ export default async (options: GeneratorOptions) => {
 
         const mermaid = renderDml(dml, {
             tableOnly,
+            ignoreEnums,
             includeRelationFromFields,
         });
         if (debug && mermaid) {
@@ -444,6 +459,50 @@ export default async (options: GeneratorOptions) => {
                 maxTextSize: 90000,
             })
         );
+
+        // Generator option to adjust puppeteer
+        let puppeteerConfig = config.puppeteerConfig;
+        if (puppeteerConfig && !fs.existsSync(puppeteerConfig)) {
+            throw new Error(
+                `Puppeteer config file "${puppeteerConfig}" does not exist`
+            );
+        }
+
+        // if no config is provided, use a default
+        if (!puppeteerConfig) {
+            // https://github.com/mermaid-js/mermaid-cli/blob/master/puppeteer-config.json
+            const tempPuppeteerConfigFile = path.resolve(
+                path.join(tmpDir, 'puppeteerConfig.json')
+            );
+            let puppeteerConfigJson: PuppeteerConfiguration = {
+                logLevel: debug ? 'warn' : 'error',
+            };
+            // if MacOS M1/M2, provide your own path to chromium
+            if (os.platform() === 'darwin' && os.arch() === 'arm64') {
+                try {
+                    const executablePath = child_process
+                        .execSync('which chromium')
+                        .toString()
+                        .replace('\n', '');
+                    if (!executablePath) {
+                        throw new Error(
+                            'Could not find chromium executable. Refer to https://github.com/keonik/prisma-erd-generator#issues for next steps.'
+                        );
+                    }
+                    puppeteerConfigJson.executablePath = executablePath;
+                } catch (error) {
+                    console.error(error);
+                    console.log(
+                        '\n\nUnable to find chromium path for you MacOS arm64 machine. Attempting to use the default.\n\n'
+                    );
+                }
+            }
+            fs.writeFileSync(
+                tempPuppeteerConfigFile,
+                JSON.stringify(puppeteerConfigJson)
+            );
+            puppeteerConfig = tempPuppeteerConfigFile;
+        }
         if (config.mmdcPath) {
             if (!fs.existsSync(mermaidCliNodePath)) {
                 throw new Error(
@@ -466,7 +525,7 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        const mermaidCommand = `${mermaidCliNodePath} -i ${tempMermaidFile} -o ${output} -t ${theme} -c ${tempConfigFile}`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
         if (debug && mermaidCommand)
             console.log('mermaid command: ', mermaidCommand);
         child_process.execSync(mermaidCommand, {
