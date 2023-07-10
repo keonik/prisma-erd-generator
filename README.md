@@ -193,6 +193,44 @@ generator erd {
 
 Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppeteer](https://pptr.dev/) issues often are opened that relate to those libraries causing issues between different versions of Node.js and your operating system. As a fallback, if you are one of those people not able to generate an ERD using this generator, try running the generator to output a markdown file `.md` first. Trying to generate a markdown file doesn't run into puppeteer to represent the contents of a mermaid drawing in a browser and often will succeed. This will help get you a functioning ERD while troubleshooting why puppeteer is not working for your machine. Please open an issue if you have any problems or suggestions.
 
+If you want to change the configuration of Puppeteer, create a [Puppeteer config file (JSON)](https://pptr.dev/guides/configuration#configuration-files) and pass the file path to the generator.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  puppeteerConfig = "../puppeteerConfig.json"
+}
+```
+
+### 🔴 **ARM64 Users** 🔴
+
+Puppeteer does not yet come shipped with a version of Chromium for arm64, so you will need to point to a Chromium executable on your system. 
+More details on this issue can be found [here](https://github.com/puppeteer/puppeteer/issues/7740).
+
+**MacOS Fix:**
+
+Install Chromium using Brew:
+```bash
+brew install --cask --no-quarantine chromium
+```
+
+You should now see the path to your installed Chromium. 
+```bash
+which chromium
+```
+
+The generator will use this Chromium instead of the one provided by Puppeteer.
+
+**Other Operating Systems:**
+
+This can be fixed by either:
+- Setting the `executablePath` property in your puppeteer config file to the file path of the Chromium executable on your system.
+- Setting the following global variables on your system
+  ```
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+  PUPPETEER_EXECUTABLE_PATH=path_to_your_chromium
+  ```
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
