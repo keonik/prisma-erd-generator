@@ -193,6 +193,22 @@ generator erd {
 
 Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppeteer](https://pptr.dev/) issues often are opened that relate to those libraries causing issues between different versions of Node.js and your operating system. As a fallback, if you are one of those people not able to generate an ERD using this generator, try running the generator to output a markdown file `.md` first. Trying to generate a markdown file doesn't run into puppeteer to represent the contents of a mermaid drawing in a browser and often will succeed. This will help get you a functioning ERD while troubleshooting why puppeteer is not working for your machine. Please open an issue if you have any problems or suggestions.
 
+### 🔴 **MacOS arm64 Users** 🔴
+
+Puppeteer does not yet come shipped with a version of Chromium for arm64. More details can be found [here](https://github.com/puppeteer/puppeteer/issues/7740).
+
+To fix this, install Chromium using Brew:
+```bash
+brew install --cask --no-quarantine chromium
+```
+
+You should now see the path to your installed Chromium. 
+```bash
+which chromium
+```
+
+The generator will use this Chromium instead of the one provided by Puppeteer.
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
