@@ -463,7 +463,9 @@ export default async (options: GeneratorOptions) => {
         // Generator option to adjust puppeteer
         let puppeteerConfig = config.puppeteerConfig;
         if (puppeteerConfig && !fs.existsSync(puppeteerConfig)) {
-            throw new Error('Puppeteer config file does not exist');
+            throw new Error(
+                `Puppeteer config file "${puppeteerConfig}" does not exist`
+            );
         }
 
         // if no config is provided, use a default
