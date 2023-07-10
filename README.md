@@ -189,9 +189,7 @@ generator erd {
 }
 ```
 
-## Issues
-
-Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppeteer](https://pptr.dev/) issues often are opened that relate to those libraries causing issues between different versions of Node.js and your operating system. As a fallback, if you are one of those people not able to generate an ERD using this generator, try running the generator to output a markdown file `.md` first. Trying to generate a markdown file doesn't run into puppeteer to represent the contents of a mermaid drawing in a browser and often will succeed. This will help get you a functioning ERD while troubleshooting why puppeteer is not working for your machine. Please open an issue if you have any problems or suggestions.
+### Puppeteer configuration
 
 If you want to change the configuration of Puppeteer, create a [Puppeteer config file (JSON)](https://pptr.dev/guides/configuration#configuration-files) and pass the file path to the generator.
 
@@ -201,6 +199,10 @@ generator erd {
   puppeteerConfig = "../puppeteerConfig.json"
 }
 ```
+
+## Issues
+
+Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppeteer](https://pptr.dev/) issues often are opened that relate to those libraries causing issues between different versions of Node.js and your operating system. As a fallback, if you are one of those people not able to generate an ERD using this generator, try running the generator to output a markdown file `.md` first. Trying to generate a markdown file doesn't run into puppeteer to represent the contents of a mermaid drawing in a browser and often will succeed. This will help get you a functioning ERD while troubleshooting why puppeteer is not working for your machine. Please open an issue if you have any problems or suggestions.
 
 ### 🔴 **ARM64 Users** 🔴
 
