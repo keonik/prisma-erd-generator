@@ -2,25 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.6.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.6.0) (2023-05-25)
+## [1.8.0](https://github.com/keonik/prisma-erd-generator/compare/v1.6.0...v1.8.0) (2023-07-10)
 
 
 ### Features
 
-* Add option to hide enums ([#201](https://github.com/keonik/prisma-erd-generator/issues/201)) ([8b3bf99](https://github.com/keonik/prisma-erd-generator/commit/8b3bf99a3fcc420e6bdcf49c35686014c0b3af27))
+* Continuation through building with warning on MacOS arm64 ([0cdce8f](https://github.com/keonik/prisma-erd-generator/commit/0cdce8f39280c3b7131c5b6efaaaac1e26000fbf))
 
 
 ### Bug Fixes
 
-* Composite type relationship lookup resolution. Dependency upgrades: @mermaid-js/mermaid-cli ([94ddfd2](https://github.com/keonik/prisma-erd-generator/commit/94ddfd28526a793be913dc5b0f0ccc0636e6aeb7))
-* Typo in documentation ([#193](https://github.com/keonik/prisma-erd-generator/issues/193)) ([e6a3838](https://github.com/keonik/prisma-erd-generator/commit/e6a38382aed47c940cb37c645c5ec81079d23c05))
+* generator fails when path contains spaces ([#211](https://github.com/keonik/prisma-erd-generator/issues/211)) ([d554115](https://github.com/keonik/prisma-erd-generator/commit/d554115e7e87668d281146a2b06642d1b0583f2a))
+* MacOS arm64 Puppeteer workaround ([#217](https://github.com/keonik/prisma-erd-generator/issues/217)) ([965d886](https://github.com/keonik/prisma-erd-generator/commit/965d886d7e20862157b2ce90208e3d87383bb27b))
+* Move generator-helper package as a dependency. Issue [#210](https://github.com/keonik/prisma-erd-generator/issues/210) ([#213](https://github.com/keonik/prisma-erd-generator/issues/213)) ([2c4eea8](https://github.com/keonik/prisma-erd-generator/commit/2c4eea859bbab9073b117d1efc2b349ab40eddc9))
+* Move puppeteerConfig documentation out to features ([bed4e72](https://github.com/keonik/prisma-erd-generator/commit/bed4e72d82998b085644708f1a5a05b25ef545d7))
+* Versioning update issue. Manually bumping package.json to 1.7.0 to trigger 1.7.1 ([a445453](https://github.com/keonik/prisma-erd-generator/commit/a4454538bb99b23423ccf9b7c81370745877cd77))
+
+## [1.7.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.7.0) (2023-05-25)
+
+### Features
+
+-   Add option to hide enums ([#201](https://github.com/keonik/prisma-erd-generator/issues/201)) ([8b3bf99](https://github.com/keonik/prisma-erd-generator/commit/8b3bf99a3fcc420e6bdcf49c35686014c0b3af27))
+
+### Bug Fixes
+
+-   Composite type relationship lookup resolution. Dependency upgrades: @mermaid-js/mermaid-cli ([94ddfd2](https://github.com/keonik/prisma-erd-generator/commit/94ddfd28526a793be913dc5b0f0ccc0636e6aeb7))
+-   Typo in documentation ([#193](https://github.com/keonik/prisma-erd-generator/issues/193)) ([e6a3838](https://github.com/keonik/prisma-erd-generator/commit/e6a38382aed47c940cb37c645c5ec81079d23c05))
 
 ### [1.5.2](https://github.com/keonik/prisma-erd-generator/compare/v1.5.1...v1.5.2) (2023-03-28)
 
-
 ### Bug Fixes
 
-* Resolve many to many issue since adding in double quotes to names ([69164bd](https://github.com/keonik/prisma-erd-generator/commit/69164bde12858137a3b3defb1d48eabeeb8690dc))
+-   Resolve many to many issue since adding in double quotes to names ([69164bd](https://github.com/keonik/prisma-erd-generator/commit/69164bde12858137a3b3defb1d48eabeeb8690dc))
 
 ### [1.5.1](https://github.com/keonik/prisma-erd-generator/compare/v1.4.6...v1.5.1) (2023-03-28)
 
