@@ -4,6 +4,7 @@ import * as child_process from 'child_process';
 import fs from 'fs';
 import os from 'os';
 import * as dotenv from 'dotenv';
+import { Configuration as PuppeteerConfiguration } from 'puppeteer';
 
 dotenv.config(); // Load the environment variables
 
@@ -367,6 +368,7 @@ export default async (options: GeneratorOptions) => {
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
+
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
             path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
@@ -457,6 +459,48 @@ export default async (options: GeneratorOptions) => {
                 maxTextSize: 90000,
             })
         );
+
+        // Generator option to adjust puppeteer
+        let puppeteerConfig = config.puppeteerConfig;
+        if (puppeteerConfig && !fs.existsSync(puppeteerConfig)) {
+            throw new Error('Puppeteer config file does not exist');
+        }
+
+        // if no config is provided, use a default
+        if (!puppeteerConfig) {
+            // https://github.com/mermaid-js/mermaid-cli/blob/master/puppeteer-config.json
+            const tempPuppeteerConfigFile = path.resolve(
+                path.join(tmpDir, 'config.json')
+            );
+            let puppeteerConfigJson: PuppeteerConfiguration = {
+                logLevel: debug ? 'warn' : 'error',
+            };
+            // if MacOS M1/M2, provide your own path to chromium
+            if (os.platform() === 'darwin' && os.arch() === 'arm64') {
+                try {
+                    const executablePath = child_process
+                        .execSync('which chromium')
+                        .toString();
+                    if (!executablePath) {
+                        throw new Error(
+                            'Could not find chromium executable. Refer to https://github.com/keonik/prisma-erd-generator#issues for next steps.'
+                        );
+                    }
+                    puppeteerConfigJson.executablePath = executablePath;
+                } catch (error) {
+                    console.error(error);
+                    console.log(
+                        '\n\nUnable to find chromium path for you MacOS Arm64 machine\n\n'
+                    );
+                    throw error;
+                }
+            }
+            fs.writeFileSync(
+                tempPuppeteerConfigFile,
+                JSON.stringify(puppeteerConfigJson)
+            );
+            puppeteerConfig = tempPuppeteerConfigFile;
+        }
         if (config.mmdcPath) {
             if (!fs.existsSync(mermaidCliNodePath)) {
                 throw new Error(
@@ -479,7 +523,7 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}"`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
         if (debug && mermaidCommand)
             console.log('mermaid command: ', mermaidCommand);
         child_process.execSync(mermaidCommand, {
