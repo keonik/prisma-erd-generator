@@ -470,7 +470,7 @@ export default async (options: GeneratorOptions) => {
         if (!puppeteerConfig) {
             // https://github.com/mermaid-js/mermaid-cli/blob/master/puppeteer-config.json
             const tempPuppeteerConfigFile = path.resolve(
-                path.join(tmpDir, 'config.json')
+                path.join(tmpDir, 'puppeteerConfig.json')
             );
             let puppeteerConfigJson: PuppeteerConfiguration = {
                 logLevel: debug ? 'warn' : 'error',
@@ -480,7 +480,8 @@ export default async (options: GeneratorOptions) => {
                 try {
                     const executablePath = child_process
                         .execSync('which chromium')
-                        .toString();
+                        .toString()
+                        .replace('\n', '');
                     if (!executablePath) {
                         throw new Error(
                             'Could not find chromium executable. Refer to https://github.com/keonik/prisma-erd-generator#issues for next steps.'
