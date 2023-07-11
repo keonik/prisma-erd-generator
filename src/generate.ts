@@ -470,12 +470,17 @@ export default async (options: GeneratorOptions) => {
 
         // if no config is provided, use a default
         if (!puppeteerConfig) {
+            // Referencing default mermaid-js puppeteer-config.json
             // https://github.com/mermaid-js/mermaid-cli/blob/master/puppeteer-config.json
             const tempPuppeteerConfigFile = path.resolve(
                 path.join(tmpDir, 'puppeteerConfig.json')
             );
-            let puppeteerConfigJson: PuppeteerConfiguration = {
+            let puppeteerConfigJson: PuppeteerConfiguration & {
+                args: string[];
+            } = {
                 logLevel: debug ? 'warn' : 'error',
+                executablePath: '/usr/bin/chromium-browser',
+                args: ['--no-sandbox'],
             };
             // if MacOS M1/M2, provide your own path to chromium
             if (os.platform() === 'darwin' && os.arch() === 'arm64') {
