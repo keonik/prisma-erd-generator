@@ -4,7 +4,7 @@
 
 ## Bug Reporting
 
-Check to make sure your bug is not already in an [issue[(https://github.com/keonik/prisma-erd-generator/issues)
+Check to make sure your bug is not already in an [issue](https://github.com/keonik/prisma-erd-generator/issues)
 
 When creating an issue try to document all relevant troubleshooting information. With prisma it helps to know things like
 
