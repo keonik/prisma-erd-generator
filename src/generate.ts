@@ -5,6 +5,7 @@ import fs from 'fs';
 import os from 'os';
 import * as dotenv from 'dotenv';
 import { Configuration as PuppeteerConfiguration } from 'puppeteer';
+import { ERDGeneratorConfig } from 'types/generator';
 
 dotenv.config(); // Load the environment variables
 
@@ -367,7 +368,7 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 export default async (options: GeneratorOptions) => {
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
-        const config = options.generator.config;
+        const config: ERDGeneratorConfig = options.generator.config;
 
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
