@@ -476,11 +476,12 @@ export default async (options: GeneratorOptions) => {
             const tempPuppeteerConfigFile = path.resolve(
                 path.join(tmpDir, 'puppeteerConfig.json')
             );
+            const executablePath = '/usr/bin/chromium-browser';
             let puppeteerConfigJson: PuppeteerConfiguration & {
                 args: string[];
             } = {
                 logLevel: debug ? 'warn' : 'error',
-                executablePath: '/usr/bin/chromium-browser',
+                executablePath,
                 args: ['--no-sandbox'],
             };
             // if MacOS M1/M2, provide your own path to chromium
@@ -499,7 +500,7 @@ export default async (options: GeneratorOptions) => {
                 } catch (error) {
                     console.error(error);
                     console.log(
-                        '\n\nUnable to find chromium path for you MacOS arm64 machine. Attempting to use the default.\n\n'
+                        `\nPrisma ERD Generator: Unable to find chromium path for you MacOS arm64 machine. Attempting to use the default at ${executablePath}. To learn more visit https://github.com/keonik/prisma-erd-generator#-arm64-users-\n`
                     );
                 }
             }
