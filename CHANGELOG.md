@@ -2,6 +2,67 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/keonik/prisma-erd-generator/compare/v1.8.0...v1.9.0) (2023-07-19)
+
+
+### Features
+
+* Support Prisma v5 ([#221](https://github.com/keonik/prisma-erd-generator/issues/221)) ([539990e](https://github.com/keonik/prisma-erd-generator/commit/539990e7da237d92b5834d38cd497b60bfaae8e4))
+* Support unique names ([#190](https://github.com/keonik/prisma-erd-generator/issues/190)) ([496c55a](https://github.com/keonik/prisma-erd-generator/commit/496c55a909af59aefe3758bf2f7aeca1fb41a869))
+
+
+### Bug Fixes
+
+* Default version outdated ([233afe0](https://github.com/keonik/prisma-erd-generator/commit/233afe062e705dacf02941312b906f980fdc21de))
+* Dependency upgrade ([757f57f](https://github.com/keonik/prisma-erd-generator/commit/757f57f0122481c4e30a698ee7d22dd217875f7b))
+* Improve logging for arm64 macos users. Force version 5 prisma to match prisma generator helper ([872d6a2](https://github.com/keonik/prisma-erd-generator/commit/872d6a258d15d3a92a4602e11cf65def9961d200))
+* Match [@mermaid-cli](https://github.com/mermaid-cli) puppeteer-config.json as default to troubleshoot issue [#199](https://github.com/keonik/prisma-erd-generator/issues/199) ([6a61964](https://github.com/keonik/prisma-erd-generator/commit/6a619649bd47f46b0e4583bcb670f1756cdeec0c))
+* No changes. Just attempting to align versions. ([881a0ef](https://github.com/keonik/prisma-erd-generator/commit/881a0efda7163a3af5e4d6a08ec53165ddb66f72))
+* Prerelease config for GitHub ([6a2ec99](https://github.com/keonik/prisma-erd-generator/commit/6a2ec994f292036dab0c95839a74baaa8e1ec9f7))
+* Remove Git semantic release plugin ([fba4a7d](https://github.com/keonik/prisma-erd-generator/commit/fba4a7dd7fd74a175dcaec7520483bd255b23d23))
+* Trim mmdc from mmdcPath. Added test and documentation for how to utilize new config ption. Resolve tests from nullable and primary key changes. ([9c56a47](https://github.com/keonik/prisma-erd-generator/commit/9c56a4767f00317d6e87cf67ff6443a7a7b48406))
+* Versioning mismatches ([8e31427](https://github.com/keonik/prisma-erd-generator/commit/8e31427d5dcd913aa06506774b441eee97a11e3b))
+
+### [1.4.5](https://github.com/keonik/prisma-erd-generator/compare/v1.4.4...v1.4.5) (2023-03-25)
+
+
+### Bug Fixes
+
+* Add type definitions to package. remove markdown files from package output. ([561a98f](https://github.com/keonik/prisma-erd-generator/commit/561a98f75dbbde2e723b4e197542f845e0e9619f))
+
+### [1.4.4](https://github.com/keonik/prisma-erd-generator/compare/v1.4.3...v1.4.4) (2023-03-25)
+
+
+### Bug Fixes
+
+* tarball and deployment setup for releaserc ([5f3ee76](https://github.com/keonik/prisma-erd-generator/commit/5f3ee762a25ed583a1db2c588a704ed3b4a61ad9))
+
+### [1.4.3](https://github.com/keonik/prisma-erd-generator/compare/v1.4.2...v1.4.3) (2023-03-25)
+
+
+### Bug Fixes
+
+* Improve labeling of nullable and primary keys in table ([dbd9117](https://github.com/keonik/prisma-erd-generator/commit/dbd911776edf0992dd2879d20097ed2590037e8e))
+
+### [1.4.2](https://github.com/keonik/prisma-erd-generator/compare/v1.4.1...v1.4.2) (2023-03-25)
+
+### [1.4.1](https://github.com/keonik/prisma-erd-generator/compare/v1.4.0...v1.4.1) (2023-03-25)
+
+
+### Bug Fixes
+
+* Add back in prepublish script ([4ab1dd5](https://github.com/keonik/prisma-erd-generator/commit/4ab1dd5d6d6986b8c1cbab4870ed35bbb81f6bd7))
+* remove duplicate build step ([23d86c3](https://github.com/keonik/prisma-erd-generator/commit/23d86c382ed3261bfdccfa27a66ec5a7f98aaf19))
+* Revert removal of ts files from npm package ([a4628e7](https://github.com/keonik/prisma-erd-generator/commit/a4628e760a3cfaf8ede5f408ca2dbdbd978df6ac))
+
+## [1.4.0](https://github.com/keonik/prisma-erd-generator/compare/v1.3.2...v1.4.0) (2023-03-25)
+
+
+### Features
+
+* Option to specify mmdcPath ([#188](https://github.com/keonik/prisma-erd-generator/issues/188)) ([39088ae](https://github.com/keonik/prisma-erd-generator/commit/39088aee8dbaaff079f4f1357d6999107bb0c333))
+* Upgrade Mermaid dependency to v10.0.2 ([#175](https://github.com/keonik/prisma-erd-generator/issues/175)) ([efe5959](https://github.com/keonik/prisma-erd-generator/commit/efe5959567ffb095b20f7fb31a5f7ba3dea27908))
+
 ## [1.8.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.8.0) (2023-05-25)
 
 ### Features
