@@ -1,7 +1,9 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -206,17 +208,19 @@ Because this package relies on [mermaid js](https://mermaid.js.org/) and [puppet
 
 ### 🔴 **ARM64 Users** 🔴
 
-Puppeteer does not yet come shipped with a version of Chromium for arm64, so you will need to point to a Chromium executable on your system. 
+Puppeteer does not yet come shipped with a version of Chromium for arm64, so you will need to point to a Chromium executable on your system.
 More details on this issue can be found [here](https://github.com/puppeteer/puppeteer/issues/7740).
 
 **MacOS Fix:**
 
 Install Chromium using Brew:
+
 ```bash
 brew install --cask --no-quarantine chromium
 ```
 
-You should now see the path to your installed Chromium. 
+You should now see the path to your installed Chromium.
+
 ```bash
 which chromium
 ```
@@ -226,12 +230,13 @@ The generator will use this Chromium instead of the one provided by Puppeteer.
 **Other Operating Systems:**
 
 This can be fixed by either:
-- Setting the `executablePath` property in your puppeteer config file to the file path of the Chromium executable on your system.
-- Setting the following global variables on your system
-  ```
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-  PUPPETEER_EXECUTABLE_PATH=path_to_your_chromium
-  ```
+
+-   Setting the `executablePath` property in your puppeteer config file to the file path of the Chromium executable on your system.
+-   Setting the following global variables on your system
+    ```
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    PUPPETEER_EXECUTABLE_PATH=path_to_your_chromium
+    ```
 
 ## Contributors ✨
 
