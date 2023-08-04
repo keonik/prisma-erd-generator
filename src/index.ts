@@ -2,7 +2,7 @@
 import { generatorHandler } from '@prisma/generator-helper';
 import generate from './generate';
 
-const disabled = Boolean(process.env.DISABLE_ERD);
+const disabled = process.env.DISABLE_ERD === 'true';
 
 generatorHandler({
     onManifest: () => ({
