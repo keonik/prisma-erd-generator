@@ -377,7 +377,7 @@ export default async (options: GeneratorOptions) => {
         const ignoreEnums = config.ignoreEnums === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
-        const disabled = Boolean(process.env.DISABLE_ERD);
+        const disabled = process.env.DISABLE_ERD === 'true';
         const debug =
             config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
 
