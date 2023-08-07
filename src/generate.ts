@@ -27,6 +27,7 @@ export interface DMLRendererOptions {
     tableOnly?: boolean;
     ignoreEnums?: boolean;
     includeRelationFromFields?: boolean;
+    disableEmoji?: boolean;
 }
 
 // Copy paste of the DMLModel
@@ -139,6 +140,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         tableOnly = false,
         ignoreEnums = false,
         includeRelationFromFields = false,
+        disableEmoji = false,
     } = options ?? {};
 
     const diagram = 'erDiagram';
@@ -165,6 +167,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
                   )
                   .join('\n\n');
 
+    const pkSigil = disableEmoji ? '"PK"' : '"🗝️"';
+    const nullableSigil = disableEmoji ? '"nullable"' : '"❓"';
     const classes = modellikes
         .map(
             (model) =>
@@ -182,9 +186,9 @@ ${
                   )} ${
                       field.isId ||
                       model.primaryKey?.fields?.includes(field.name)
-                          ? '"🗝️"'
+                          ? pkSigil
                           : ''
-                  }${field.isRequired ? '' : '"❓"'}`;
+                  }${field.isRequired ? '' : nullableSigil}`;
               })
               .join('\n')
 }
@@ -366,6 +370,7 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 
 export default async (options: GeneratorOptions) => {
     try {
+        console.log('generator options', options);
         const output = options.generator.output?.value || './prisma/ERD.svg';
         const config = options.generator.config;
 
@@ -374,6 +379,7 @@ export default async (options: GeneratorOptions) => {
             path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
         );
         const tableOnly = config.tableOnly === 'true';
+        const disableEmoji = config.disableEmoji === 'true';
         const ignoreEnums = config.ignoreEnums === 'true';
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true';
@@ -431,6 +437,7 @@ export default async (options: GeneratorOptions) => {
             tableOnly,
             ignoreEnums,
             includeRelationFromFields,
+            disableEmoji,
         });
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd');
