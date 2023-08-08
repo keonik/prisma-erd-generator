@@ -2,7 +2,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -191,6 +191,17 @@ generator erd {
 }
 ```
 
+### Disable emoji output
+
+The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be disabled, restoring the older values of `PK` and `nullable`, respectively.
+
+```prisma
+generator erd {
+  provider     = "prisma-erd-generator"
+  disableEmoji = true
+}
+```
+
 ### Puppeteer configuration
 
 If you want to change the configuration of Puppeteer, create a [Puppeteer config file (JSON)](https://pptr.dev/guides/configuration#configuration-files) and pass the file path to the generator.
@@ -269,6 +280,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://www.chintristan.io/"><img src="https://avatars.githubusercontent.com/u/23557893?v=4?s=100" width="100px;" alt="Tristan Chin"/><br /><sub><b>Tristan Chin</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=maxijonson" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/bcanfield"><img src="https://avatars.githubusercontent.com/u/12603953?v=4?s=100" width="100px;" alt="Brandin Canfield"/><br /><sub><b>Brandin Canfield</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=bcanfield" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://scrapbox.io/mrsekut-p/"><img src="https://avatars.githubusercontent.com/u/24796587?v=4?s=100" width="100px;" alt="kota marusue"/><br /><sub><b>kota marusue</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=mrsekut" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shiralwz"><img src="https://avatars.githubusercontent.com/u/6162142?v=4?s=100" width="100px;" alt="Lucia"/><br /><sub><b>Lucia</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Ashiralwz" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.halostatue.ca/"><img src="https://avatars.githubusercontent.com/u/11361?v=4?s=100" width="100px;" alt="Austin Ziegler"/><br /><sub><b>Austin Ziegler</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=halostatue" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

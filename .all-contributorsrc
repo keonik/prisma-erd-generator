@@ -171,6 +171,24 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "shiralwz",
+      "name": "Lucia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6162142?v=4",
+      "profile": "https://github.com/shiralwz",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "halostatue",
+      "name": "Austin Ziegler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11361?v=4",
+      "profile": "https://github.com/halostatue",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
