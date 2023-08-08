@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/keonik/prisma-erd-generator/compare/v1.8.0...v1.10.0) (2023-08-08)
+
+
+### Features
+
+* Option to disable emoji output ([#229](https://github.com/keonik/prisma-erd-generator/issues/229)) ([f86ff4d](https://github.com/keonik/prisma-erd-generator/commit/f86ff4d7652e69f6d940a34773197ac1792b5436)), closes [#226](https://github.com/keonik/prisma-erd-generator/issues/226)
+
+
+### Bug Fixes
+
+* No changes. Just attempting to align versions. ([881a0ef](https://github.com/keonik/prisma-erd-generator/commit/881a0efda7163a3af5e4d6a08ec53165ddb66f72))
+* Update DISABLE_ERD environment variable to match js truthy expectations  ([#227](https://github.com/keonik/prisma-erd-generator/issues/227)) ([60a78ba](https://github.com/keonik/prisma-erd-generator/commit/60a78ba4d8a5f383b3047d1b394703286bbe0a89)), closes [#225](https://github.com/keonik/prisma-erd-generator/issues/225)
+* Versioning mismatches ([8e31427](https://github.com/keonik/prisma-erd-generator/commit/8e31427d5dcd913aa06506774b441eee97a11e3b))
+
 ## [1.8.0](https://github.com/keonik/prisma-erd-generator/compare/v1.5.2...v1.8.0) (2023-05-25)
 
 ### Features
