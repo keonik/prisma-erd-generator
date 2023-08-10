@@ -405,6 +405,7 @@ export default async (options: GeneratorOptions) => {
             er: {
                 useMaxWidth: true,
             },
+            theme: theme,
         };
         let mermaidConfig = defaultMermaidConfig;
 
@@ -496,7 +497,7 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
         if (debug && mermaidCommand)
             console.log('mermaid command: ', mermaidCommand);
         child_process.execSync(mermaidCommand, {

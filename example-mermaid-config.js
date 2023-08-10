@@ -11,6 +11,7 @@ const config = {
          */
         useMaxWidth: false,
     },
+    theme: 'forest',
 };
 
 module.exports = config;
