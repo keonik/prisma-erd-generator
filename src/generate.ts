@@ -13,6 +13,7 @@ import {
     DMLModel,
     DMLField,
 } from 'types/dml';
+import { MermaidConfig } from 'mermaid';
 
 dotenv.config(); // Load the environment variables
 
@@ -398,14 +399,32 @@ export default async (options: GeneratorOptions) => {
         fs.writeFileSync(tempMermaidFile, mermaid);
 
         // default config parameters https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/defaultConfig.ts
+        const defaultMermaidConfig: MermaidConfig = {
+            deterministicIds: true,
+            maxTextSize: 90000,
+            er: {
+                useMaxWidth: true,
+            },
+            theme: theme,
+        };
+        let mermaidConfig = defaultMermaidConfig;
+
+        if (config?.mermaidConfig) {
+            const importedMermaidConfig = await import(
+                path.resolve(config.mermaidConfig)
+            );
+            if (debug) {
+                console.log('imported mermaid config: ', importedMermaidConfig);
+            }
+            // merge default config with imported config
+            mermaidConfig = {
+                ...defaultMermaidConfig,
+                ...importedMermaidConfig,
+            };
+        }
+
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
-        fs.writeFileSync(
-            tempConfigFile,
-            JSON.stringify({
-                deterministicIds: true,
-                maxTextSize: 90000,
-            })
-        );
+        fs.writeFileSync(tempConfigFile, JSON.stringify(mermaidConfig));
 
         // Generator option to adjust puppeteer
         let puppeteerConfig = config.puppeteerConfig;
@@ -478,7 +497,7 @@ export default async (options: GeneratorOptions) => {
             }
         }
 
-        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -t ${theme} -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
         if (debug && mermaidCommand)
             console.log('mermaid command: ', mermaidCommand);
         child_process.execSync(mermaidCommand, {

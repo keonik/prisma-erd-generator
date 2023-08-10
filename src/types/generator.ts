@@ -7,4 +7,5 @@ export interface PrismaERDConfig {
     includeRelationFromFields?: string;
     erdDebug?: string;
     puppeteerConfig?: string;
+    mermaidConfig?: string;
 }
