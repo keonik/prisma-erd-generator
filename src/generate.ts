@@ -8,6 +8,17 @@ import { Configuration as PuppeteerConfiguration } from 'puppeteer';
 
 dotenv.config(); // Load the environment variables
 
+export interface PrismaERDConfig {
+    theme?: string;
+    mmdcPath?: string;
+    tableOnly?: string;
+    disableEmoji?: string;
+    ignoreEnums?: string;
+    includeRelationFromFields?: string;
+    erdDebug?: string;
+    puppeteerConfig?: string;
+}
+
 export interface DMLModel {
     name: string;
     isEmbedded: boolean;
@@ -371,7 +382,7 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 export default async (options: GeneratorOptions) => {
     try {
         const output = options.generator.output?.value || './prisma/ERD.svg';
-        const config = options.generator.config;
+        const config = options.generator.config as PrismaERDConfig;
 
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
@@ -385,6 +396,11 @@ export default async (options: GeneratorOptions) => {
         const disabled = process.env.DISABLE_ERD === 'true';
         const debug =
             config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
+
+        if (debug) {
+            console.log('debug mode enabled');
+            console.log('config', config);
+        }
 
         if (disabled) {
             return console.log('ERD generator is disabled');
