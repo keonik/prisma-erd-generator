@@ -8,4 +8,5 @@ export interface PrismaERDConfig {
     erdDebug?: string;
     puppeteerConfig?: string;
     mermaidConfig?: string;
+    disabled?: string;
 }

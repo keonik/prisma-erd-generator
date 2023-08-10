@@ -9,6 +9,7 @@ generator erd {
   theme         = "default"
   mmdcPath      = "node_modules/.bin"
   mermaidConfig = "example-mermaid-config.js"
+  disabled      = false
 }
 
 model User {
