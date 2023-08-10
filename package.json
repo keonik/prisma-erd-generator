@@ -105,7 +105,6 @@
         "@semantic-release/npm": "^10.0.4",
         "@semantic-release/release-notes-generator": "^11.0.4",
         "@types/jest": "^29.5.3",
-        "@types/mermaid": "^9.2.0",
         "all-contributors-cli": "^6.26.1",
         "babel-jest": "^29.6.2",
         "concurrently": "^8.2.0",
