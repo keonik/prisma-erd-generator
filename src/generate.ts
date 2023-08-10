@@ -5,81 +5,16 @@ import fs from 'fs';
 import os from 'os';
 import * as dotenv from 'dotenv';
 import { Configuration as PuppeteerConfiguration } from 'puppeteer';
-import { ERDGeneratorConfig } from 'types/generator';
+import { PrismaERDConfig } from 'types/generator';
+import {
+    DML,
+    DMLRendererOptions,
+    DMLEnum,
+    DMLModel,
+    DMLField,
+} from 'types/dml';
 
 dotenv.config(); // Load the environment variables
-
-export interface DMLModel {
-    name: string;
-    isEmbedded: boolean;
-    dbName: string | null;
-    fields: DMLField[];
-    idFields: any[];
-    uniqueFields: any[];
-    uniqueIndexes: any[];
-    isGenerated: boolean;
-    primaryKey: {
-        name: string | null;
-        fields: string[];
-    } | null;
-}
-
-export interface DMLRendererOptions {
-    tableOnly?: boolean;
-    ignoreEnums?: boolean;
-    includeRelationFromFields?: boolean;
-    disableEmoji?: boolean;
-}
-
-// Copy paste of the DMLModel
-// TODO Adapt to real type of composite types - and then make them concat-enable anyway
-export interface DMLType {
-    name: string;
-    isEmbedded: boolean;
-    dbName: string | null;
-    fields: DMLField[];
-    idFields: any[];
-    uniqueFields: any[];
-    uniqueIndexes: any[];
-    isGenerated: boolean;
-    primaryKey: {
-        name: string | null;
-        fields: string[];
-    } | null;
-}
-
-export interface DMLField {
-    name: string;
-    hasDefaultValue: boolean;
-    isGenerated: boolean;
-    isId: boolean;
-    isList: boolean;
-    isReadOnly: boolean;
-    isRequired: boolean;
-    isUnique: boolean;
-    isUpdatedAt: boolean;
-    kind: 'scalar' | 'object' | 'enum';
-    type: string;
-    relationFromFields?: any[];
-    relationName?: string;
-    relationOnDelete?: string;
-    relationToFields?: any[];
-}
-
-export interface DMLEnum {
-    name: string;
-    dbName: string | null;
-    values: Array<{
-        name: string;
-        dbName: string;
-    }>;
-}
-
-export interface DML {
-    enums: DMLEnum[];
-    models: DMLModel[];
-    types: DMLType[];
-}
 
 function getDataModelFieldWithoutParsing(parsed: string) {
     const startOfField = parsed.indexOf('"datamodel"');
@@ -371,9 +306,8 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
 
 export default async (options: GeneratorOptions) => {
     try {
-        console.log('generator options', options);
         const output = options.generator.output?.value || './prisma/ERD.svg';
-        const config: ERDGeneratorConfig = options.generator.config;
+        const config = options.generator.config as PrismaERDConfig;
 
         const theme = config.theme || 'forest';
         let mermaidCliNodePath = path.resolve(
@@ -387,6 +321,11 @@ export default async (options: GeneratorOptions) => {
         const disabled = process.env.DISABLE_ERD === 'true';
         const debug =
             config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
+
+        if (debug) {
+            console.log('debug mode enabled');
+            console.log('config', config);
+        }
 
         if (disabled) {
             return console.log('ERD generator is disabled');
