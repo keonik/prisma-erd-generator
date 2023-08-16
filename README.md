@@ -97,10 +97,21 @@ generator erd {
 
 ### Disabled
 
-You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. To disabled running this generator just add an environment variable to the environment running `prisma generate`.
+You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. There are two ways to disable this ERD generator.
+
+1. Via environment variable
 
 ```bash
 DISABLE_ERD=true
+```
+
+2. Via configuration
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  disabled = true
+}
 ```
 
 Another option used is to remove the generator lines from your schema before installing dependencies and running the `prisma generate` command. I have used `sed` to remove the lines the generator is located on in my `schema.prisma` file to do so. Here is an example of the ERD generator being removed on lines 5-9 in a dockerfile.
