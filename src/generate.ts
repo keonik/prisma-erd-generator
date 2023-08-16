@@ -441,7 +441,12 @@ export default async (options: GeneratorOptions) => {
             const tempPuppeteerConfigFile = path.resolve(
                 path.join(tmpDir, 'puppeteerConfig.json')
             );
-            const executablePath = '/usr/bin/chromium-browser';
+            let executablePath: string | undefined;
+
+            // setting default chromium path if not Windows
+            if (os.platform() !== 'win32') {
+                executablePath = '/usr/bin/chromium-browser';
+            }
             let puppeteerConfigJson: PuppeteerConfiguration & {
                 args: string[];
             } = {
