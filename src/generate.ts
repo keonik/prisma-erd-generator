@@ -442,11 +442,6 @@ export default async (options: GeneratorOptions) => {
                 path.join(tmpDir, 'puppeteerConfig.json')
             );
             let executablePath: string | undefined;
-
-            // setting default chromium path if not Windows
-            if (os.platform() !== 'win32') {
-                executablePath = '/usr/bin/chromium-browser';
-            }
             let puppeteerConfigJson: PuppeteerConfiguration & {
                 args: string[];
             } = {
@@ -472,6 +467,7 @@ export default async (options: GeneratorOptions) => {
                     console.log(
                         `\nPrisma ERD Generator: Unable to find chromium path for you MacOS arm64 machine. Attempting to use the default at ${executablePath}. To learn more visit https://github.com/keonik/prisma-erd-generator#-arm64-users-\n`
                     );
+                    executablePath = '/usr/bin/chromium-browser';
                 }
             }
             fs.writeFileSync(
