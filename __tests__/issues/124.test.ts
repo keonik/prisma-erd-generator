@@ -19,5 +19,5 @@ test('Zero to many relationship', async () => {
     // User has zero to many posts
     expect(svgContent).toContain('author');
     expect(svgContent).toContain('marker-start="url(#ZERO_OR_MORE_START)"');
-    expect(svgContent).toContain('marker-end="url(#ZERO_OR_ONE_END)"');
+    expect(svgContent).toContain('marker-end="url(#ZERO_OR_MORE_END)"');
 });

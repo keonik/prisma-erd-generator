@@ -27,6 +27,6 @@ test('id not override before key name', async () => {
         /id="text-entity-UserSetting([^\><]*)-attr-\d-name"([^<\>]*)\>user_id<\/text\>/
     );
     // UserSetting has a relation to User
-    expect(svgContent).toMatch(/<text([^><]*)\>user<\/text\>/);
+    expect(svgContent).toMatch(/<text([^><]*)\>userSettings \/ user<\/text\>/);
     // expect(svgContent).toContain('>user</text>');
 });

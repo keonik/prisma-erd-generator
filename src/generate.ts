@@ -135,6 +135,15 @@ ${
         .join('\n\n');
 
     let relationships = '';
+    let skipModels: string[] = [];
+    // https://mermaid.js.org/syntax/entityRelationshipDiagram.html#relationship-syntax
+    /*
+        Value (left)	Value (right)	Meaning
+        |o	o|	Zero or one
+        ||	||	Exactly one
+        }o	o{	Zero or more (no upper limit)
+        }|	|{	One or more (no upper limit)
+    */
     for (const model of modellikes) {
         for (const field of model.fields) {
             const isEnum = field.kind === 'enum';
@@ -142,12 +151,21 @@ ${
                 continue;
             }
 
-            const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
-            const thisSide = `"${model.dbName || model.name}"`;
-            const otherSide = `"${
+            if (field.relationName) {
+                // skip models that have already been processed
+                if (skipModels.includes(field.relationName)) {
+                    continue;
+                } else if (field.relationName) {
+                    // add to skip list
+                    skipModels.push(field.relationName);
+                }
+            }
+
+            const thisSide = model.dbName || model.name;
+            const otherSide =
                 modellikes.find((ml) => ml.name === field.type)?.dbName ||
-                field.type
-            }"`;
+                field.type;
+            const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
             // normal relations
             if (
                 (field.relationFromFields &&
@@ -175,10 +193,12 @@ ${
                 } else if (!otherField?.isRequired) {
                     thisSideMultiplicity = 'o|';
                 }
-
-                relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
+                const otherSideRelationName = otherField?.name
+                    ? ` / ${otherField.name}`
+                    : '';
+                relationships += `    "${thisSide}" ${thisSideMultiplicity}--${otherSideMultiplicity} "${
                     otherModel?.dbName || otherSide
-                } : "${relationshipName}"\n`;
+                }" : "${relationshipName + otherSideRelationName}"\n`;
             }
             // many to many
             else if (
@@ -186,9 +206,24 @@ ${
                     (m) => m.name === field.type || m.dbName === field.type
                 ) &&
                 field.relationFromFields?.length === 0
-                // && field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`;
+                const otherSideRelationName =
+                    modellikes
+                        .find(
+                            (m) =>
+                                m.name === field.type || m.dbName === field.type
+                        )
+                        ?.fields.find((f) => f.type === model.name)?.name ?? '';
+                console.log(
+                    'many to many relationship',
+                    field.name,
+                    otherSideRelationName
+                );
+                relationships += `    ${thisSide} o{--}o ${otherSide} : "${
+                    field.name
+                }${
+                    otherSideRelationName ? ' / ' + otherSideRelationName : ''
+                }"\n`;
             }
             // composite types
             else if (field.kind == 'object') {
@@ -198,7 +233,7 @@ ${
                             .replace(/^_/, 'z_') // replace leading underscores
                             .replace(/\s/g, '') // remove spaces === otherSide
                 );
-                console.log(otherSide, otherSideCompositeType);
+
                 if (otherSideCompositeType) {
                     // most logic here is a copy/paste from the normal relation logic
                     // TODO extract and reuse
@@ -220,10 +255,12 @@ ${
                     } else if (!otherField?.isRequired) {
                         thisSideMultiplicity = 'o|';
                     }
-
+                    const otherSideRelationName = otherField?.name
+                        ? ` / ${otherField.name}`
+                        : '';
                     relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
                         otherSideCompositeType.dbName || otherSide
-                    } : "${relationshipName}"\n`;
+                    } : "${relationshipName}${otherSideRelationName}"\n`;
                 }
             }
         }
