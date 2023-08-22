@@ -444,11 +444,10 @@ export default async (options: GeneratorOptions) => {
             );
             let executablePath: string | undefined;
             let puppeteerConfigJson: PuppeteerConfiguration & {
-                args: string[];
+                args?: string[];
             } = {
                 logLevel: debug ? 'warn' : 'error',
                 executablePath,
-                args: ['--no-sandbox'],
             };
             // if MacOS M1/M2, provide your own path to chromium
             if (os.platform() === 'darwin' && os.arch() === 'arm64') {
@@ -463,6 +462,7 @@ export default async (options: GeneratorOptions) => {
                         );
                     }
                     puppeteerConfigJson.executablePath = executablePath;
+                    puppeteerConfigJson.args = ['--no-sandbox'];
                 } catch (error) {
                     console.error(error);
                     console.log(
