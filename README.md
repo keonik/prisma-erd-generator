@@ -81,6 +81,8 @@ Options
 -   dark
 -   neutral
 
+This option does not accept environment variables or other dynamic values. If you want to change the theme dynamically, you can use the `theme` option in the `mermaidConfig` option. See [Mermaid Configuration](#mermaid-configuration) for more information.
+
 ### mmdcPath
 
 In order for this generator to succeed you must have `mmdc` installed. This is the mermaid cli tool that is used to generate the ERD. By default the generator searches for an existing binary file at `/node_modules/.bin`. If it fails to find that binary it will run `find ../.. -name mmdc` to search through your folder for a `mmdc` binary. If you are using a different package manager or have a different location for your binary files, you can specify the path to the binary file.
@@ -95,10 +97,21 @@ generator erd {
 
 ### Disabled
 
-You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. To disabled running this generator just add an environment variable to the environment running `prisma generate`.
+You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. There are two ways to disable this ERD generator.
+
+1. Via environment variable
 
 ```bash
 DISABLE_ERD=true
+```
+
+2. Via configuration
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  disabled = true
+}
 ```
 
 Another option used is to remove the generator lines from your schema before installing dependencies and running the `prisma generate` command. I have used `sed` to remove the lines the generator is located on in my `schema.prisma` file to do so. Here is an example of the ERD generator being removed on lines 5-9 in a dockerfile.
@@ -199,6 +212,17 @@ The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be
 generator erd {
   provider     = "prisma-erd-generator"
   disableEmoji = true
+}
+```
+
+### Mermaid configuration
+
+Overriding the default mermaid configuration may be necessary to represent your schema in the best way possible. There is an example mermaid config [here](./example-mermaid-config.js) that you can use as a starting point. In the example JavaScript file, types are referenced to view all available options. You can also view them [here](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/defaultConfig.ts). The most common use cases for needing to overwrite mermaid configuration is for theming and default sizing of the ERD.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  mermaidConfig = "mermaidConfig.json"
 }
 ```
 

@@ -4,10 +4,12 @@ datasource db {
 }
 
 generator erd {
-  provider = "node ./dist/index.js"
-  output   = "../ERD.svg"
-  theme    = "default"
-  mmdcPath = "node_modules/.bin"
+  provider      = "node ./dist/index.js"
+  output        = "../ERD.svg"
+  theme         = "default"
+  mmdcPath      = "node_modules/.bin"
+  mermaidConfig = "example-mermaid-config.js"
+  disabled      = false
 }
 
 model User {
