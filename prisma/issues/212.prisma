@@ -1,0 +1,22 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider = "node ./dist/index.js"
+    output   = "../../__tests__/212.svg"
+    erdDebug = true
+}
+
+model User {
+    id    Int     @id @default(autoincrement())
+    email String  @unique
+    name  String?
+    Test  String? @map("2.1.2")
+}
+
+// enum Version {
+//     TwoOneOne @map("2.1.1")
+//     TwoTwo    @map("2.2")
+// }
