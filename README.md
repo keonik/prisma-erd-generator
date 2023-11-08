@@ -1,9 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -321,7 +319,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/bcanfield"><img src="https://avatars.githubusercontent.com/u/12603953?v=4?s=100" width="100px;" alt="Brandin Canfield"/><br /><sub><b>Brandin Canfield</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=bcanfield" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://scrapbox.io/mrsekut-p/"><img src="https://avatars.githubusercontent.com/u/24796587?v=4?s=100" width="100px;" alt="kota marusue"/><br /><sub><b>kota marusue</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=mrsekut" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shiralwz"><img src="https://avatars.githubusercontent.com/u/6162142?v=4?s=100" width="100px;" alt="Lucia"/><br /><sub><b>Lucia</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Ashiralwz" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.halostatue.ca/"><img src="https://avatars.githubusercontent.com/u/11361?v=4?s=100" width="100px;" alt="Austin Ziegler"/><br /><sub><b>Austin Ziegler</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=halostatue" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/halostatue"><img src="https://avatars.githubusercontent.com/u/11361?v=4?s=100" width="100px;" alt="Austin Ziegler"/><br /><sub><b>Austin Ziegler</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=halostatue" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dawnmist"><img src="https://avatars.githubusercontent.com/u/5810277?v=4?s=100" width="100px;" alt="Janeene Beeforth"/><br /><sub><b>Janeene Beeforth</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=dawnmist" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
