@@ -189,6 +189,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "dawnmist",
+      "name": "Janeene Beeforth",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5810277?v=4",
+      "profile": "https://github.com/dawnmist",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
