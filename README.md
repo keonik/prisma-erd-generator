@@ -95,6 +95,22 @@ generator erd {
 }
 ```
 
+#### Use with yarn 3+
+
+Yarn 3+ doesn't create a `node_modules/.bin` directory for scripts when using the `pnp` or `pnpm` nodeLinkers ([see yarn documentation here](https://yarnpkg.com/migration/pnp#what-to-look-for)). It instead makes scripts available directly from the package.json file using `yarn <script_name>`, which means that there won't be an `mmdc` file created at all. This issue can be solved by creating your own shell script named `mmdc` inside your project's files that runs `yarn mmdc` (note: this shell script does not need to be added to your package.json file's scripts section - prisma-erd-generatr will access this script directly).
+
+An example `mmdc` script:
+
+```sh
+#!/bin/bash
+
+# $@ passes the parameters that this mmdc script was run with along to the mermaid cli
+yarn mmdc $@
+
+```
+
+Make this `mmdc` script executable by using the command `chmod +x mmdc`, then set the `mmdcPath` option to point to the directory where the `mmdc` file you've just created is stored.
+
 ### Disabled
 
 You won't always need to generate a new ERD. For instance, when you are building your docker containers you often run `prisma generate` and if this generator is included, odds are you aren't relying on an updated ERD inside your docker container. It also adds additional space to the container because of dependencies such as puppeteer. There are two ways to disable this ERD generator.
