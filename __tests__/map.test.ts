@@ -1,11 +1,12 @@
-import { DML, DMLModel, mapPrismaToDb } from '../src/generate';
-import * as child_process from 'child_process';
+import type { DML, DMLModel } from '../src/types/dml'
+import { mapPrismaToDb } from '../src/generate'
+import * as child_process from 'node:child_process'
 
 test('@map', async () => {
     const model = `model User {
       id              Int                 @id @default(autoincrement())
       hashedPassword  String?             @map("hashed_password")
-    }`;
+    }`
     const dmlModels: DMLModel[] = [
         {
             dbName: null,
@@ -40,9 +41,9 @@ test('@map', async () => {
                 },
             ],
         },
-    ];
+    ]
 
-    const mapTest = mapPrismaToDb(dmlModels, model);
+    const mapTest = mapPrismaToDb(dmlModels, model)
 
     expect(mapTest).toEqual([
         {
@@ -78,28 +79,28 @@ test('@map', async () => {
                 },
             ],
         },
-    ]);
-});
+    ])
+})
 
 test('map e2e', async () => {
-    const fileName = 'Mappings.svg';
-    const folderName = '__tests__';
-    child_process.execSync(`rm -f ${folderName}/${fileName}`);
-    child_process.execSync(`prisma generate --schema ./prisma/mappings.prisma`);
-    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
+    const fileName = 'Mappings.svg'
+    const folderName = '__tests__'
+    child_process.execSync(`rm -f ${folderName}/${fileName}`)
+    child_process.execSync('prisma generate --schema ./prisma/mappings.prisma')
+    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`)
     // did it generate a file
-    expect(listFile.toString()).toContain(fileName);
+    expect(listFile.toString()).toContain(fileName)
 
     const svgAsString = child_process
         .execSync(`cat ${folderName}/${fileName}`)
-        .toString();
+        .toString()
     // did it generate a file with the correct content
-    expect(svgAsString).toContain(`<svg`);
+    expect(svgAsString).toContain('<svg')
 
-    expect(svgAsString).toContain(`users`);
-    expect(svgAsString).toContain(`nick_name`);
-    expect(svgAsString).toContain(`created_at`);
-    expect(svgAsString).toContain(`updated_at`);
-    expect(svgAsString).toContain(`posts`);
-    expect(svgAsString).toContain(`title`);
-});
+    expect(svgAsString).toContain('users')
+    expect(svgAsString).toContain('nick_name')
+    expect(svgAsString).toContain('created_at')
+    expect(svgAsString).toContain('updated_at')
+    expect(svgAsString).toContain('posts')
+    expect(svgAsString).toContain('title')
+})

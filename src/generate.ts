@@ -1,43 +1,43 @@
-import { GeneratorOptions } from '@prisma/generator-helper';
-import * as path from 'path';
-import * as child_process from 'child_process';
-import fs from 'fs';
-import os from 'os';
-import * as dotenv from 'dotenv';
-import { Configuration as PuppeteerConfiguration } from 'puppeteer';
-import { PrismaERDConfig } from 'types/generator';
-import {
+import type { GeneratorOptions } from '@prisma/generator-helper'
+import * as path from 'node:path'
+import * as child_process from 'node:child_process'
+import fs from 'node:fs'
+import os from 'node:os'
+import * as dotenv from 'dotenv'
+import type { Configuration as PuppeteerConfiguration } from 'puppeteer'
+import type { PrismaERDConfig } from 'types/generator'
+import type {
     DML,
     DMLRendererOptions,
     DMLEnum,
     DMLModel,
     DMLField,
-} from 'types/dml';
-import { MermaidConfig } from 'mermaid';
+} from 'types/dml'
+import type { MermaidConfig } from 'mermaid'
 
-dotenv.config(); // Load the environment variables
+dotenv.config() // Load the environment variables
 
 function getDataModelFieldWithoutParsing(parsed: string) {
-    const startOfField = parsed.indexOf('"datamodel"');
-    const openingBracket = parsed.indexOf('{', startOfField);
+    const startOfField = parsed.indexOf('"datamodel"')
+    const openingBracket = parsed.indexOf('{', startOfField)
 
-    let numberOfOpeningBrackets = 0;
-    let closingBracket = openingBracket;
+    let numberOfOpeningBrackets = 0
+    let closingBracket = openingBracket
     while (closingBracket < parsed.length) {
-        const char = parsed[closingBracket++];
+        const char = parsed[closingBracket++]
 
         if (char === '{') {
-            numberOfOpeningBrackets++;
+            numberOfOpeningBrackets++
         } else if (char === '}') {
-            numberOfOpeningBrackets--;
+            numberOfOpeningBrackets--
 
             if (numberOfOpeningBrackets === 0) {
-                break;
+                break
             }
         }
     }
 
-    return parsed.slice(openingBracket, closingBracket);
+    return parsed.slice(openingBracket, closingBracket)
 }
 
 export async function parseDatamodel(
@@ -49,27 +49,29 @@ export async function parseDatamodel(
     // string to new file but logic for finding correct schema.prisma in
     // monorepos and containers can be tricky (see Prisma issue log) so safer
     // to rely on given content
-    const tmpSchema = path.resolve(path.join(tmpDir, 'schema.prisma'));
+    const tmpSchema = path.resolve(path.join(tmpDir, 'schema.prisma'))
 
-    fs.writeFileSync(tmpSchema, model);
+    fs.writeFileSync(tmpSchema, model)
 
     const parsed: string = await new Promise((resolve, reject) => {
         const process = child_process.exec(
             `"${engine}" --datamodel-path="${tmpSchema}" cli dmmf`
-        );
-        let output = '';
+        )
+        let output = ''
         process.stderr?.on('data', (l) => {
             if (l.includes('error:')) {
-                reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')));
+                reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')))
             }
-        });
-        process.stdout?.on('data', (d) => (output += d));
+        })
+        process.stdout?.on('data', (d) => {
+            output += d
+        })
         process.on('exit', () => {
-            resolve(output);
-        });
-    });
+            resolve(output)
+        })
+    })
 
-    return getDataModelFieldWithoutParsing(parsed);
+    return getDataModelFieldWithoutParsing(parsed)
 }
 
 function renderDml(dml: DML, options?: DMLRendererOptions) {
@@ -78,12 +80,12 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         ignoreEnums = false,
         includeRelationFromFields = false,
         disableEmoji = false,
-    } = options ?? {};
+    } = options ?? {}
 
-    const diagram = 'erDiagram';
+    const diagram = 'erDiagram'
 
     // Combine Models and Types as they are pretty similar
-    const modellikes = dml.models.concat(dml.types);
+    const modellikes = dml.models.concat(dml.types)
     const enums =
         tableOnly || ignoreEnums
             ? ''
@@ -102,10 +104,10 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         }
     `
                   )
-                  .join('\n\n');
+                  .join('\n\n')
 
-    const pkSigil = disableEmoji ? '"PK"' : '"🗝️"';
-    const nullableSigil = disableEmoji ? '"nullable"' : '"❓"';
+    const pkSigil = disableEmoji ? '"PK"' : '"🗝️"'
+    const nullableSigil = disableEmoji ? '"nullable"' : '"❓"'
     const classes = modellikes
         .map(
             (model) =>
@@ -125,60 +127,60 @@ ${
                       model.primaryKey?.fields?.includes(field.name)
                           ? pkSigil
                           : ''
-                  }${field.isRequired ? '' : nullableSigil}`;
+                  }${field.isRequired ? '' : nullableSigil}`
               })
               .join('\n')
 }
     }
   `
         )
-        .join('\n\n');
+        .join('\n\n')
 
-    let relationships = '';
+    let relationships = ''
     for (const model of modellikes) {
         for (const field of model.fields) {
-            const isEnum = field.kind === 'enum';
+            const isEnum = field.kind === 'enum'
             if (isEnum && (tableOnly || ignoreEnums)) {
-                continue;
+                continue
             }
 
-            const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`;
-            const thisSide = `"${model.dbName || model.name}"`;
+            const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`
+            const thisSide = `"${model.dbName || model.name}"`
             const otherSide = `"${
                 modellikes.find((ml) => ml.name === field.type)?.dbName ||
                 field.type
-            }"`;
+            }"`
             // normal relations
             if (
                 (field.relationFromFields &&
                     field.relationFromFields.length > 0) ||
                 isEnum
             ) {
-                let thisSideMultiplicity = '||';
+                let thisSideMultiplicity = '||'
                 if (field.isList) {
-                    thisSideMultiplicity = '}o';
+                    thisSideMultiplicity = '}o'
                 } else if (!field.isRequired) {
-                    thisSideMultiplicity = '|o';
+                    thisSideMultiplicity = '|o'
                 }
 
                 const otherModel = modellikes.find(
                     (model) => model.name === otherSide
-                );
+                )
 
                 const otherField = otherModel?.fields.find(
                     ({ relationName }) => relationName === field.relationName
-                );
+                )
 
-                let otherSideMultiplicity = thisSideMultiplicity;
+                const otherSideMultiplicity = thisSideMultiplicity
                 if (otherField?.isList) {
-                    thisSideMultiplicity = 'o{';
+                    thisSideMultiplicity = 'o{'
                 } else if (!otherField?.isRequired) {
-                    thisSideMultiplicity = 'o|';
+                    thisSideMultiplicity = 'o|'
                 }
 
                 relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
                     otherModel?.dbName || otherSide
-                } : "${relationshipName}"\n`;
+                } : "${relationshipName}"\n`
             }
             // many to many
             else if (
@@ -188,78 +190,76 @@ ${
                 field.relationFromFields?.length === 0
                 // && field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`;
+                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`
             }
             // composite types
-            else if (field.kind == 'object') {
+            else if (field.kind === 'object') {
                 const otherSideCompositeType = dml.types.find(
                     (model) =>
                         model.name
                             .replace(/^_/, 'z_') // replace leading underscores
                             .replace(/\s/g, '') // remove spaces === otherSide
-                );
-                console.log(otherSide, otherSideCompositeType);
+                )
+                console.log(otherSide, otherSideCompositeType)
                 if (otherSideCompositeType) {
                     // most logic here is a copy/paste from the normal relation logic
                     // TODO extract and reuse
-                    let thisSideMultiplicity = '||';
+                    let thisSideMultiplicity = '||'
                     if (field.isList) {
-                        thisSideMultiplicity = '}o';
+                        thisSideMultiplicity = '}o'
                     } else if (!field.isRequired) {
-                        thisSideMultiplicity = '|o';
+                        thisSideMultiplicity = '|o'
                     }
 
                     const otherField = otherSideCompositeType?.fields.find(
                         ({ relationName }) =>
                             relationName === field.relationName
-                    );
+                    )
 
-                    let otherSideMultiplicity = thisSideMultiplicity;
+                    const otherSideMultiplicity = thisSideMultiplicity
                     if (otherField?.isList) {
-                        thisSideMultiplicity = 'o{';
+                        thisSideMultiplicity = 'o{'
                     } else if (!otherField?.isRequired) {
-                        thisSideMultiplicity = 'o|';
+                        thisSideMultiplicity = 'o|'
                     }
 
                     relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
                         otherSideCompositeType.dbName || otherSide
-                    } : "${relationshipName}"\n`;
+                    } : "${relationshipName}"\n`
                 }
             }
         }
     }
 
-    return diagram + '\n' + enums + '\n' + classes + '\n' + relationships;
+    return `${diagram}\n${enums}\n${classes}\n${relationships}`
 }
 
 const isFieldShownInSchema =
     (model: DMLModel, includeRelationFromFields: boolean) =>
     (field: DMLField) => {
         if (includeRelationFromFields) {
-            return field.kind !== 'object';
+            return field.kind !== 'object'
         }
 
         return (
             field.kind !== 'object' &&
-            !model.fields.find(
-                ({ relationFromFields }) =>
-                    relationFromFields &&
-                    relationFromFields.includes(field.name)
+            !model.fields.find(({ relationFromFields }) =>
+                relationFromFields?.includes(field.name)
             )
-        );
-    };
+        )
+    }
 
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
         .filter((line) => line.includes('@map') || line.includes('model '))
-        .map((line) => line.trim());
+        .map((line) => line.trim())
 
     return dmlModels.map((model) => {
         return {
             ...model,
             fields: model.fields.map((field) => {
-                let filterStatus: 'None' | 'Match' | 'End' = 'None';
+                let filterStatus: 'None' | 'Match' | 'End' = 'None'
                 // get line with field to \n
                 const lineInDataModel = splitDataModel
                     // filter the current model
@@ -268,111 +268,109 @@ export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
                             filterStatus === 'Match' &&
                             line.includes('model ')
                         ) {
-                            filterStatus = 'End';
+                            filterStatus = 'End'
                         }
                         if (
                             filterStatus === 'None' &&
                             line.includes(`model ${model.name} `)
                         ) {
-                            filterStatus = 'Match';
+                            filterStatus = 'Match'
                         }
-                        return filterStatus === 'Match';
+                        return filterStatus === 'Match'
                     })
                     .find(
                         (line) =>
                             line.includes(`${field.name} `) &&
                             line.includes('@map')
-                    );
+                    )
                 if (lineInDataModel) {
-                    const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g');
-                    const match = regex.exec(lineInDataModel);
+                    const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g')
+                    const match = regex.exec(lineInDataModel)
 
                     if (match?.[1]) {
                         const name = match[1]
                             .replace(/^_/, 'z_') // replace leading underscores
-                            .replace(/\s/g, ''); // remove spaces
+                            .replace(/\s/g, '') // remove spaces
 
-                        field = {
-                            ...field,
-                            name: name,
-                        };
+                        field.name = name
                     }
                 }
 
-                return field;
+                return field
             }),
-        };
-    });
-};
+        }
+    })
+}
 
 export default async (options: GeneratorOptions) => {
     try {
-        const output = options.generator.output?.value || './prisma/ERD.svg';
-        const config = options.generator.config as PrismaERDConfig;
+        const output = options.generator.output?.value || './prisma/ERD.svg'
+        const config = options.generator.config as PrismaERDConfig
 
-        const theme = config.theme || 'forest';
+        const theme: MermaidConfig['theme'] =
+            (config.theme as MermaidConfig['theme']) ?? 'forest'
         let mermaidCliNodePath = path.resolve(
             path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
-        );
-        const tableOnly = config.tableOnly === 'true';
-        const disableEmoji = config.disableEmoji === 'true';
-        const ignoreEnums = config.ignoreEnums === 'true';
+        )
+        const tableOnly = config.tableOnly === 'true'
+        const disableEmoji = config.disableEmoji === 'true'
+        const ignoreEnums = config.ignoreEnums === 'true'
         const includeRelationFromFields =
-            config.includeRelationFromFields === 'true';
+            config.includeRelationFromFields === 'true'
         const disabled =
-            process.env.DISABLE_ERD === 'true' || config.disabled === 'true';
+            process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
-            config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG);
+            config.erdDebug === 'true' || Boolean(process.env.ERD_DEBUG)
 
         if (debug) {
-            console.log('debug mode enabled');
-            console.log('config', config);
+            console.log('debug mode enabled')
+            console.log('config', config)
         }
 
         if (disabled) {
-            return console.log('ERD generator is disabled');
+            return console.log('ERD generator is disabled')
         }
         if (!options.binaryPaths?.queryEngine)
-            throw new Error('no query engine found');
+            throw new Error('no query engine found')
 
         const queryEngine =
             options.binaryPaths?.queryEngine[
                 Object.keys(options.binaryPaths?.queryEngine)[0]
-            ];
+            ]
 
-        const tmpDir = fs.mkdtempSync(os.tmpdir() + path.sep + 'prisma-erd-');
+        const tmpDir = fs.mkdtempSync(`${os.tmpdir() + path.sep}prisma-erd-`)
 
         const datamodelString = await parseDatamodel(
             queryEngine,
             options.datamodel,
             tmpDir
-        );
+        )
         if (!datamodelString) {
-            throw new Error('could not parse datamodel');
+            throw new Error('could not parse datamodel')
         }
 
         if (debug && datamodelString) {
-            fs.mkdirSync(path.resolve('prisma/debug'), { recursive: true });
-            const dataModelFile = path.resolve('prisma/debug/1-datamodel.json');
-            fs.writeFileSync(dataModelFile, datamodelString);
-            console.log(`data model written to ${dataModelFile}`);
+            fs.mkdirSync(path.resolve('prisma/debug'), { recursive: true })
+            const dataModelFile = path.resolve('prisma/debug/1-datamodel.json')
+            fs.writeFileSync(dataModelFile, datamodelString)
+            console.log(`data model written to ${dataModelFile}`)
         }
 
-        let dml: DML = JSON.parse(datamodelString);
+        const dml: DML = JSON.parse(datamodelString)
 
         // updating dml to map to db table and column names (@map && @@map)
-        dml.models = mapPrismaToDb(dml.models, options.datamodel);
+        dml.models = mapPrismaToDb(dml.models, options.datamodel)
 
         // default types to empty array
         if (!dml.types) {
-            dml.types = [];
+            dml.types = []
         }
         if (debug && dml.models) {
             const mapAppliedFile = path.resolve(
                 'prisma/debug/2-datamodel-map-applied.json'
-            );
-            fs.writeFileSync(mapAppliedFile, JSON.stringify(dml, null, 2));
-            console.log(`applied @map to fields written to ${mapAppliedFile}`);
+            )
+            fs.writeFileSync(mapAppliedFile, JSON.stringify(dml, null, 2))
+            console.log(`applied @map to fields written to ${mapAppliedFile}`)
         }
 
         const mermaid = renderDml(dml, {
@@ -380,24 +378,21 @@ export default async (options: GeneratorOptions) => {
             ignoreEnums,
             includeRelationFromFields,
             disableEmoji,
-        });
+        })
         if (debug && mermaid) {
-            const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd');
-            fs.writeFileSync(mermaidFile, mermaid);
-            console.log(`mermaid written to ${mermaidFile}`);
+            const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')
+            fs.writeFileSync(mermaidFile, mermaid)
+            console.log(`mermaid written to ${mermaidFile}`)
         }
 
         if (!mermaid)
-            throw new Error('failed to construct mermaid instance from dml');
+            throw new Error('failed to construct mermaid instance from dml')
 
         if (output.endsWith('.md'))
-            return fs.writeFileSync(
-                output,
-                '```mermaid' + `\n` + mermaid + '```' + `\n`
-            );
+            return fs.writeFileSync(output, `\`\`\`mermaid\n${mermaid}\`\`\`\n`)
 
-        const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'));
-        fs.writeFileSync(tempMermaidFile, mermaid);
+        const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'))
+        fs.writeFileSync(tempMermaidFile, mermaid)
 
         // default config parameters https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/defaultConfig.ts
         const defaultMermaidConfig: MermaidConfig = {
@@ -406,33 +401,33 @@ export default async (options: GeneratorOptions) => {
             er: {
                 useMaxWidth: true,
             },
-            theme: theme,
-        };
-        let mermaidConfig = defaultMermaidConfig;
+            theme,
+        }
+        let mermaidConfig = defaultMermaidConfig
 
         if (config?.mermaidConfig) {
             const importedMermaidConfig = await import(
                 path.resolve(config.mermaidConfig)
-            );
+            )
             if (debug) {
-                console.log('imported mermaid config: ', importedMermaidConfig);
+                console.log('imported mermaid config: ', importedMermaidConfig)
             }
             // merge default config with imported config
             mermaidConfig = {
                 ...defaultMermaidConfig,
                 ...importedMermaidConfig,
-            };
+            }
         }
 
-        const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'));
-        fs.writeFileSync(tempConfigFile, JSON.stringify(mermaidConfig));
+        const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'))
+        fs.writeFileSync(tempConfigFile, JSON.stringify(mermaidConfig))
 
         // Generator option to adjust puppeteer
-        let puppeteerConfig = config.puppeteerConfig;
+        let puppeteerConfig = config.puppeteerConfig
         if (puppeteerConfig && !fs.existsSync(puppeteerConfig)) {
             throw new Error(
                 `Puppeteer config file "${puppeteerConfig}" does not exist`
-            );
+            )
         }
 
         // if no config is provided, use a default
@@ -441,47 +436,47 @@ export default async (options: GeneratorOptions) => {
             // https://github.com/mermaid-js/mermaid-cli/blob/master/puppeteer-config.json
             const tempPuppeteerConfigFile = path.resolve(
                 path.join(tmpDir, 'puppeteerConfig.json')
-            );
-            let executablePath: string | undefined;
-            let puppeteerConfigJson: PuppeteerConfiguration & {
-                args?: string[];
+            )
+            let executablePath: string | undefined
+            const puppeteerConfigJson: PuppeteerConfiguration & {
+                args?: string[]
             } = {
                 logLevel: debug ? 'warn' : 'error',
                 executablePath,
-            };
+            }
             // if MacOS M1/M2, provide your own path to chromium
             if (os.platform() === 'darwin' && os.arch() === 'arm64') {
                 try {
                     const executablePath = child_process
                         .execSync('which chromium')
                         .toString()
-                        .replace('\n', '');
+                        .replace('\n', '')
                     if (!executablePath) {
                         throw new Error(
                             'Could not find chromium executable. Refer to https://github.com/keonik/prisma-erd-generator#issues for next steps.'
-                        );
+                        )
                     }
-                    puppeteerConfigJson.executablePath = executablePath;
-                    puppeteerConfigJson.args = ['--no-sandbox'];
+                    puppeteerConfigJson.executablePath = executablePath
+                    puppeteerConfigJson.args = ['--no-sandbox']
                 } catch (error) {
-                    console.error(error);
+                    console.error(error)
                     console.log(
                         `\nPrisma ERD Generator: Unable to find chromium path for you MacOS arm64 machine. Attempting to use the default at ${executablePath}. To learn more visit https://github.com/keonik/prisma-erd-generator#-arm64-users-\n`
-                    );
-                    executablePath = '/usr/bin/chromium-browser';
+                    )
+                    executablePath = '/usr/bin/chromium-browser'
                 }
             }
             fs.writeFileSync(
                 tempPuppeteerConfigFile,
                 JSON.stringify(puppeteerConfigJson)
-            );
-            puppeteerConfig = tempPuppeteerConfigFile;
+            )
+            puppeteerConfig = tempPuppeteerConfigFile
         }
         if (config.mmdcPath) {
             if (!fs.existsSync(mermaidCliNodePath)) {
                 throw new Error(
                     `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
-                );
+                )
             }
         } else if (!fs.existsSync(mermaidCliNodePath)) {
             const findMermaidCli = child_process
@@ -489,31 +484,28 @@ export default async (options: GeneratorOptions) => {
                 .toString()
                 .split('\n')
                 .filter((path) => path)
-                .pop();
+                .pop()
             if (!findMermaidCli || !fs.existsSync(findMermaidCli)) {
                 throw new Error(
                     `Expected mermaid CLI at \n${mermaidCliNodePath}\n\nor\n${findMermaidCli}\n but this package was not found.`
-                );
-            } else {
-                mermaidCliNodePath = path.resolve(findMermaidCli);
+                )
             }
+            mermaidCliNodePath = path.resolve(findMermaidCli)
         }
 
-        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -c "${tempConfigFile}" -p "${puppeteerConfig}"`;
+        const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -c "${tempConfigFile}" -p "${puppeteerConfig}"`
         if (debug && mermaidCommand)
-            console.log('mermaid command: ', mermaidCommand);
-        child_process.execSync(mermaidCommand, {
-            stdio: 'ignore',
-        });
+            console.log('mermaid command: ', mermaidCommand)
+        child_process.execSync(mermaidCommand)
 
         // throw error if file was not created
         if (!fs.existsSync(output)) {
             throw new Error(
                 `Issue generating ER Diagram. Expected ${output} to be created`
-            );
+            )
         }
     } catch (error) {
-        console.error(error);
-        throw error;
+        console.error(error)
+        throw error
     }
-};
+}

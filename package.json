@@ -1,131 +1,130 @@
 {
-    "version": "1.11.1",
-    "license": "MIT",
-    "main": "./dist/index.js",
-    "typings": "./dist/index.d.ts",
-    "files": [
-        "dist"
-    ],
-    "engines": {
-        "node": ">=14"
+  "version": "1.11.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": "./dist/index.js",
+  "scripts": {
+    "dev": "tsc -p ./tsconfig.tests.json --watch",
+    "test": "jest",
+    "prebuild": "rm -rf dist",
+    "build": " tsc -p .",
+    "prepublish": "npm run build",
+    "release": "git push --follow-tags origin main && npm publish",
+    "standard-version": "standard-version",
+    "update-deps": "npx npm-check-updates -i"
+  },
+  "name": "prisma-erd-generator",
+  "author": "John Fay",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keonik/prisma-erd-generator"
+  },
+  "homepage": "https://github.com/keonik/prisma-erd-generator#prisma-entity-relationship-diagram-generator",
+  "keywords": [
+    "Prisma",
+    "TypeScript",
+    "Mermaid",
+    "Entity Relationship Diagram",
+    "ERD"
+  ],
+  "contributors": [
+    {
+      "url": "https://github.com/boredland",
+      "name": "Jonas Strassel"
     },
-    "bin": "./dist/index.js",
-    "scripts": {
-        "dev": "tsc -p . --watch",
-        "test": "jest",
-        "prebuild": "rm -rf dist",
-        "build": " tsc -p .",
-        "prepublish": "npm run build",
-        "release": "git push --follow-tags origin main && npm publish",
-        "standard-version": "standard-version",
-        "update-deps": "npx npm-check-updates -i"
+    {
+      "url": "https://github.com/heystevegray",
+      "name": "Steve Gray"
     },
-    "name": "prisma-erd-generator",
-    "author": "John Fay",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/keonik/prisma-erd-generator"
+    {
+      "url": "https://github.com/Jason-Abbott",
+      "name": "Jason Abbott"
     },
-    "homepage": "https://github.com/keonik/prisma-erd-generator#prisma-entity-relationship-diagram-generator",
-    "keywords": [
-        "Prisma",
-        "TypeScript",
-        "Mermaid",
-        "Entity Relationship Diagram",
-        "ERD"
-    ],
-    "contributors": [
-        {
-            "url": "https://github.com/boredland",
-            "name": "Jonas Strassel"
-        },
-        {
-            "url": "https://github.com/heystevegray",
-            "name": "Steve Gray"
-        },
-        {
-            "url": "https://github.com/Jason-Abbott",
-            "name": "Jason Abbott"
-        },
-        {
-            "url": "https://github.com/jsbrain",
-            "name": "Manuel Maute"
-        },
-        {
-            "url": "https://github.com/homerjam",
-            "name": "James Homer"
-        },
-        {
-            "url": "https://github.com/janpio",
-            "name": "Jan Piotrowski"
-        },
-        {
-            "url": "https://github.com/lukevers",
-            "name": "Luke Evers"
-        },
-        {
-            "url": "https://github.com/ripry",
-            "name": "rikuyam"
-        },
-        {
-            "url": "https://github.com/francismanansala",
-            "name": "Francis Manansala"
-        },
-        {
-            "url": "https://github.com/Vitalii4as",
-            "name": "Vitalii Yarmus"
-        },
-        {
-            "url": "https://github.com/balzafin",
-            "name": "Petri Julkunen"
-        },
-        {
-            "url": "https://github.com/dznbk",
-            "name": "D-PONTARO"
-        },
-        {
-            "url": "https://github.com/stephenramthun",
-            "name": "Stephen Ramthun"
-        },
-        {
-            "url": "https://github.com/maxijonson",
-            "name": "Tristan Chin"
-        },
-        {
-            "url": "https://github.com/bcanfield",
-            "name": "Brandin Canfield"
-        }
-    ],
-    "devDependencies": {
-        "@babel/core": "^7.23.3",
-        "@babel/preset-env": "^7.23.3",
-        "@babel/preset-typescript": "^7.23.3",
-        "@semantic-release/commit-analyzer": "^11.1.0",
-        "@semantic-release/github": "^9.2.3",
-        "@semantic-release/npm": "^11.0.1",
-        "@semantic-release/release-notes-generator": "^12.1.0",
-        "@types/jest": "^29.5.10",
-        "all-contributors-cli": "^6.26.1",
-        "babel-jest": "^29.7.0",
-        "concurrently": "^8.2.2",
-        "cross-env": "^7.0.3",
-        "jest": "^29.7.0",
-        "mermaid": "^10.6.1",
-        "prettier": "3.1.0",
-        "prisma": "^4.0.0 || ^5.0.0",
-        "puppeteer": "^21.5.2",
-        "semantic-release": "^22.0.8",
-        "standard-version": "^9.5.0",
-        "tslib": "^2.6.2",
-        "typescript": "^5.3.2"
+    {
+      "url": "https://github.com/jsbrain",
+      "name": "Manuel Maute"
     },
-    "dependencies": {
-        "@mermaid-js/mermaid-cli": "^10.6.1",
-        "@prisma/generator-helper": "^4.0.0 || ^5.0.0",
-        "dotenv": "^16.3.1"
+    {
+      "url": "https://github.com/homerjam",
+      "name": "James Homer"
     },
-    "peerDependencies": {
-        "@prisma/client": "^4.0.0 || ^5.0.0"
+    {
+      "url": "https://github.com/janpio",
+      "name": "Jan Piotrowski"
     },
-    "packageManager": "yarn@3.2.2"
+    {
+      "url": "https://github.com/lukevers",
+      "name": "Luke Evers"
+    },
+    {
+      "url": "https://github.com/ripry",
+      "name": "rikuyam"
+    },
+    {
+      "url": "https://github.com/francismanansala",
+      "name": "Francis Manansala"
+    },
+    {
+      "url": "https://github.com/Vitalii4as",
+      "name": "Vitalii Yarmus"
+    },
+    {
+      "url": "https://github.com/balzafin",
+      "name": "Petri Julkunen"
+    },
+    {
+      "url": "https://github.com/dznbk",
+      "name": "D-PONTARO"
+    },
+    {
+      "url": "https://github.com/stephenramthun",
+      "name": "Stephen Ramthun"
+    },
+    {
+      "url": "https://github.com/maxijonson",
+      "name": "Tristan Chin"
+    },
+    {
+      "url": "https://github.com/bcanfield",
+      "name": "Brandin Canfield"
+    }
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@biomejs/biome": "1.9.4",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "@types/jest": "^29.5.14",
+    "all-contributors-cli": "^6.26.1",
+    "babel-jest": "^29.7.0",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "mermaid": "^11.4.1",
+    "prisma": "^6.2.1",
+    "puppeteer": "^24.1.0",
+    "semantic-release": "^24.2.1",
+    "standard-version": "^9.5.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.4.2",
+    "@prisma/generator-helper": "^6.2.1",
+    "dotenv": "^16.4.7"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^4.0.0 || ^5.0.0 || ^6.0.0"
+  }
 }
