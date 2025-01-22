@@ -4,29 +4,28 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, alpha, beta]
+    branches: [main, alpha]
 
 jobs:
   smoke-test:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        node: ["18", "20", "22"]
-
+        node-version: ["18", "20", "22"]
     runs-on: ${{ matrix.os }}
-
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: ${{ matrix.node }}
-          cache: "npm"
-
-      - name: install
-        run: |
-          pnpm i
-
+          version: 10
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
       - name: build
         run: |
           pnpm build
