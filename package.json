@@ -112,7 +112,7 @@
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "mermaid": "^11.4.1",
-    "prisma": "^6.2.1",
+    "prisma": "^5.0.0 || ^6.0.0",
     "puppeteer": "^24.1.0",
     "semantic-release": "^24.2.1",
     "standard-version": "^9.5.0",
@@ -121,10 +121,10 @@
   },
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.4.2",
-    "@prisma/generator-helper": "^6.2.1",
+    "@prisma/generator-helper": "^5.0.0 || ^6.0.0",
     "dotenv": "^16.4.7"
   },
   "peerDependencies": {
-    "@prisma/client": "^4.0.0 || ^5.0.0 || ^6.0.0"
+    "@prisma/client": "^5.0.0 || ^6.0.0"
   }
 }

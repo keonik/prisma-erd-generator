@@ -1,36 +1,36 @@
 name: smoke test
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main, alpha, beta]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, alpha, beta]
 
 jobs:
-    smoke-test:
-        strategy:
-            matrix:
-                os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-                node: ['16', '18']
+  smoke-test:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        node: ["18", "20", "22"]
 
-        runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-        steps:
-            - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node }}
-                  cache: 'npm'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
 
-            - name: install
-              run: |
-                  npm i
+      - name: install
+        run: |
+          pnpm i
 
-            - name: build
-              run: |
-                  npm run build
+      - name: build
+        run: |
+          pnpm build
 
-            - name: test
-              run: |
-                  npm run test
+      - name: test
+        run: |
+          pnpm test
