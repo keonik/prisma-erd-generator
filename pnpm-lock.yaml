@@ -12,10 +12,10 @@ importers:
         specifier: ^11.4.2
         version: 11.4.2(puppeteer@24.1.0(typescript@5.7.3))(typescript@5.7.3)
       '@prisma/client':
-        specifier: ^4.0.0 || ^5.0.0 || ^6.0.0
+        specifier: ^5.0.0 || ^6.0.0
         version: 6.2.1(prisma@6.2.1)
       '@prisma/generator-helper':
-        specifier: ^6.2.1
+        specifier: ^5.0.0 || ^6.0.0
         version: 6.2.1
       dotenv:
         specifier: ^16.4.7
@@ -67,7 +67,7 @@ importers:
         specifier: ^11.4.1
         version: 11.4.1
       prisma:
-        specifier: ^6.2.1
+        specifier: ^5.0.0 || ^6.0.0
         version: 6.2.1
       puppeteer:
         specifier: ^24.1.0

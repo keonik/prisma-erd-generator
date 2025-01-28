@@ -1,4 +1,4 @@
-name: smoke test
+name: CI
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        node-version: ["18", "20", "22"]
+        node-version: ["20", "22"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -25,11 +25,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --lockfile-only
       - name: build
-        run: |
-          pnpm build
-
+        run: pnpm build
       - name: test
-        run: |
-          pnpm test
+        run: pnpm test
