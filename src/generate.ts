@@ -5,14 +5,14 @@ import fs from 'node:fs'
 import os from 'node:os'
 import * as dotenv from 'dotenv'
 import type { Configuration as PuppeteerConfiguration } from 'puppeteer'
-import type { PrismaERDConfig } from 'types/generator'
+import type { PrismaERDConfig } from '@/types/generator'
 import type {
     DML,
     DMLRendererOptions,
     DMLEnum,
     DMLModel,
     DMLField,
-} from 'types/dml'
+} from '@/types/dml'
 import type { MermaidConfig } from 'mermaid'
 
 dotenv.config() // Load the environment variables
@@ -330,14 +330,12 @@ export default async (options: GeneratorOptions) => {
         if (disabled) {
             return console.log('ERD generator is disabled')
         }
-        if (!options.binaryPaths?.queryEngine)
+
+        const queryEngines = Object.values(options.binaryPaths?.queryEngine || {})
+        if (!queryEngines[0])
             throw new Error('no query engine found')
 
-        const queryEngine =
-            options.binaryPaths?.queryEngine[
-                Object.keys(options.binaryPaths?.queryEngine)[0]
-            ]
-
+        const queryEngine = queryEngines[0]
         const tmpDir = fs.mkdtempSync(`${os.tmpdir() + path.sep}prisma-erd-`)
 
         const datamodelString = await parseDatamodel(

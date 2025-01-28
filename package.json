@@ -1,22 +1,32 @@
 {
   "version": "1.11.1",
   "license": "MIT",
-  "main": "./dist/src/index.js",
-  "typings": "./dist/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": "./dist/index.cjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "engines": {
     "node": ">=18"
   },
-  "bin": "./dist/src/index.js",
   "scripts": {
+    "ci:publish": "pnpm build && changeset publish --access public",
     "dev": "tsc -p ./tsconfig.tests.json --watch",
     "test": "vitest",
     "prebuild": "rm -rf dist",
-    "build": " tsc -p .",
+    "build": "tsup src",
     "prepublish": "npm run build",
-    "release": "git push --follow-tags origin main && npm publish",
+    "release": "changeset",
     "standard-version": "standard-version",
     "update-deps": "npx npm-check-updates -i"
   },
@@ -97,23 +107,17 @@
     }
   ],
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "@babel/preset-typescript": "^7.26.0",
     "@biomejs/biome": "1.9.4",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/npm": "^12.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.3",
+    "@changesets/cli": "^2.27.12",
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "mermaid": "^11.4.1",
-    "prisma": "^5.0.0 || ^6.0.0",
-    "puppeteer": "^24.1.0",
-    "semantic-release": "^24.2.1",
+    "prisma": "^6.3.0",
+    "puppeteer": "^23.11.1",
     "standard-version": "^9.5.0",
     "tslib": "^2.8.1",
+    "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vitest": "^3.0.4"
   },

@@ -1,5 +1,5 @@
 generator erd {
-  provider = "node ./dist/src/index.js"
+  provider = "node ./dist//index.cjs"
   output   = "../../__tests__/36.png"
 }
 

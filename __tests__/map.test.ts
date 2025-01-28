@@ -1,4 +1,4 @@
-import type { DML, DMLModel } from '../src/types/dml'
+import type {  DMLModel } from '../types/dml'
 import { mapPrismaToDb } from '../src/generate'
 import * as child_process from 'node:child_process';
 import { test, expect } from 'vitest';
