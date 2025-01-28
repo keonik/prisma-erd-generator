@@ -10,11 +10,7 @@ export default defineConfig({
         ],
         exclude: ['/node_modules'],
     },
-    browser: {
-      enabled: true,
-      headless: true,
-    },
-    environment: 'node',
-    
+    testTimeout: 10000,
+    fileParallelism: true,
   },
 })
