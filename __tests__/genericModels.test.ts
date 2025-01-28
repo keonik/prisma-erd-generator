@@ -1,4 +1,5 @@
-import * as child_process from 'node:child_process'
+import * as child_process from 'node:child_process';
+import { test, expect } from 'vitest';
 
 test('schema.prisma', async () => {
     child_process.execSync('rm -f ERD.svg')

@@ -7,7 +7,7 @@ datasource db {
 }
 
 generator erd {
-    provider = "node ./dist/index.js"
+    provider = "node ./dist/src/index.js"
     output   = "../__tests__/nullables.svg"
 }
 

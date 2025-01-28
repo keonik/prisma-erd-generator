@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-        "skipLibCheck": true,
-        "target": "es2019",
-        "baseUrl": "src",
-        "outDir": "dist",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "lib": ["es2019", "dom"],
-        "strict": true,
-        "esModuleInterop": true,
-        "declaration": true,
-        "paths": {
-            "@/*": ["./*"]
-        }
-    },
-    "exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "target": "es2019",
+    "baseUrl": "src",
+    "outDir": "dist",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom"],
+    "strict": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
 }

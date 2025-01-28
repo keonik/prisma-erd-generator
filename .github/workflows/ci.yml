@@ -26,6 +26,10 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --lockfile-only
+      - name: Print Node.js and pnpm versions
+        run: |
+          node -v
+          pnpm -v
       - name: build
         run: pnpm build
       - name: test

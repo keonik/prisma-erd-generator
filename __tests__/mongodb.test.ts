@@ -1,4 +1,5 @@
-import * as child_process from 'node:child_process'
+import * as child_process from 'node:child_process';
+import { test, expect } from 'vitest';
 
 test('mongodb.prisma', async () => {
     const fileName = 'MongoDB.svg'

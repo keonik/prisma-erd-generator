@@ -4,7 +4,7 @@ datasource db {
 }
 
 generator erd {
-  provider      = "node ./dist/index.js"
+  provider      = "node ./dist/src/index.js"
   output        = "../ERD.svg"
   theme         = "default"
   mmdcPath      = "node_modules/.bin"

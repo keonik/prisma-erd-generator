@@ -1,4 +1,5 @@
-import * as child_process from 'node:child_process'
+import * as child_process from 'node:child_process';
+import { test, expect } from 'vitest';
 
 test('Support unique names. Starting issue https://github.com/keonik/prisma-erd-generator/issues/127', async () => {
     const fileName = 'unique-names.svg'
