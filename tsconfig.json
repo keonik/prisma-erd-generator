@@ -1,15 +1,7 @@
 {
-    "compilerOptions": {
-        "skipLibCheck": true,
-        "target": "es2019",
-        "baseUrl": "src",
-        "outDir": "dist",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "lib": ["es2019", "dom"],
-        "strict": true,
-        "esModuleInterop": true,
-        "declaration": true
-    },
-    "exclude": ["__tests__", "node_modules", "dist"]
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "composite": false,
+    "rootDir": "."
+  }
 }

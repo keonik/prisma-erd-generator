@@ -12,6 +12,6 @@ const config = {
         useMaxWidth: false,
     },
     theme: 'default',
-};
+}
 
-module.exports = config;
+module.exports = config

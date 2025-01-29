@@ -1,5 +1,5 @@
 generator erd {
-  provider        = "node ./dist/index.js"
+  provider        = "node ./dist//index.cjs"
   output          = "../../__tests__/216.svg"
   puppeteerConfig = "./__tests__/issues/216-puppeteer.config.json"
 }

@@ -1,24 +1,24 @@
-import * as child_process from 'child_process';
+import * as child_process from 'node:child_process';
+import { test, expect } from 'vitest';
 
 test('nullables.prisma', async () => {
-    const fileName = 'nullables.svg';
-    const folderName = '__tests__';
-    child_process.execSync(`rm -f ${folderName}/${fileName}`);
-    child_process.execSync(
-        `prisma generate --schema ./prisma/nullables.prisma`
-    );
-    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
+    const fileName = 'nullables.svg'
+    const folderName = '__tests__'
+    child_process.execSync(`rm -f ${folderName}/${fileName}`)
+    // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+    child_process.execSync(`prisma generate --schema ./prisma/nullables.prisma`)
+    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`)
     // did it generate a file
-    expect(listFile.toString()).toContain(fileName);
+    expect(listFile.toString()).toContain(fileName)
 
     const svgAsString = child_process
         .execSync(`cat ${folderName}/${fileName}`)
-        .toString();
+        .toString()
 
     // did it generate a file with the correct content
-    expect(svgAsString).toContain(`<svg`);
-    expect(svgAsString).toContain(`❓`);
-    expect(svgAsString).toContain(`inviteeEmail`);
-    expect(svgAsString).toContain(`cancelCode`);
-    expect(svgAsString).toContain(`name`);
-});
+    expect(svgAsString).toContain('<svg')
+    expect(svgAsString).toContain('❓')
+    expect(svgAsString).toContain('inviteeEmail')
+    expect(svgAsString).toContain('cancelCode')
+    expect(svgAsString).toContain('name')
+})

@@ -7,7 +7,7 @@ datasource db {
 }
 
 generator erd {
-    provider     = "node ./dist/index.js"
+    provider     = "node ./dist//index.cjs"
     output       = "../__tests__/disableEmoji.svg"
     theme        = "forest"
     disableEmoji = true

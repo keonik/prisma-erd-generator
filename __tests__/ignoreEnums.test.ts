@@ -1,36 +1,37 @@
-import * as child_process from 'child_process';
+import * as child_process from 'node:child_process';
+import { test, expect } from 'vitest';
 
 test('ignore-enums.prisma', async () => {
-    const fileName = 'ignoreEnums.svg';
-    const folderName = '__tests__';
-    child_process.execSync(`rm -f ${folderName}/${fileName}`);
+    const fileName = 'ignoreEnums.svg'
+    const folderName = '__tests__'
+    child_process.execSync(`rm -f ${folderName}/${fileName}`)
     child_process.execSync(
-        `prisma generate --schema ./prisma/ignore-enums.prisma`
-    );
-    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`);
+        'prisma generate --schema ./prisma/ignore-enums.prisma'
+    )
+    const listFile = child_process.execSync(`ls -la ${folderName}/${fileName}`)
     // did it generate a file
-    expect(listFile.toString()).toContain(fileName);
+    expect(listFile.toString()).toContain(fileName)
 
     const svgAsString = child_process
         .execSync(`cat ${folderName}/${fileName}`)
-        .toString();
+        .toString()
 
     // did it generate a file without enum
-    expect(svgAsString).toContain(`<svg`);
+    expect(svgAsString).toContain('<svg')
     // include tables
-    expect(svgAsString).toContain(`Booking`);
-    expect(svgAsString).toContain(`Event`);
+    expect(svgAsString).toContain('Booking')
+    expect(svgAsString).toContain('Event')
     // incluse table columns
-    expect(svgAsString).toContain(`name`);
-    expect(svgAsString).toContain(`startDate`);
-    expect(svgAsString).toContain(`status`);
-    expect(svgAsString).toContain(`inviteeEmail`);
-    expect(svgAsString).toContain(`startDateUTC`);
-    expect(svgAsString).toContain(`cancelCode`);
+    expect(svgAsString).toContain('name')
+    expect(svgAsString).toContain('startDate')
+    expect(svgAsString).toContain('status')
+    expect(svgAsString).toContain('inviteeEmail')
+    expect(svgAsString).toContain('startDateUTC')
+    expect(svgAsString).toContain('cancelCode')
     // include enum names
-    expect(svgAsString).toContain(`Status`);
+    expect(svgAsString).toContain('Status')
     // exclude enums
-    expect(svgAsString).not.toContain(`PENDING`);
-    expect(svgAsString).not.toContain(`CONFIRMED`);
-    expect(svgAsString).not.toContain(`CANCELLED`);
-});
+    expect(svgAsString).not.toContain('PENDING')
+    expect(svgAsString).not.toContain('CONFIRMED')
+    expect(svgAsString).not.toContain('CANCELLED')
+})
