@@ -1,6 +1,7 @@
 {
   "version": "2.0.0",
   "license": "MIT",
+  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
