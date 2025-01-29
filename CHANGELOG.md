@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+### Patch Changes
+
+- 48c2882: Revert back to commonjs
+
 ## 2.0.0
 
 ### Major Changes
