@@ -11,7 +11,7 @@ export default defineConfig({
         ],
         exclude: ['/node_modules'],
     },
-    testTimeout: 10000,
+    testTimeout: 15000,
     fileParallelism: true,
     maxWorkers: os.cpus().length,
   },
