@@ -335,7 +335,7 @@ export default async (options: GeneratorOptions) => {
         if (!queryEngines[0])
             throw new Error('no query engine found')
 
-        const queryEngine = path.resolve(queryEngines[0])
+        const queryEngine = queryEngines[0]
         const tmpDir = fs.mkdtempSync(`${os.tmpdir() + path.sep}prisma-erd-`)
 
         const datamodelString = await parseDatamodel(
