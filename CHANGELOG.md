@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+
+### Patch Changes
+
+- b438731: CommonJS bin file connection
+
 ## 2.0.1
 
 ### Patch Changes
