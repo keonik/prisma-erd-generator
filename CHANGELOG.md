@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- 94e16d6: Point bin and main files to commonjs
+
+## 2.0.1
+
+### Patch Changes
+
 - 48c2882: Revert back to commonjs
 
 ## 2.0.0
