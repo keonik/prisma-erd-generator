@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1",
+  "version": "2.0.0",
   "license": "MIT",
   "type": "commonjs",
   "exports": {
@@ -9,8 +9,8 @@
       "require": "./dist/index.cjs"
     }
   },
-  "bin": "./dist/index.mjs",
-  "main": "dist/index.mjs",
+  "bin": "./dist/index.cjs",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
