@@ -1,17 +1,14 @@
 {
-  "version": "2.0.2",
+  "version": "2.0.3",
   "license": "MIT",
-  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
-  "bin": "./dist/index.cjs",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "bin": "./dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

@@ -5,10 +5,10 @@ export default defineConfig({
   splitting: false,
   clean: true,
   dts: true,
-  format: ["cjs", "esm"],
+  format: ["cjs", "esm", 'iife'],
   outExtension({ format }) {
     return {
-      js: format === "cjs" ? ".cjs" : ".mjs",
+      js: format === "cjs" ? ".cjs" : ".js",
     };
   },
 });
