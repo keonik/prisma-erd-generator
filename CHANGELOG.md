@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4
+
+### Patch Changes
+
+- 464d8b9: Rename .mjs files to .js for binary references to work within prisma generator calls
+
 ## 2.0.2
 
 ### Patch Changes
