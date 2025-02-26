@@ -32,7 +32,8 @@ npx prisma generate
 
 ## Versions
 
--   Prisma >= 4 use 1.x.x
+-   Prisma >=5 use 2.x.x
+-   Prisma = 4 use 1.x.x
 -   Prisma <4 use 0.11.x
 
 ## Options
