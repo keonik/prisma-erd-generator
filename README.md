@@ -288,6 +288,10 @@ This can be fixed by either:
     PUPPETEER_EXECUTABLE_PATH=path_to_your_chromium
     ```
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=keonik/prisma-erd-generator&type=Date)](https://star-history.com/#keonik/prisma-erd-generator&Date)
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
