@@ -9,9 +9,9 @@ Prisma generator to create an ER Diagram every time you generate your prisma cli
 > Like this tool? [@Skn0tt](https://github.com/Skn0tt) started this effort with his [web app ER diagram generator](https://prisma-erd.simonknott.de/)
 
 ```bash
-npm i -D prisma-erd-generator @mermaid-js/mermaid-cli
+npm i -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
 # or
-yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli
+yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
 ```
 
 Add to your `schema.prisma`
