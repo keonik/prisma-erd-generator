@@ -1,7 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -9,9 +9,9 @@ Prisma generator to create an ER Diagram every time you generate your prisma cli
 > Like this tool? [@Skn0tt](https://github.com/Skn0tt) started this effort with his [web app ER diagram generator](https://prisma-erd.simonknott.de/)
 
 ```bash
-npm i -D prisma-erd-generator @mermaid-js/mermaid-cli
+npm i -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
 # or
-yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli
+yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
 ```
 
 Add to your `schema.prisma`
@@ -326,6 +326,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shiralwz"><img src="https://avatars.githubusercontent.com/u/6162142?v=4?s=100" width="100px;" alt="Lucia"/><br /><sub><b>Lucia</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Ashiralwz" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/halostatue"><img src="https://avatars.githubusercontent.com/u/11361?v=4?s=100" width="100px;" alt="Austin Ziegler"/><br /><sub><b>Austin Ziegler</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=halostatue" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dawnmist"><img src="https://avatars.githubusercontent.com/u/5810277?v=4?s=100" width="100px;" alt="Janeene Beeforth"/><br /><sub><b>Janeene Beeforth</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=dawnmist" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/RedEagle-dh"><img src="https://avatars.githubusercontent.com/u/74351972?v=4?s=100" width="100px;" alt="RedEagle"/><br /><sub><b>RedEagle</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=RedEagle-dh" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
