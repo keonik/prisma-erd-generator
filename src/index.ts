@@ -6,8 +6,13 @@ const disabled = process.env.DISABLE_ERD === 'true'
 
 import { readFileSync } from 'fs';
 
-const packageJsonPath = 'package.json';
-const packageJsonData = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+let packageJsonData;
+try {
+    packageJsonData = JSON.parse(readFileSync('package.json', 'utf-8'));
+} catch (e) {
+    console.error(e);
+    packageJsonData = { version: "1.0.0" };
+}
 
 generatorHandler({
     onManifest: () => ({
