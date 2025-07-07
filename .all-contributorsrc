@@ -1,164 +1,225 @@
 {
-    "projectName": "prisma-erd-generator",
-    "projectOwner": "keonik",
-    "repoType": "github",
-    "repoHost": "https://github.com",
-    "files": ["README.md"],
-    "imageSize": 100,
-    "commit": true,
-    "commitConvention": "none",
-    "contributors": [
-        {
-            "login": "keonik",
-            "name": "John Fay",
-            "avatar_url": "https://avatars.githubusercontent.com/u/46365891?v=4",
-            "profile": "https://github.com/keonik",
-            "contributions": ["maintenance", "code", "ideas", "bug"]
-        },
-        {
-            "login": "boredland",
-            "name": "Jonas Strassel",
-            "avatar_url": "https://avatars.githubusercontent.com/u/4662748?v=4",
-            "profile": "https://jonas-strassel.de/",
-            "contributions": ["bug", "code"]
-        },
-        {
-            "login": "heystevegray",
-            "name": "Steve Gray",
-            "avatar_url": "https://avatars.githubusercontent.com/u/66500112?v=4",
-            "profile": "https://heystevegray.dev/",
-            "contributions": ["code", "ideas"]
-        },
-        {
-            "login": "Jason-Abbott",
-            "name": "Jason Abbott",
-            "avatar_url": "https://avatars.githubusercontent.com/u/6289308?v=4",
-            "profile": "https://blog.trailimage.com/",
-            "contributions": ["bug", "code"]
-        },
-        {
-            "login": "jsbrain",
-            "name": "Manuel Maute",
-            "avatar_url": "https://avatars.githubusercontent.com/u/20225909?v=4",
-            "profile": "https://bradbit.com/",
-            "contributions": ["bug", "code"]
-        },
-        {
-            "login": "homerjam",
-            "name": "James Homer",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1055769?v=4",
-            "profile": "https://homerjam.es/",
-            "contributions": ["code"]
-        },
-        {
-            "login": "janpio",
-            "name": "Jan Piotrowski",
-            "avatar_url": "https://avatars.githubusercontent.com/u/183673?v=4",
-            "profile": "https://janpiotrowski.de",
-            "contributions": ["bug", "code", "review"]
-        },
-        {
-            "login": "lukevers",
-            "name": "Luke Evers",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1558388?v=4",
-            "profile": "https://lukevers.com/",
-            "contributions": ["code"]
-        },
-        {
-            "login": "ripry",
-            "name": "rikuyam",
-            "avatar_url": "https://avatars.githubusercontent.com/u/59201481?v=4",
-            "profile": "https://github.com/ripry",
-            "contributions": ["code"]
-        },
-        {
-            "login": "francismanansala",
-            "name": "Francis Manansala",
-            "avatar_url": "https://avatars.githubusercontent.com/u/10519099?v=4",
-            "profile": "https://github.com/francismanansala",
-            "contributions": ["bug"]
-        },
-        {
-            "login": "Vitalii4as",
-            "name": "Vitalii Yarmus",
-            "avatar_url": "https://avatars.githubusercontent.com/u/71256742?v=4",
-            "profile": "https://github.com/Vitalii4as",
-            "contributions": ["code"]
-        },
-        {
-            "login": "balzafin",
-            "name": "Petri Julkunen",
-            "avatar_url": "https://avatars.githubusercontent.com/u/4311269?v=4",
-            "profile": "https://github.com/balzafin",
-            "contributions": ["bug"]
-        },
-        {
-            "login": "dznbk",
-            "name": "D-PONTARO",
-            "avatar_url": "https://avatars.githubusercontent.com/u/46421953?v=4",
-            "profile": "https://github.com/dznbk",
-            "contributions": ["code"]
-        },
-        {
-            "login": "stephenramthun",
-            "name": "Stephen Ramthun",
-            "avatar_url": "https://avatars.githubusercontent.com/u/4243438?v=4",
-            "profile": "https://github.com/stephenramthun",
-            "contributions": ["doc"]
-        },
-        {
-            "login": "maxijonson",
-            "name": "Tristan Chin",
-            "avatar_url": "https://avatars.githubusercontent.com/u/23557893?v=4",
-            "profile": "https://www.chintristan.io/",
-            "contributions": ["code"]
-        },
-        {
-            "login": "bcanfield",
-            "name": "Brandin Canfield",
-            "avatar_url": "https://avatars.githubusercontent.com/u/12603953?v=4",
-            "profile": "https://github.com/bcanfield",
-            "contributions": ["code"]
-        },
-        {
-            "login": "mrsekut",
-            "name": "kota marusue",
-            "avatar_url": "https://avatars.githubusercontent.com/u/24796587?v=4",
-            "profile": "https://scrapbox.io/mrsekut-p/",
-            "contributions": ["doc"]
-        },
-        {
-            "login": "shiralwz",
-            "name": "Lucia",
-            "avatar_url": "https://avatars.githubusercontent.com/u/6162142?v=4",
-            "profile": "https://github.com/shiralwz",
-            "contributions": ["bug"]
-        },
-        {
-            "login": "halostatue",
-            "name": "Austin Ziegler",
-            "avatar_url": "https://avatars.githubusercontent.com/u/11361?v=4",
-            "profile": "https://github.com/halostatue",
-            "contributions": ["code"]
-        },
-        {
-            "login": "dawnmist",
-            "name": "Janeene Beeforth",
-            "avatar_url": "https://avatars.githubusercontent.com/u/5810277?v=4",
-            "profile": "https://github.com/dawnmist",
-            "contributions": ["doc"]
-        },
-        {
-          "login": "RedEagle-dh",
-          "name": "RedEagle",
-          "avatar_url": "https://avatars.githubusercontent.com/u/74351972?v=4",
-          "profile": "https://github.com/RedEagle-dh",
-          "contributions": [
-            "doc"
-          ]
-        }
-    ],
-    "contributorsPerLine": 7,
-    "skipCi": true,
-    "commitType": "docs"
+  "projectName": "prisma-erd-generator",
+  "projectOwner": "keonik",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "keonik",
+      "name": "John Fay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46365891?v=4",
+      "profile": "https://github.com/keonik",
+      "contributions": [
+        "maintenance",
+        "code",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "boredland",
+      "name": "Jonas Strassel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4662748?v=4",
+      "profile": "https://jonas-strassel.de/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "heystevegray",
+      "name": "Steve Gray",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66500112?v=4",
+      "profile": "https://heystevegray.dev/",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "Jason-Abbott",
+      "name": "Jason Abbott",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6289308?v=4",
+      "profile": "https://blog.trailimage.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "jsbrain",
+      "name": "Manuel Maute",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20225909?v=4",
+      "profile": "https://bradbit.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "homerjam",
+      "name": "James Homer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1055769?v=4",
+      "profile": "https://homerjam.es/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "janpio",
+      "name": "Jan Piotrowski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/183673?v=4",
+      "profile": "https://janpiotrowski.de",
+      "contributions": [
+        "bug",
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "lukevers",
+      "name": "Luke Evers",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1558388?v=4",
+      "profile": "https://lukevers.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ripry",
+      "name": "rikuyam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59201481?v=4",
+      "profile": "https://github.com/ripry",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "francismanansala",
+      "name": "Francis Manansala",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10519099?v=4",
+      "profile": "https://github.com/francismanansala",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "Vitalii4as",
+      "name": "Vitalii Yarmus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71256742?v=4",
+      "profile": "https://github.com/Vitalii4as",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "balzafin",
+      "name": "Petri Julkunen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4311269?v=4",
+      "profile": "https://github.com/balzafin",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "dznbk",
+      "name": "D-PONTARO",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46421953?v=4",
+      "profile": "https://github.com/dznbk",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "stephenramthun",
+      "name": "Stephen Ramthun",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4243438?v=4",
+      "profile": "https://github.com/stephenramthun",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "maxijonson",
+      "name": "Tristan Chin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23557893?v=4",
+      "profile": "https://www.chintristan.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "bcanfield",
+      "name": "Brandin Canfield",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12603953?v=4",
+      "profile": "https://github.com/bcanfield",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "mrsekut",
+      "name": "kota marusue",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24796587?v=4",
+      "profile": "https://scrapbox.io/mrsekut-p/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "shiralwz",
+      "name": "Lucia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6162142?v=4",
+      "profile": "https://github.com/shiralwz",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "halostatue",
+      "name": "Austin Ziegler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11361?v=4",
+      "profile": "https://github.com/halostatue",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dawnmist",
+      "name": "Janeene Beeforth",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5810277?v=4",
+      "profile": "https://github.com/dawnmist",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "RedEagle-dh",
+      "name": "RedEagle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74351972?v=4",
+      "profile": "https://github.com/RedEagle-dh",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "ianfabs",
+      "name": "Ian Fabs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16561284?v=4",
+      "profile": "https://fabs.dev",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "commitType": "docs"
 }
