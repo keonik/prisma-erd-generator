@@ -1,7 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -327,6 +327,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/halostatue"><img src="https://avatars.githubusercontent.com/u/11361?v=4?s=100" width="100px;" alt="Austin Ziegler"/><br /><sub><b>Austin Ziegler</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=halostatue" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dawnmist"><img src="https://avatars.githubusercontent.com/u/5810277?v=4?s=100" width="100px;" alt="Janeene Beeforth"/><br /><sub><b>Janeene Beeforth</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=dawnmist" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RedEagle-dh"><img src="https://avatars.githubusercontent.com/u/74351972?v=4?s=100" width="100px;" alt="RedEagle"/><br /><sub><b>RedEagle</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=RedEagle-dh" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://fabs.dev"><img src="https://avatars.githubusercontent.com/u/16561284?v=4?s=100" width="100px;" alt="Ian Fabs"/><br /><sub><b>Ian Fabs</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=ianfabs" title="Code">💻</a> <a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Aianfabs" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
