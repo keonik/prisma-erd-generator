@@ -4,14 +4,15 @@ import generate from './generate'
 
 const disabled = process.env.DISABLE_ERD === 'true'
 
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs'
 
-let packageJsonData;
+// biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+let packageJsonData
 try {
-    packageJsonData = JSON.parse(readFileSync('package.json', 'utf-8'));
+    packageJsonData = JSON.parse(readFileSync('package.json', 'utf-8'))
 } catch (e) {
-    console.error(e);
-    packageJsonData = { version: "1.0.0" };
+    console.error(e)
+    packageJsonData = { version: '1.0.0' }
 }
 
 generatorHandler({

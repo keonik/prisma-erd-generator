@@ -190,10 +190,18 @@ ${
                 field.relationFromFields?.length === 0
                 // && field.relationToFields?.length
             ) {
-                relationships += `    ${thisSide} o{--}o ${otherSide} : "${field.name}"\n`
-            }
-            // composite types
-            else if (field.kind === 'object') {
+                // Only render many-to-many once: from the first model in order
+                const otherModel = modellikes.find(
+                    (m) => m.name === field.type || m.dbName === field.type
+                )
+                if (otherModel) {
+                    const thisIndex = modellikes.indexOf(model)
+                    const otherIndex = modellikes.indexOf(otherModel)
+                    if (thisIndex < otherIndex) {
+                        relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`
+                    }
+                }
+            } else if (field.kind === 'object') {
                 const otherSideCompositeType = dml.types.find(
                     (model) =>
                         model.name
@@ -331,9 +339,10 @@ export default async (options: GeneratorOptions) => {
             return console.log('ERD generator is disabled')
         }
 
-        const queryEngines = Object.values(options.binaryPaths?.queryEngine || {})
-        if (!queryEngines[0])
-            throw new Error('no query engine found')
+        const queryEngines = Object.values(
+            options.binaryPaths?.queryEngine || {}
+        )
+        if (!queryEngines[0]) throw new Error('no query engine found')
 
         const queryEngine = queryEngines[0]
         const tmpDir = fs.mkdtempSync(`${os.tmpdir() + path.sep}prisma-erd-`)
