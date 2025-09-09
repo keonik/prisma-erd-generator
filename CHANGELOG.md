@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0
+
+### Minor Changes
+
+- d5717ed: Upgrade mermaid dependency and resolve duplicate many to many connections
+
 ## 2.0.4
 
 ### Patch Changes
