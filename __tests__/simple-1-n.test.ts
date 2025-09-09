@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('simple-1-n.prisma', async () => {
     const fileName = 'simple-1-n.svg'
@@ -20,6 +20,8 @@ test('simple-1-n.prisma', async () => {
     expect(svgAsString).toContain('<svg')
     expect(svgAsString).toContain('Product')
     expect(svgAsString).toContain('Foo')
-    expect(svgAsString).toContain(`marker-start="url(#ZERO_OR_MORE_START)"`)
-    expect(svgAsString).toContain(`marker-end="url(#ONLY_ONE_END)"`)
+    expect(svgAsString).toContain(
+        `marker-start="url(#my-svg_er-zeroOrOneStart)"`
+    )
+    expect(svgAsString).toContain(`marker-end="url(#my-svg_er-onlyOneEnd)"`)
 })

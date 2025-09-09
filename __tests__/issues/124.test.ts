@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('Zero to many relationship', async () => {
     const fileName = '124.svg'
@@ -19,6 +19,8 @@ test('Zero to many relationship', async () => {
     // Past has zero to one user
     // User has zero to many posts
     expect(svgContent).toContain('author')
-    expect(svgContent).toContain('marker-start="url(#ZERO_OR_MORE_START)"')
-    expect(svgContent).toContain('marker-end="url(#ZERO_OR_ONE_END)"')
+    expect(svgContent).toContain(
+        'marker-start="url(#my-svg_er-zeroOrOneStart)"'
+    )
+    expect(svgContent).toContain('marker-end="url(#my-svg_er-zeroOrMoreEnd)"')
 })

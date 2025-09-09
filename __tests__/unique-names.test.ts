@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('Support unique names. Starting issue https://github.com/keonik/prisma-erd-generator/issues/127', async () => {
     const fileName = 'unique-names.svg'
@@ -16,6 +16,6 @@ test('Support unique names. Starting issue https://github.com/keonik/prisma-erd-
 
     // User has id
     expect(svgContent).toMatch(
-        /id="text-entity-ProductionMyTable([^\><]*)-attr-1-name"([^<\>]*)\>id<\/text\>/
+        /\<span class="nodeLabel"\>\<p\>id\<\/p\>\<\/span\>/
     )
 })

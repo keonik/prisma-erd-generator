@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "composite": false,
+    "rootDir": "."
+  },
+  "include": ["src", "test", "vitest.setup.ts"],
+  "exclude": ["node_modules", "dist", "example", "test-fixtures"]
+}

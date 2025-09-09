@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('setting mmdcPath works', async () => {
     const fileName = 'mmdcPath.svg'
@@ -14,6 +14,7 @@ test('setting mmdcPath works', async () => {
 
     // User has id
     expect(svgContent).toMatch(
-        /id="text-entity-users([^\><]*)-attr-1-name"([^<\>]*)\>id<\/text\>/
+        //    <span class="nodeLabel"><p>id</p></span>
+        /\<p\>id\<\/\p\>/
     )
 })

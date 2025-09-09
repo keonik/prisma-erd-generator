@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('many-to-many.prisma', async () => {
     const fileName = 'ManyToMany.svg'
@@ -20,6 +20,8 @@ test('many-to-many.prisma', async () => {
     expect(svgAsString).toContain('<svg')
     expect(svgAsString).toContain('Booking')
     expect(svgAsString).toContain('Event')
-    expect(svgAsString).toContain(`marker-start="url(#ZERO_OR_MORE_START)"`)
-    expect(svgAsString).toContain(`marker-end="url(#ZERO_OR_MORE_END)"`)
+    expect(svgAsString).toContain(
+        `marker-start="url(#my-svg_er-zeroOrMoreStart)"`
+    )
+    expect(svgAsString).toContain(`marker-end="url(#my-svg_er-zeroOrMoreEnd)"`)
 })

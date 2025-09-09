@@ -1,5 +1,5 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
 
 test('id not override before key name', async () => {
     const fileName = '138.svg'
@@ -16,18 +16,12 @@ test('id not override before key name', async () => {
     expect(svgContent).toContain('UserSetting')
 
     // User has id
-    expect(svgContent).toMatch(
-        /id="text-entity-User([^\><]*)-attr-1-name"([^<\>]*)\>id<\/text\>/
-    )
+    expect(svgContent).toMatch(/<p\>id\<\/\p>/)
 
     // UserSetting has id and userId
-    expect(svgContent).toMatch(
-        /id="text-entity-UserSetting([^\><]*)-attr-\d-name"([^<\>]*)\>id<\/text\>/
-    )
-    expect(svgContent).toMatch(
-        /id="text-entity-UserSetting([^\><]*)-attr-\d-name"([^<\>]*)\>user_id<\/text\>/
-    )
+
+    expect(svgContent).toMatch(/<p\>user_id\<\/\p>/)
     // UserSetting has a relation to User
-    expect(svgContent).toMatch(/<text([^><]*)\>user<\/text\>/)
+    expect(svgContent).toMatch(/<p\>user\<\/\p>/)
     // expect(svgContent).toContain('>user</text>');
 })

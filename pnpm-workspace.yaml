@@ -1,0 +1,10 @@
+ignoredBuiltDependencies:
+  - vue-demi
+
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - esbuild
+  - prisma
+  - puppeteer
