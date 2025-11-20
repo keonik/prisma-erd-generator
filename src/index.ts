@@ -19,7 +19,6 @@ generatorHandler({
     onManifest: () => ({
         defaultOutput: disabled ? 'N/A' : 'ERD.svg',
         prettyName: disabled ? 'No ERD' : 'Entity-relationship-diagram',
-        requiresEngines: ['queryEngine'],
         version: packageJsonData?.version,
     }),
     onGenerate: generate,

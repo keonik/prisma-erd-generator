@@ -17,63 +17,6 @@ import type { MermaidConfig } from 'mermaid'
 
 dotenv.config() // Load the environment variables
 
-function getDataModelFieldWithoutParsing(parsed: string) {
-    const startOfField = parsed.indexOf('"datamodel"')
-    const openingBracket = parsed.indexOf('{', startOfField)
-
-    let numberOfOpeningBrackets = 0
-    let closingBracket = openingBracket
-    while (closingBracket < parsed.length) {
-        const char = parsed[closingBracket++]
-
-        if (char === '{') {
-            numberOfOpeningBrackets++
-        } else if (char === '}') {
-            numberOfOpeningBrackets--
-
-            if (numberOfOpeningBrackets === 0) {
-                break
-            }
-        }
-    }
-
-    return parsed.slice(openingBracket, closingBracket)
-}
-
-export async function parseDatamodel(
-    engine: string,
-    model: string,
-    tmpDir: string
-) {
-    // Could theoretically use original file instead of re-writing the option
-    // string to new file but logic for finding correct schema.prisma in
-    // monorepos and containers can be tricky (see Prisma issue log) so safer
-    // to rely on given content
-    const tmpSchema = path.resolve(path.join(tmpDir, 'schema.prisma'))
-
-    fs.writeFileSync(tmpSchema, model)
-
-    const parsed: string = await new Promise((resolve, reject) => {
-        const process = child_process.exec(
-            `"${engine}" --datamodel-path="${tmpSchema}" cli dmmf`
-        )
-        let output = ''
-        process.stderr?.on('data', (l) => {
-            if (l.includes('error:')) {
-                reject(l.slice(l.indexOf('error:'), l.indexOf('\\n')))
-            }
-        })
-        process.stdout?.on('data', (d) => {
-            output += d
-        })
-        process.on('exit', () => {
-            resolve(output)
-        })
-    })
-
-    return getDataModelFieldWithoutParsing(parsed)
-}
-
 function renderDml(dml: DML, options?: DMLRendererOptions) {
     const {
         tableOnly = false,
@@ -339,31 +282,24 @@ export default async (options: GeneratorOptions) => {
             return console.log('ERD generator is disabled')
         }
 
-        const queryEngines = Object.values(
-            options.binaryPaths?.queryEngine || {}
-        )
-        if (!queryEngines[0]) throw new Error('no query engine found')
-
-        const queryEngine = queryEngines[0]
         const tmpDir = fs.mkdtempSync(`${os.tmpdir() + path.sep}prisma-erd-`)
 
-        const datamodelString = await parseDatamodel(
-            queryEngine,
-            options.datamodel,
-            tmpDir
-        )
-        if (!datamodelString) {
-            throw new Error('could not parse datamodel')
+        // Prisma 5–7 pass the already-built DMMF to generators; rely on it instead
+        // of invoking engine binaries (the query engine is removed in Prisma 7).
+        if (!options.dmmf?.datamodel) {
+            throw new Error('Datamodel is missing from generator options')
         }
 
-        if (debug && datamodelString) {
+        const dml: DML = JSON.parse(
+            JSON.stringify(options.dmmf.datamodel)
+        ) as DML
+
+        if (debug && dml) {
             fs.mkdirSync(path.resolve('prisma/debug'), { recursive: true })
             const dataModelFile = path.resolve('prisma/debug/1-datamodel.json')
-            fs.writeFileSync(dataModelFile, datamodelString)
+            fs.writeFileSync(dataModelFile, JSON.stringify(dml, null, 2))
             console.log(`data model written to ${dataModelFile}`)
         }
-
-        const dml: DML = JSON.parse(datamodelString)
 
         // updating dml to map to db table and column names (@map && @@map)
         dml.models = mapPrismaToDb(dml.models, options.datamodel)
