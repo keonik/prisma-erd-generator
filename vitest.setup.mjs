@@ -55,11 +55,15 @@ function prepareSchemaForVersion(schemaPath, version) {
 	const schemaDir = path.dirname(schemaPath);
 	const rawSchema = fs.readFileSync(schemaPath, "utf8");
 	const provider = getProvider(rawSchema);
+	const schemaKey = path
+		.relative(rootDir, schemaPath)
+		.replace(/[\\/]/g, "_")
+		.replace(/\.prisma$/, "") || path.basename(schemaPath, ".prisma");
 
 	const tmpDir = path.join(
 		tmpRoot,
 		`v${version.replace(/\./g, "_")}`,
-		path.basename(schemaPath, ".prisma"),
+		schemaKey,
 	);
 	fs.rmSync(tmpDir, { recursive: true, force: true });
 	fs.mkdirSync(tmpDir, { recursive: true });
