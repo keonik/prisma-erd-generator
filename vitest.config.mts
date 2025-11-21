@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config'
 import os from 'node:os'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
     test: {
@@ -10,7 +10,7 @@ export default defineConfig({
         },
         // Multi-version matrix runs take longer because they shell out to Prisma
         testTimeout: 120000,
-        fileParallelism: true,
+        fileParallelism: process.platform !== 'win32',
         maxWorkers: os.cpus().length,
     },
 })

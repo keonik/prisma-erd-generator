@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import * as child_process from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
+import { pathToFileURL } from "node:url";
 import * as dotenv from 'dotenv'
 import type { Configuration as PuppeteerConfiguration } from 'puppeteer'
 import type { PrismaERDConfig } from '@/types/generator'
@@ -349,9 +350,8 @@ export default async (options: GeneratorOptions) => {
         let mermaidConfig = defaultMermaidConfig
 
         if (config?.mermaidConfig) {
-            const importedMermaidConfig = await import(
-                path.resolve(config.mermaidConfig)
-            )
+            const configPath = path.resolve(config.mermaidConfig)
+            const importedMermaidConfig = await import(pathToFileURL(configPath).href)
             if (debug) {
                 console.log('imported mermaid config: ', importedMermaidConfig)
             }

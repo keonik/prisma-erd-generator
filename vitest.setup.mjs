@@ -2,12 +2,10 @@ import { vi } from "vitest";
 import child_process from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const originalExecSync = child_process.execSync;
-const rootDir = path.resolve(
-	path.dirname(new URL(import.meta.url).pathname),
-	".",
-);
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".");
 const tmpRoot = path.join(rootDir, "tmp", "vitest");
 
 if (process.env.VITEST_DEBUG_SETUP) {
@@ -46,8 +44,7 @@ function stripDatasourceUrl(schema) {
 
 function updateOutputToAbsolute(schema, schemaDir) {
 	return schema.replace(/output\s*=\s*"([^"]+)"/, (_, relative) => {
-		const absolutePath = path.resolve(schemaDir, relative);
-		return `output = "${absolutePath}"`;
+		return `output = "${path.resolve(schemaDir, relative).replace(/\\/g, "/")}"`;
 	});
 }
 
