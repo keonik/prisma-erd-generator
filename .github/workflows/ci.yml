@@ -12,6 +12,7 @@ jobs:
       matrix:
         os: ["ubuntu-22.04", "windows-latest", "macos-latest"]
         node-version: ["20", "22"]
+        prisma-version: ["5.22.0", "6.15.0", "7.0.0"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -34,3 +35,5 @@ jobs:
         run: pnpm build
       - name: test
         run: pnpm test
+        env:
+          PRISMA_TEST_VERSIONS: ${{ matrix.prisma-version }}

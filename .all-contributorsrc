@@ -228,6 +228,17 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "name": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "avatar_url": "https://avatars.githubusercontent.com/u/209283286?v=4",
+      "profile": "https://grmlfolio.vercel.app/",
+      "contributions": [
+        "platform",
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
