@@ -217,6 +217,17 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Soju06",
+      "name": "Soju06",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34199905?v=4",
+      "profile": "http://soju.is/best",
+      "contributions": [
+        "code",
+        "testing",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
