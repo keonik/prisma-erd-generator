@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.0
+
+### Minor Changes
+
+- b8e664d: Prisma v7 support
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ### [2.2.1](https://github.com/keonik/prisma-erd-generator/compare/v2.1.0...v2.2.1) (2025-11-22)
