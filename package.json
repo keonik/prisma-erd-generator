@@ -1,6 +1,6 @@
 {
   "name": "prisma-erd-generator",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "publishConfig": {
     "access": "public",
