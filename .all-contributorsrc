@@ -219,14 +219,25 @@
       ]
     },
     {
-      "login": "Soju06",
-      "name": "Soju06",
-      "avatar_url": "https://avatars.githubusercontent.com/u/34199905?v=4",
-      "profile": "http://soju.is/best",
+      "login": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "name": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "avatar_url": "https://avatars.githubusercontent.com/u/209283286?v=4",
+      "profile": "https://grmlfolio.vercel.app/",
       "contributions": [
+        "platform",
         "code",
-        "testing",
-        "maintenance"
+        "test"
+      ]
+    },
+    {
+      "login": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "name": "grMLEqomlkkU5Eeinz4brIrOVCUCkJuN",
+      "avatar_url": "https://avatars.githubusercontent.com/u/209283286?v=4",
+      "profile": "https://grmlfolio.vercel.app/",
+      "contributions": [
+        "platform",
+        "code",
+        "test"
       ]
     }
   ],
