@@ -1,7 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -330,6 +330,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://fabs.dev"><img src="https://avatars.githubusercontent.com/u/16561284?v=4?s=100" width="100px;" alt="Ian Fabs"/><br /><sub><b>Ian Fabs</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=ianfabs" title="Code">💻</a> <a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Aianfabs" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://soju.is/best"><img src="https://avatars.githubusercontent.com/u/34199905?v=4?s=100" width="100px;" alt="Soju06"/><br /><sub><b>Soju06</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=Soju06" title="Code">💻</a> <a href="#platform-Soju06" title="Packaging/porting to new platform">📦</a> <a href="#maintenance-Soju06" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
