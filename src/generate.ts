@@ -22,6 +22,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const {
         tableOnly = false,
         ignoreEnums = false,
+        ignoreViews = false,
         includeRelationFromFields = false,
         disableEmoji = false,
     } = options ?? {}
@@ -29,7 +30,13 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const diagram = 'erDiagram'
 
     // Combine Models and Types as they are pretty similar
-    const modellikes = dml.models.concat(dml.types)
+    // If ignoreViews is enabled, exclude views from the models
+    let models = dml.models
+    if (ignoreViews && dml.views) {
+        const viewNames = new Set(dml.views.map(v => v.name))
+        models = models.filter(m => !viewNames.has(m.name))
+    }
+    const modellikes = models.concat(dml.types)
     const enums =
         tableOnly || ignoreEnums
             ? ''
@@ -267,6 +274,7 @@ export default async (options: GeneratorOptions) => {
         const tableOnly = config.tableOnly === 'true'
         const disableEmoji = config.disableEmoji === 'true'
         const ignoreEnums = config.ignoreEnums === 'true'
+        const ignoreViews = config.ignoreViews === 'true'
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true'
         const disabled =
@@ -309,6 +317,10 @@ export default async (options: GeneratorOptions) => {
         if (!dml.types) {
             dml.types = []
         }
+        // default views to empty array
+        if (!dml.views) {
+            dml.views = []
+        }
         if (debug && dml.models) {
             const mapAppliedFile = path.resolve(
                 'prisma/debug/2-datamodel-map-applied.json'
@@ -320,6 +332,7 @@ export default async (options: GeneratorOptions) => {
         const mermaid = renderDml(dml, {
             tableOnly,
             ignoreEnums,
+            ignoreViews,
             includeRelationFromFields,
             disableEmoji,
         })

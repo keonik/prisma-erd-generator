@@ -181,6 +181,18 @@ generator erd {
 }
 ```
 
+### Ignore views
+
+If you enable this option, view entities will be hidden.
+This is useful if you want to reduce the number of entities and focus on the tables without displaying all the views.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  ignoreViews = true
+}
+```
+
 ### Include relation from field
 
 By default this module skips relation fields in the result diagram. For example fields `userId` and `productId` will not be generated from this prisma schema.
