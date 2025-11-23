@@ -7,10 +7,11 @@ datasource db {
 }
 
 generator erd {
-    provider    = "node ./dist/index.cjs"
-    output      = "../__tests__/ignoreViews.svg"
-    theme       = "forest"
-    ignoreViews = true
+    provider        = "node ./dist/index.cjs"
+    output          = "../__tests__/ignoreViews.svg"
+    theme           = "forest"
+    ignoreViews     = true
+    previewFeatures = ["views"]
 }
 
 model Booking {

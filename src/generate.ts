@@ -208,6 +208,23 @@ const isFieldShownInSchema =
         )
     }
 
+export const extractViewNames = (dataModel: string): string[] => {
+    const viewNames: string[] = []
+    const lines = dataModel?.split('\n') || []
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]?.trim()
+        if (!line) continue
+        // Match lines like "view ViewName {" or "view ViewName{"
+        const viewMatch = line.match(/^view\s+(\w+)\s*{/)
+        if (viewMatch && viewMatch[1]) {
+            viewNames.push(viewMatch[1])
+        }
+    }
+
+    return viewNames
+}
+
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
@@ -317,10 +334,11 @@ export default async (options: GeneratorOptions) => {
         if (!dml.types) {
             dml.types = []
         }
-        // default views to empty array
-        if (!dml.views) {
-            dml.views = []
-        }
+
+        // Extract view names from schema and populate dml.views
+        // Since Prisma's DMMF doesn't separate views from models, we parse the schema
+        const viewNames = extractViewNames(options.datamodel)
+        dml.views = dml.models.filter((model) => viewNames.includes(model.name))
         if (debug && dml.models) {
             const mapAppliedFile = path.resolve(
                 'prisma/debug/2-datamodel-map-applied.json'
