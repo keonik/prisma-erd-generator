@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator erd {
+    provider      = "node ./dist/index.cjs"
+    output        = "../__tests__/ignorePattern.svg"
+    theme         = "forest"
+    ignorePattern = "sys_*,Internal*,Session"
+}
+
+// User models - should be included
+model User {
+    id       Int      @id @default(autoincrement())
+    email    String   @unique
+    name     String
+    sessions Session[]
+}
+
+model Product {
+    id    Int    @id @default(autoincrement())
+    name  String
+    price Float
+}
+
+// System tables - should be ignored
+model sys_logs {
+    id        Int      @id @default(autoincrement())
+    message   String
+    timestamp DateTime @default(now())
+}
+
+model sys_audit {
+    id        Int      @id @default(autoincrement())
+    action    String
+    userId    Int
+    timestamp DateTime @default(now())
+}
+
+// Internal tables - should be ignored (starts with Internal)
+model InternalMigrations {
+    id                 String    @id
+    checksum           String
+    finished_at        DateTime?
+    migration_name     String
+    logs               String?
+    rolled_back_at     DateTime?
+    started_at         DateTime  @default(now())
+    applied_steps_count Int      @default(0)
+}
+
+model InternalCache {
+    id        String   @id
+    data      String
+    expiresAt DateTime
+}
+
+// Session table - should be ignored (exact match)
+model Session {
+    id        String   @id
+    userId    Int
+    token     String
+    expiresAt DateTime
+    user      User     @relation(fields: [userId], references: [id])
+}

@@ -23,6 +23,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         tableOnly = false,
         ignoreEnums = false,
         ignoreViews = false,
+        ignorePattern = [],
         includeRelationFromFields = false,
         disableEmoji = false,
     } = options ?? {}
@@ -36,6 +37,12 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         const viewNames = new Set(dml.views.map(v => v.name))
         models = models.filter(m => !viewNames.has(m.name))
     }
+
+    // Filter out models matching ignore patterns
+    if (ignorePattern.length > 0) {
+        models = models.filter(m => !matchesIgnorePattern(m.name, ignorePattern))
+    }
+
     const modellikes = models.concat(dml.types)
     const enums =
         tableOnly || ignoreEnums
@@ -225,6 +232,38 @@ export const extractViewNames = (dataModel: string): string[] => {
     return viewNames
 }
 
+/**
+ * Converts a glob-like pattern to a RegExp
+ * Supports: * (any characters), ? (single character), exact names
+ * Examples:
+ *   "sys_*" matches "sys_logs", "sys_audit"
+ *   "_*" matches "_prisma_migrations", "_internal"
+ *   "temp_?" matches "temp_1", "temp_a"
+ *   "Session" matches exactly "Session"
+ */
+export const patternToRegex = (pattern: string): RegExp => {
+    // Escape special regex characters except * and ?
+    const escaped = pattern
+        .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+        .replace(/\*/g, '.*')  // * = any characters
+        .replace(/\?/g, '.')   // ? = single character
+
+    return new RegExp(`^${escaped}$`)
+}
+
+/**
+ * Check if a model name matches any of the ignore patterns
+ */
+export const matchesIgnorePattern = (
+    modelName: string,
+    patterns: string[]
+): boolean => {
+    return patterns.some(pattern => {
+        const regex = patternToRegex(pattern)
+        return regex.test(modelName)
+    })
+}
+
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
@@ -292,6 +331,9 @@ export default async (options: GeneratorOptions) => {
         const disableEmoji = config.disableEmoji === 'true'
         const ignoreEnums = config.ignoreEnums === 'true'
         const ignoreViews = config.ignoreViews === 'true'
+        const ignorePattern = config.ignorePattern
+            ? config.ignorePattern.split(',').map((p) => p.trim())
+            : []
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true'
         const disabled =
@@ -351,6 +393,7 @@ export default async (options: GeneratorOptions) => {
             tableOnly,
             ignoreEnums,
             ignoreViews,
+            ignorePattern,
             includeRelationFromFields,
             disableEmoji,
         })

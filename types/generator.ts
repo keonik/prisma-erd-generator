@@ -5,6 +5,7 @@ export interface PrismaERDConfig {
     disableEmoji?: string
     ignoreEnums?: string
     ignoreViews?: string
+    ignorePattern?: string
     includeRelationFromFields?: string
     erdDebug?: string
     puppeteerConfig?: string

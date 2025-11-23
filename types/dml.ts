@@ -17,6 +17,7 @@ export interface DMLRendererOptions {
     tableOnly?: boolean
     ignoreEnums?: boolean
     ignoreViews?: boolean
+    ignorePattern?: string[]
     includeRelationFromFields?: boolean
     disableEmoji?: boolean
 }
