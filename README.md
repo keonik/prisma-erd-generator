@@ -181,6 +181,43 @@ generator erd {
 }
 ```
 
+### Ignore views
+
+If you enable this option, view entities will be hidden.
+This is useful if you want to reduce the number of entities and focus on the tables without displaying all the views.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  ignoreViews = true
+}
+```
+
+### Ignore specific tables by pattern
+
+Hide specific models from the ERD using pattern matching. Useful for excluding system tables, temporary tables, or any models you don't want in the diagram.
+
+**Supports:**
+
+- Exact names: `"Session"` matches only `Session`
+- Wildcards: `"sys_*"` matches `sys_logs`, `sys_audit`, etc.
+- Single char: `"temp_?"` matches `temp_1`, `temp_a`, etc.
+- Multiple patterns: Comma-separated list
+
+```prisma
+generator erd {
+  provider      = "prisma-erd-generator"
+  ignorePattern = "sys_*,Internal*,Session,_*"
+}
+```
+
+**Example use cases:**
+
+- `"sys_*"` - Hide all system tables (`sys_logs`, `sys_audit`)
+- `"_*"` - Hide Prisma internal tables (`_prisma_migrations`)
+- `"temp_*,cache_*"` - Hide temporary and cache tables
+- `"Session,Token"` - Hide specific tables by exact name
+
 ### Include relation from field
 
 By default this module skips relation fields in the result diagram. For example fields `userId` and `productId` will not be generated from this prisma schema.

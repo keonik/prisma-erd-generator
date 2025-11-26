@@ -22,6 +22,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const {
         tableOnly = false,
         ignoreEnums = false,
+        ignoreViews = false,
+        ignorePattern = [],
         includeRelationFromFields = false,
         disableEmoji = false,
     } = options ?? {}
@@ -29,7 +31,19 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const diagram = 'erDiagram'
 
     // Combine Models and Types as they are pretty similar
-    const modellikes = dml.models.concat(dml.types)
+    // If ignoreViews is enabled, exclude views from the models
+    let models = dml.models
+    if (ignoreViews && dml.views) {
+        const viewNames = new Set(dml.views.map(v => v.name))
+        models = models.filter(m => !viewNames.has(m.name))
+    }
+
+    // Filter out models matching ignore patterns
+    if (ignorePattern.length > 0) {
+        models = models.filter(m => !matchesIgnorePattern(m.name, ignorePattern))
+    }
+
+    const modellikes = models.concat(dml.types)
     const enums =
         tableOnly || ignoreEnums
             ? ''
@@ -201,6 +215,55 @@ const isFieldShownInSchema =
         )
     }
 
+export const extractViewNames = (dataModel: string): string[] => {
+    const viewNames: string[] = []
+    const lines = dataModel?.split('\n') || []
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]?.trim()
+        if (!line) continue
+        // Match lines like "view ViewName {" or "view ViewName{"
+        const viewMatch = line.match(/^view\s+(\w+)\s*{/)
+        if (viewMatch && viewMatch[1]) {
+            viewNames.push(viewMatch[1])
+        }
+    }
+
+    return viewNames
+}
+
+/**
+ * Converts a glob-like pattern to a RegExp
+ * Supports: * (any characters), ? (single character), exact names
+ * Examples:
+ *   "sys_*" matches "sys_logs", "sys_audit"
+ *   "_*" matches "_prisma_migrations", "_internal"
+ *   "temp_?" matches "temp_1", "temp_a"
+ *   "Session" matches exactly "Session"
+ */
+export const patternToRegex = (pattern: string): RegExp => {
+    // Escape special regex characters except * and ?
+    const escaped = pattern
+        .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+        .replace(/\*/g, '.*')  // * = any characters
+        .replace(/\?/g, '.')   // ? = single character
+
+    return new RegExp(`^${escaped}$`)
+}
+
+/**
+ * Check if a model name matches any of the ignore patterns
+ */
+export const matchesIgnorePattern = (
+    modelName: string,
+    patterns: string[]
+): boolean => {
+    return patterns.some(pattern => {
+        const regex = patternToRegex(pattern)
+        return regex.test(modelName)
+    })
+}
+
 export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
     const splitDataModel = dataModel
         ?.split('\n')
@@ -267,6 +330,10 @@ export default async (options: GeneratorOptions) => {
         const tableOnly = config.tableOnly === 'true'
         const disableEmoji = config.disableEmoji === 'true'
         const ignoreEnums = config.ignoreEnums === 'true'
+        const ignoreViews = config.ignoreViews === 'true'
+        const ignorePattern = config.ignorePattern
+            ? config.ignorePattern.split(',').map((p) => p.trim())
+            : []
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true'
         const disabled =
@@ -309,6 +376,11 @@ export default async (options: GeneratorOptions) => {
         if (!dml.types) {
             dml.types = []
         }
+
+        // Extract view names from schema and populate dml.views
+        // Since Prisma's DMMF doesn't separate views from models, we parse the schema
+        const viewNames = extractViewNames(options.datamodel)
+        dml.views = dml.models.filter((model) => viewNames.includes(model.name))
         if (debug && dml.models) {
             const mapAppliedFile = path.resolve(
                 'prisma/debug/2-datamodel-map-applied.json'
@@ -320,6 +392,8 @@ export default async (options: GeneratorOptions) => {
         const mermaid = renderDml(dml, {
             tableOnly,
             ignoreEnums,
+            ignoreViews,
+            ignorePattern,
             includeRelationFromFields,
             disableEmoji,
         })
