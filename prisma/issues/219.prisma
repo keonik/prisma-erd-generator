@@ -1,0 +1,25 @@
+generator erd {
+    provider = "node ./dist/index.cjs"
+    output   = "../../__tests__/219.svg"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model DailySchedule {
+    id         Int      @id @default(autoincrement())
+    day        String
+    startTime  String
+    endTime    String
+    schedule   Schedule @relation(fields: [scheduleId], references: [id])
+    scheduleId Int
+}
+
+model Schedule {
+    id             Int             @id @default(autoincrement())
+    name           String
+    timezone       String
+    dailySchedules DailySchedule[]
+}

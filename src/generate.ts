@@ -114,26 +114,30 @@ ${
                     field.relationFromFields.length > 0) ||
                 isEnum
             ) {
-                let thisSideMultiplicity = '||'
-                if (field.isList) {
-                    thisSideMultiplicity = '}o'
-                } else if (!field.isRequired) {
-                    thisSideMultiplicity = '|o'
-                }
-
                 const otherModel = modellikes.find(
-                    (model) => model.name === otherSide
+                    (model) => model.name === field.type || model.dbName === field.type
                 )
 
                 const otherField = otherModel?.fields.find(
                     ({ relationName }) => relationName === field.relationName
                 )
 
-                const otherSideMultiplicity = thisSideMultiplicity
+                // thisSideMultiplicity: how many of THIS side per one of OTHER side
+                // Based on otherField (if otherField is a list, there are many of this side)
+                let thisSideMultiplicity = '||'
                 if (otherField?.isList) {
-                    thisSideMultiplicity = 'o{'
+                    thisSideMultiplicity = '}o'
                 } else if (!otherField?.isRequired) {
-                    thisSideMultiplicity = 'o|'
+                    thisSideMultiplicity = '|o'
+                }
+
+                // otherSideMultiplicity: how many of OTHER side per one of THIS side
+                // Based on field (if field is required, there is exactly one of other side)
+                let otherSideMultiplicity = '||'
+                if (field.isList) {
+                    otherSideMultiplicity = '}o'
+                } else if (!field.isRequired) {
+                    otherSideMultiplicity = '|o'
                 }
 
                 relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
@@ -153,10 +157,23 @@ ${
                     (m) => m.name === field.type || m.dbName === field.type
                 )
                 if (otherModel) {
-                    const thisIndex = modellikes.indexOf(model)
-                    const otherIndex = modellikes.indexOf(otherModel)
-                    if (thisIndex < otherIndex) {
-                        relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`
+                    // Check if the other side has relationFromFields (foreign keys)
+                    // If it does, this is NOT a many-to-many, it's a one-to-many
+                    // that's already being handled when we process the other side
+                    const otherField = otherModel.fields.find(
+                        ({ relationName }) => relationName === field.relationName
+                    )
+                    const isOtherSideOneToMany =
+                        otherField?.relationFromFields &&
+                        otherField.relationFromFields.length > 0
+
+                    // Only treat as many-to-many if the other side also has no foreign keys
+                    if (!isOtherSideOneToMany) {
+                        const thisIndex = modellikes.indexOf(model)
+                        const otherIndex = modellikes.indexOf(otherModel)
+                        if (thisIndex < otherIndex) {
+                            relationships += `    ${thisSide} o{--}o ${otherSide} : ""\n`
+                        }
                     }
                 }
             } else if (field.kind === 'object') {
