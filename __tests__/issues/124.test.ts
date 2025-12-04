@@ -16,11 +16,11 @@ test('Zero to many relationship', async () => {
     expect(svgContent).toContain('User')
 
     // did the relationships get added correctly
-    // Past has zero to one user
-    // User has zero to many posts
+    // Post.author is optional (zero or one User per Post) → zeroOrOneEnd
+    // User.posts is a list (zero or more Posts per User) → zeroOrMoreStart
     expect(svgContent).toContain('author')
     expect(svgContent).toContain(
-        'marker-start="url(#my-svg_er-zeroOrOneStart)"'
+        'marker-start="url(#my-svg_er-zeroOrMoreStart)"'
     )
-    expect(svgContent).toContain('marker-end="url(#my-svg_er-zeroOrMoreEnd)"')
+    expect(svgContent).toContain('marker-end="url(#my-svg_er-zeroOrOneEnd)"')
 })

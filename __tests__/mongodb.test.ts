@@ -18,8 +18,10 @@ test('mongodb.prisma', async () => {
     expect(svgAsString).toContain(`<svg`)
     expect(svgAsString).toContain(`Product`)
     expect(svgAsString).toContain(`Foo`)
+    // Product has required foo (one Foo per Product) → onlyOneEnd
+    // Foo has Product[] list (many Products per Foo) → zeroOrMoreStart
     expect(svgAsString).toContain(`marker-end="url(#my-svg_er-onlyOneEnd)"`)
     expect(svgAsString).toContain(
-        `marker-start="url(#my-svg_er-zeroOrOneStart)"`
+        `marker-start="url(#my-svg_er-zeroOrMoreStart)"`
     )
 })
