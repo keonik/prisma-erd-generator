@@ -1,20 +1,24 @@
 # Changelog
 
+## 2.4.2
+
+### Patch Changes
+
+- 95c0e50: Fix many to many error
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ### [2.4.1](https://github.com/keonik/prisma-erd-generator/compare/v2.4.0...v2.4.1) (2025-12-10)
 
 ## [2.4.0](https://github.com/keonik/prisma-erd-generator/compare/v2.3.0...v2.4.0) (2025-12-10)
 
-
 ### Features
 
-* **ignoreViews and ignorePattern:** adding ignoreViews and ignorePattern parameter ([#270](https://github.com/keonik/prisma-erd-generator/issues/270)) ([7403c94](https://github.com/keonik/prisma-erd-generator/commit/7403c9477f7b9828507571f839d2d908b1664606))
-
+- **ignoreViews and ignorePattern:** adding ignoreViews and ignorePattern parameter ([#270](https://github.com/keonik/prisma-erd-generator/issues/270)) ([7403c94](https://github.com/keonik/prisma-erd-generator/commit/7403c9477f7b9828507571f839d2d908b1664606))
 
 ### Bug Fixes
 
-* corrected error and existing tests to make remove the excessive many to many error ([#271](https://github.com/keonik/prisma-erd-generator/issues/271)) ([ac64ede](https://github.com/keonik/prisma-erd-generator/commit/ac64ede21a2983f5223396b347423ab2e73ee0e5))
+- corrected error and existing tests to make remove the excessive many to many error ([#271](https://github.com/keonik/prisma-erd-generator/issues/271)) ([ac64ede](https://github.com/keonik/prisma-erd-generator/commit/ac64ede21a2983f5223396b347423ab2e73ee0e5))
 
 ## 2.3.0
 
