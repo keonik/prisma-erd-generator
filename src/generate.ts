@@ -181,9 +181,8 @@ ${
                     (model) =>
                         model.name
                             .replace(/^_/, 'z_') // replace leading underscores
-                            .replace(/\s/g, '') // remove spaces === otherSide
+                            .replace(/\s/g, '') === field.type // remove spaces
                 )
-                console.log(otherSide, otherSideCompositeType)
                 if (otherSideCompositeType) {
                     // most logic here is a copy/paste from the normal relation logic
                     // TODO extract and reuse
