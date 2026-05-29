@@ -30,7 +30,6 @@
     "build": "tsup src",
     "prepublish": "npm run build",
     "release": "changeset",
-    "standard-version": "standard-version",
     "update-deps": "npx npm-check-updates -i"
   },
   "author": "John Fay",
@@ -117,7 +116,6 @@
     "mermaid": "^11.11.0",
     "prisma": "^7.0.0",
     "puppeteer": "^23.11.1",
-    "standard-version": "^9.5.0",
     "tslib": "^2.8.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
