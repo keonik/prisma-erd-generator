@@ -34,8 +34,10 @@ jobs:
 
       # npm trusted publishing (OIDC) requires npm >= 11.5.1; Node 22 ships an
       # older npm, so upgrade the global npm that `changeset publish` calls.
+      # Pin to the 11.x line rather than @latest so a future npm major can't
+      # change publish behavior out from under a release.
       - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@^11.5.1
 
       - name: Create Release Pull Request or Publish
         id: changesets
