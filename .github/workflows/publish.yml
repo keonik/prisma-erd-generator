@@ -9,7 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
-  packages: write
+  # id-token: write lets GitHub mint the short-lived OIDC token that npm
+  # trusted publishing exchanges for publish access — no NPM_TOKEN needed.
   id-token: write
 
 jobs:
@@ -20,19 +21,29 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10
+      # NOTE: deliberately no `registry-url` here. setup-node's registry-url
+      # writes an .npmrc with `_authToken=${NODE_AUTH_TOKEN}`, and npm prefers
+      # that (now empty) token over OIDC. Omitting it lets trusted publishing
+      # engage.
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
           cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
 
       - run: pnpm install --frozen-lockfile
+
+      # npm trusted publishing (OIDC) requires npm >= 11.5.1; Node 22 ships an
+      # older npm, so upgrade the global npm that `changeset publish` calls.
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@latest
+
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm run ci:publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # No NPM_TOKEN / NODE_AUTH_TOKEN on purpose: with none present and a
+          # trusted publisher configured on npmjs.com, npm authenticates via
+          # OIDC and publishes provenance automatically.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
