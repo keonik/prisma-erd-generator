@@ -15,7 +15,7 @@ jobs:
         prisma-version: ["5.22.0", "6.15.0", "7.0.0"]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
