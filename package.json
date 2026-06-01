@@ -120,7 +120,7 @@
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vite": "^6.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.7"
   },
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.9.0",
