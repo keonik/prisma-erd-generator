@@ -239,6 +239,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "anubhabx",
+      "name": "Anubhab Debnath",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84611567?v=4",
+      "profile": "https://www.anubhabx.me/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
