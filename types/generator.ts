@@ -7,6 +7,7 @@ export interface PrismaERDConfig {
     ignoreViews?: string
     ignorePattern?: string
     includeRelationFromFields?: string
+    sortFields?: string
     erdDebug?: string
     puppeteerConfig?: string
     mermaidConfig?: string

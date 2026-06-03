@@ -20,6 +20,7 @@ export interface DMLRendererOptions {
     ignorePattern?: string[]
     includeRelationFromFields?: boolean
     disableEmoji?: boolean
+    sortFields?: boolean
 }
 
 // Copy paste of the DMLModel
