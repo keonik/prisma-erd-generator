@@ -41,6 +41,7 @@ export interface DMLType {
 
 export interface DMLField {
     name: string
+    dbName?: string | null
     hasDefaultValue: boolean
     isGenerated: boolean
     isId: boolean

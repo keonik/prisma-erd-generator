@@ -280,51 +280,15 @@ export const matchesIgnorePattern = (
     })
 }
 
-export const mapPrismaToDb = (dmlModels: DMLModel[], dataModel: string) => {
-    const splitDataModel = dataModel
-        ?.split('\n')
-        .filter((line) => line.includes('@map') || line.includes('model '))
-        .map((line) => line.trim())
-
+export const mapPrismaToDb = (dmlModels: DMLModel[]) => {
     return dmlModels.map((model) => {
         return {
             ...model,
             fields: model.fields.map((field) => {
-                let filterStatus: 'None' | 'Match' | 'End' = 'None'
-                // get line with field to \n
-                const lineInDataModel = splitDataModel
-                    // filter the current model
-                    .filter((line) => {
-                        if (
-                            filterStatus === 'Match' &&
-                            line.includes('model ')
-                        ) {
-                            filterStatus = 'End'
-                        }
-                        if (
-                            filterStatus === 'None' &&
-                            line.includes(`model ${model.name} `)
-                        ) {
-                            filterStatus = 'Match'
-                        }
-                        return filterStatus === 'Match'
-                    })
-                    .find(
-                        (line) =>
-                            line.includes(`${field.name} `) &&
-                            line.includes('@map')
-                    )
-                if (lineInDataModel) {
-                    const regex = new RegExp(/@map\(\"(.*?)\"\)/, 'g')
-                    const match = regex.exec(lineInDataModel)
-
-                    if (match?.[1]) {
-                        const name = match[1]
-                            .replace(/^_/, 'z_') // replace leading underscores
-                            .replace(/\s/g, '') // remove spaces
-
-                        field.name = name
-                    }
+                if (field.dbName) {
+                    field.name = field.dbName
+                        .replace(/^_/, 'z_') // replace leading underscores
+                        .replace(/\s/g, '') // remove spaces
                 }
 
                 return field
@@ -386,7 +350,7 @@ export default async (options: GeneratorOptions) => {
         }
 
         // updating dml to map to db table and column names (@map && @@map)
-        dml.models = mapPrismaToDb(dml.models, options.datamodel)
+        dml.models = mapPrismaToDb(dml.models)
 
         // default types to empty array
         if (!dml.types) {
