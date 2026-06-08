@@ -1,7 +1,7 @@
 # Prisma Entity Relationship Diagram Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Prisma generator to create an ER Diagram every time you generate your prisma client.
@@ -256,6 +256,17 @@ generator erd {
 }
 ```
 
+### Sort fields
+
+Sort the fields inside each generated model alphabetically. This is disabled by default, so existing diagrams keep their current field order unless you opt in.
+
+```prisma
+generator erd {
+  provider   = "prisma-erd-generator"
+  sortFields = true
+}
+```
+
 ### Disable emoji output
 
 The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be disabled, restoring the older values of `PK` and `nullable`, respectively.
@@ -368,7 +379,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://fabs.dev"><img src="https://avatars.githubusercontent.com/u/16561284?v=4?s=100" width="100px;" alt="Ian Fabs"/><br /><sub><b>Ian Fabs</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=ianfabs" title="Code">💻</a> <a href="https://github.com/keonik/prisma-erd-generator/issues?q=author%3Aianfabs" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://grmlfolio.vercel.app/"><img src="https://avatars.githubusercontent.com/u/209283286?v=4?s=100" width="100px;" alt="grMLEqomlkkU5Eeinz4brIrOVCUCkJuN"/><br /><sub><b>grMLEqomlkkU5Eeinz4brIrOVCUCkJuN</b></sub></a><br /><a href="#platform-grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Packaging/porting to new platform">📦</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Code">💻</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://soju.is/best"><img src="https://avatars.githubusercontent.com/u/34199905?v=4?s=100" width="100px;" alt="Soju06"/><br /><sub><b>Soju06</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=Soju06" title="Code">💻</a> <a href="#platform-Soju06" title="Packaging/porting to new platform">📦</a> <a href="#maintenance-Soju06" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://grmlfolio.vercel.app/"><img src="https://avatars.githubusercontent.com/u/209283286?v=4?s=100" width="100px;" alt="grMLEqomlkkU5Eeinz4brIrOVCUCkJuN"/><br /><sub><b>grMLEqomlkkU5Eeinz4brIrOVCUCkJuN</b></sub></a><br /><a href="#platform-grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Packaging/porting to new platform">📦</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Code">💻</a> <a href="https://github.com/keonik/prisma-erd-generator/commits?author=grMLEqomlkkU5Eeinz4brIrOVCUCkJuN" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.anubhabx.me/"><img src="https://avatars.githubusercontent.com/u/84611567?v=4?s=100" width="100px;" alt="Anubhab Debnath"/><br /><sub><b>Anubhab Debnath</b></sub></a><br /><a href="https://github.com/keonik/prisma-erd-generator/commits?author=anubhabx" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

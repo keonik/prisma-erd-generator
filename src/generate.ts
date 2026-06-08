@@ -26,6 +26,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         ignorePattern = [],
         includeRelationFromFields = false,
         disableEmoji = false,
+        sortFields = false,
     } = options ?? {}
 
     const diagram = 'erDiagram'
@@ -66,6 +67,15 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
 
     const pkSigil = disableEmoji ? '"PK"' : '"🗝️"'
     const nullableSigil = disableEmoji ? '"nullable"' : '"❓"'
+    const getShownFields = (model: DMLModel) => {
+        const fields = model.fields.filter(
+            isFieldShownInSchema(model, includeRelationFromFields)
+        )
+
+        return sortFields
+            ? fields.sort((a, b) => a.name.localeCompare(b.name))
+            : fields
+    }
     const classes = modellikes
         .map(
             (model) =>
@@ -73,8 +83,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
 ${
     tableOnly
         ? ''
-        : model.fields
-              .filter(isFieldShownInSchema(model, includeRelationFromFields))
+        : getShownFields(model)
               // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
               .map((field) => {
                   return `    ${field.type.trimStart()} ${field.name.replace(
@@ -352,6 +361,7 @@ export default async (options: GeneratorOptions) => {
             : []
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true'
+        const sortFields = config.sortFields === 'true'
         const disabled =
             process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
@@ -412,6 +422,7 @@ export default async (options: GeneratorOptions) => {
             ignorePattern,
             includeRelationFromFields,
             disableEmoji,
+            sortFields,
         })
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')
