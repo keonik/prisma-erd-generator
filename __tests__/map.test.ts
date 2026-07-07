@@ -4,10 +4,6 @@ import * as child_process from 'node:child_process';
 import { test, expect } from 'vitest';
 
 test('@map', async () => {
-    const model = `model User {
-      id              Int                 @id @default(autoincrement())
-      hashedPassword  String?             @map("hashed_password")
-    }`
     const dmlModels: DMLModel[] = [
         {
             dbName: null,
@@ -28,7 +24,8 @@ test('@map', async () => {
                     isUpdatedAt: false,
                 },
                 {
-                    name: 'hashed_password',
+                    name: 'hashedPassword',
+                    dbName: 'hashed_password',
                     kind: 'scalar',
                     isList: false,
                     isRequired: false,
@@ -44,7 +41,7 @@ test('@map', async () => {
         },
     ]
 
-    const mapTest = mapPrismaToDb(dmlModels, model)
+    const mapTest = mapPrismaToDb(dmlModels)
 
     expect(mapTest).toEqual([
         {
@@ -67,6 +64,7 @@ test('@map', async () => {
                 },
                 {
                     name: 'hashed_password',
+                    dbName: 'hashed_password',
                     kind: 'scalar',
                     isList: false,
                     isRequired: false,
@@ -74,6 +72,85 @@ test('@map', async () => {
                     isId: false,
                     isReadOnly: false,
                     type: 'String',
+                    hasDefaultValue: false,
+                    isGenerated: false,
+                    isUpdatedAt: false,
+                },
+            ],
+        },
+    ])
+})
+
+test('@map does not rename a field whose name is a suffix of another field', async () => {
+    // Regression for #288: `id` must not pick up the @map value of `user_id`.
+    const dmlModels: DMLModel[] = [
+        {
+            dbName: null,
+            name: 'Post',
+            fields: [
+                {
+                    name: 'id',
+                    kind: 'scalar',
+                    isList: false,
+                    isRequired: true,
+                    isUnique: false,
+                    isId: true,
+                    isReadOnly: false,
+                    type: 'Int',
+                    hasDefaultValue: true,
+                    default: { name: 'autoincrement', args: [] },
+                    isGenerated: false,
+                    isUpdatedAt: false,
+                },
+                {
+                    name: 'user_id',
+                    dbName: 'fk_user',
+                    kind: 'scalar',
+                    isList: false,
+                    isRequired: true,
+                    isUnique: false,
+                    isId: false,
+                    isReadOnly: false,
+                    type: 'Int',
+                    hasDefaultValue: false,
+                    isGenerated: false,
+                    isUpdatedAt: false,
+                },
+            ],
+        },
+    ]
+
+    const mapped = mapPrismaToDb(dmlModels)
+
+    expect(mapped).toEqual([
+        {
+            dbName: null,
+            name: 'Post',
+            fields: [
+                {
+                    name: 'id',
+                    kind: 'scalar',
+                    isList: false,
+                    isRequired: true,
+                    isUnique: false,
+                    isId: true,
+                    isReadOnly: false,
+                    type: 'Int',
+                    hasDefaultValue: true,
+                    default: { name: 'autoincrement', args: [] },
+                    isGenerated: false,
+                    isUpdatedAt: false,
+                },
+                {
+                    name: 'fk_user',
+                    dbName: 'fk_user',
+                    kind: 'scalar',
+                    isList: false,
+                    isRequired: true,
+                    isUnique: false,
+                    isId: false,
+                    isReadOnly: false,
+                    type: 'Int',
                     hasDefaultValue: false,
                     isGenerated: false,
                     isUpdatedAt: false,

@@ -23,6 +23,7 @@ const dmmfDatamodel = {
             fields: [
                 {
                     name: 'id',
+                    dbName: 'user_id',
                     hasDefaultValue: true,
                     isGenerated: false,
                     isId: true,
