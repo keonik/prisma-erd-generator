@@ -338,7 +338,7 @@ This can be fixed by either:
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=keonik/prisma-erd-generator&type=Date)](https://star-history.com/#keonik/prisma-erd-generator&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=keonik/prisma-erd-generator&type=Date)](https://star-history.dera.page/#keonik/prisma-erd-generator&Date)
 
 ## Contributors ✨
 
