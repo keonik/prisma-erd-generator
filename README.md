@@ -327,6 +327,50 @@ model User {
 
 This applies to models, composite types, enums, and fields.
 
+### Show indexes
+
+Mark indexed columns so you can tell at a glance which fields a query can filter on cheaply. Disabled by default.
+
+```prisma
+generator erd {
+  provider    = "prisma-erd-generator"
+  showIndexes = true
+}
+```
+
+```prisma
+model User {
+  id        Int    @id
+  email     String @unique
+  firstName String
+  lastName  String
+  tenantId  Int
+
+  @@unique([firstName, lastName])
+  @@index([tenantId])
+}
+```
+
+```mermaid
+erDiagram
+  "User" {
+    Int id "🗝️"
+    String email "🔒"
+    String firstName "🔍"
+    String lastName "🔍"
+    Int tenantId "🔍"
+  }
+```
+
+| Marker | With `disableEmoji` | Meaning |
+| --- | --- | --- |
+| `🔒` | `UK` | the column is unique on its own (`@unique`) |
+| `🔍` | `IDX` | the column takes part in an index (`@@index`, or a `@@unique` composite) |
+
+Prisma strips `@@index` before handing the model to a generator, so it is read back out of the schema file. Composite index **order** is not shown — a column is either covered or it isn't.
+
+Markers share the attribute slot with the primary key, nullable and `includeComments` text, so a field can carry several at once.
+
 ### Disable emoji output
 
 The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be disabled, restoring the older values of `PK` and `nullable`, respectively.

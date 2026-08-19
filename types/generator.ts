@@ -10,6 +10,7 @@ export interface PrismaERDConfig {
     sortFields?: string
     includeComments?: string
     usePrismaNames?: string
+    showIndexes?: string
     erdDebug?: string
     puppeteerConfig?: string
     mermaidConfig?: string

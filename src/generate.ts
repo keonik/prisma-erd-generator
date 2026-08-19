@@ -34,6 +34,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         sortFields = false,
         includeComments = false,
         usePrismaNames = false,
+        showIndexes = false,
     } = options ?? {}
 
     const diagram = 'erDiagram'
@@ -79,6 +80,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
 
     const pkSigil = disableEmoji ? 'PK' : '🗝️'
     const nullableSigil = disableEmoji ? 'nullable' : '❓'
+    const uniqueSigil = disableEmoji ? 'UK' : '🔒'
+    const indexSigil = disableEmoji ? 'IDX' : '🔍'
     const getShownFields = (model: DMLModel) => {
         const fields = model.fields.filter(
             isFieldShownInSchema(model, includeRelationFromFields)
@@ -107,6 +110,12 @@ ${
                   }
                   if (!field.isRequired) {
                       notes.push(nullableSigil)
+                  }
+                  if (showIndexes && field.isUnique) {
+                      notes.push(uniqueSigil)
+                  }
+                  if (showIndexes && field.isIndexed) {
+                      notes.push(indexSigil)
                   }
                   if (includeComments && field.documentation) {
                       notes.push(sanitizeComment(field.documentation))
@@ -285,6 +294,78 @@ export const extractViewNames = (dataModel: string): string[] => {
 }
 
 /**
+ * Collects the fields covered by a `@@index` for every model in the schema,
+ * keyed by model name.
+ *
+ * Prisma does not put non-unique indexes on the DMMF at all — only `@unique`
+ * and `@@unique` survive — so the schema text is the only source for them.
+ */
+export const extractIndexedFields = (
+    dataModel: string
+): Record<string, string[]> => {
+    const indexed: Record<string, string[]> = {}
+    let currentModel: string | null = null
+
+    for (const rawLine of dataModel?.split('\n') ?? []) {
+        const line = rawLine.trim()
+
+        const modelMatch = line.match(/^model\s+(\w+)\s*{/)
+        if (modelMatch?.[1]) {
+            currentModel = modelMatch[1]
+            continue
+        }
+        if (line === '}') {
+            currentModel = null
+            continue
+        }
+        if (!currentModel) continue
+
+        // matches both `@@index([a, b])` and `@@index(fields: [a, b])`
+        const indexMatch = line.match(/^@@index\(\s*(?:fields\s*:\s*)?\[([^\]]+)\]/)
+        if (!indexMatch?.[1]) continue
+
+        const fields = indexMatch[1]
+            .split(',')
+            // drop per-field modifiers like `title(sort: Desc)` or `bio(length: 10)`
+            .map((field) => field.split('(')[0]?.trim())
+            .filter((field): field is string => Boolean(field))
+
+        indexed[currentModel] = (indexed[currentModel] ?? []).concat(fields)
+    }
+
+    return indexed
+}
+
+/**
+ * Flags fields that sit behind an index so the renderer can mark them.
+ *
+ * Must run before `mapPrismaToDb`, which rewrites field names to their `@map`
+ * values — the schema refers to them by their prisma names.
+ */
+export const markIndexedFields = (
+    dmlModels: DMLModel[],
+    dataModel: string
+): DMLModel[] => {
+    const indexedByModel = extractIndexedFields(dataModel)
+
+    return dmlModels.map((model) => {
+        const indexed = new Set([
+            ...(indexedByModel[model.name] ?? []),
+            // `@@unique` composites: the individual fields are not `isUnique`
+            ...(model.uniqueFields ?? []).flat(),
+        ])
+
+        for (const field of model.fields) {
+            if (indexed.has(field.name)) {
+                field.isIndexed = true
+            }
+        }
+
+        return model
+    })
+}
+
+/**
  * Converts a glob-like pattern to a RegExp
  * Supports: * (any characters), ? (single character), exact names
  * Examples:
@@ -355,6 +436,7 @@ export default async (options: GeneratorOptions) => {
         const sortFields = config.sortFields === 'true'
         const includeComments = config.includeComments === 'true'
         const usePrismaNames = config.usePrismaNames === 'true'
+        const showIndexes = config.showIndexes === 'true'
         const disabled =
             process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
@@ -388,6 +470,10 @@ export default async (options: GeneratorOptions) => {
             console.log(`data model written to ${dataModelFile}`)
         }
 
+        // `@@index` lives only in the schema text and refers to fields by their
+        // prisma names, so this has to happen before @map rewrites them below
+        dml.models = markIndexedFields(dml.models, options.datamodel)
+
         // updating dml to map to db table and column names (@map && @@map)
         if (!usePrismaNames) {
             dml.models = mapPrismaToDb(dml.models)
@@ -420,6 +506,7 @@ export default async (options: GeneratorOptions) => {
             sortFields,
             includeComments,
             usePrismaNames,
+            showIndexes,
         })
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')

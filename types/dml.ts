@@ -4,7 +4,7 @@ export interface DMLModel {
     dbName: string | null
     fields: DMLField[]
     idFields?: unknown[]
-    uniqueFields?: unknown[]
+    uniqueFields?: string[][]
     uniqueIndexes?: unknown[]
     isGenerated?: boolean
     primaryKey?: {
@@ -23,6 +23,7 @@ export interface DMLRendererOptions {
     sortFields?: boolean
     includeComments?: boolean
     usePrismaNames?: boolean
+    showIndexes?: boolean
 }
 
 // Copy paste of the DMLModel
@@ -33,7 +34,7 @@ export interface DMLType {
     dbName: string | null
     fields: DMLField[]
     idFields?: unknown[]
-    uniqueFields?: unknown[]
+    uniqueFields?: string[][]
     uniqueIndexes?: unknown[]
     isGenerated: boolean
     primaryKey: {
@@ -62,6 +63,8 @@ export interface DMLField {
     default?: unknown
     /** `/// comment` above the field in the prisma schema */
     documentation?: string
+    /** set by `markIndexedFields`: covered by an `@@index` or `@@unique` */
+    isIndexed?: boolean
 }
 
 export interface DMLEnum {
