@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.0
+
+### Minor Changes
+
+- 889517b: Add `includeComments` generator option to render `///` schema documentation comments as mermaid attribute comments (#248)
+
 ## 2.4.4
 
 ### Patch Changes
