@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@mermaid-js/mermaid-cli':
-        specifier: ^11.9.0
-        version: 11.9.0(@types/react@19.2.6)(puppeteer@23.11.1(typescript@5.9.2))
       '@prisma/client':
         specifier: ^5.0.0 || ^6.0.0 || ^7.0.0
         version: 6.15.0(prisma@7.0.0(@types/react@19.2.6)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(typescript@5.9.2)
@@ -27,6 +24,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.6
         version: 2.29.6(@types/node@24.3.1)
+      '@mermaid-js/mermaid-cli':
+        specifier: ^11.9.0
+        version: 11.9.0(@types/react@19.2.6)(puppeteer@23.11.1(typescript@5.9.2))
       all-contributors-cli:
         specifier: ^6.26.1
         version: 6.26.1

@@ -110,6 +110,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.29.6",
+    "@mermaid-js/mermaid-cli": "^11.9.0",
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
@@ -123,11 +124,16 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^11.9.0",
     "@prisma/generator-helper": "^7.0.0",
     "dotenv": "^16.6.1"
   },
   "peerDependencies": {
-    "@prisma/client": "^5.0.0 || ^6.0.0 || ^7.0.0"
+    "@prisma/client": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@mermaid-js/mermaid-cli": "^11.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@mermaid-js/mermaid-cli": {
+      "optional": true
+    }
   }
 }

@@ -8,10 +8,14 @@ Prisma generator to create an ER Diagram every time you generate your prisma cli
 
 > Like this tool? [@Skn0tt](https://github.com/Skn0tt) started this effort with his [web app ER diagram generator](https://prisma-erd.simonknott.de/)
 
+Rendering an image (`.svg`, `.png`, `.pdf`) shells out to the mermaid CLI, which brings a headless Chromium with it. That's an **optional** peer dependency, so pick the install that matches your output:
+
 ```bash
+# images — svg (the default), png, pdf
 npm i -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
-# or
-yarn add -D prisma-erd-generator @mermaid-js/mermaid-cli puppeteer
+
+# text only — md, mmd (no browser, no Chromium download)
+npm i -D prisma-erd-generator
 ```
 
 Add to your `schema.prisma`
@@ -32,9 +36,19 @@ npx prisma generate
 
 ## Versions
 
--   Prisma >=5 use 2.x.x
+-   Prisma >=5 use 3.x.x / 2.x.x
 -   Prisma = 4 use 1.x.x
 -   Prisma <4 use 0.11.x
+
+### Upgrading to 3.x
+
+`@mermaid-js/mermaid-cli` is no longer a hard dependency. Nothing else changed — but if you output an image and relied on it being installed for you, add it explicitly:
+
+```bash
+npm i -D @mermaid-js/mermaid-cli puppeteer
+```
+
+If you output `.md` or `.mmd`, you can now drop both and skip the Chromium download entirely.
 
 ## Options
 
@@ -55,10 +69,13 @@ generator erd {
 
 Extensions
 
--   svg (default: `./prisma/ERD.svg`)
--   png
--   pdf
--   md
+| Extension | Needs `@mermaid-js/mermaid-cli` |
+| --- | --- |
+| `svg` (default: `./prisma/ERD.svg`) | yes |
+| `png` | yes |
+| `pdf` | yes |
+| `md` — mermaid in a fenced code block | no |
+| `mmd` — bare mermaid | no |
 
 ### Theme
 
@@ -84,7 +101,7 @@ This option does not accept environment variables or other dynamic values. If yo
 
 ### mmdcPath
 
-In order for this generator to succeed you must have `mmdc` installed. This is the mermaid cli tool that is used to generate the ERD. By default the generator searches for an existing binary file at `/node_modules/.bin`. If it fails to find that binary it will run `find ../.. -name mmdc` to search through your folder for a `mmdc` binary. If you are using a different package manager or have a different location for your binary files, you can specify the path to the binary file.
+To render an image you must have `mmdc` installed — it ships with the optional `@mermaid-js/mermaid-cli` peer dependency. By default the generator searches for an existing binary file at `/node_modules/.bin`. If it fails to find that binary it will run `find ../.. -name mmdc` to search through your folder for a `mmdc` binary. If you are using a different package manager or have a different location for your binary files, you can specify the path to the binary file.
 
 ```prisma
 generator erd {
