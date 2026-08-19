@@ -8,6 +8,7 @@ export interface PrismaERDConfig {
     ignorePattern?: string
     includeRelationFromFields?: string
     sortFields?: string
+    includeComments?: string
     erdDebug?: string
     puppeteerConfig?: string
     mermaidConfig?: string

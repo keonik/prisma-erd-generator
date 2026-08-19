@@ -21,6 +21,7 @@ export interface DMLRendererOptions {
     includeRelationFromFields?: boolean
     disableEmoji?: boolean
     sortFields?: boolean
+    includeComments?: boolean
 }
 
 // Copy paste of the DMLModel
@@ -58,6 +59,8 @@ export interface DMLField {
     relationOnDelete?: string
     relationToFields?: unknown[]
     default?: unknown
+    /** `/// comment` above the field in the prisma schema */
+    documentation?: string
 }
 
 export interface DMLEnum {

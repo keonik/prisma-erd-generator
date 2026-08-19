@@ -267,6 +267,39 @@ generator erd {
 }
 ```
 
+### Include schema comments
+
+Render `///` documentation comments from your schema as mermaid attribute comments. Disabled by default.
+
+```prisma
+generator erd {
+  provider        = "prisma-erd-generator"
+  includeComments = true
+}
+```
+
+```prisma
+model Article {
+  /// Primary key
+  id    String  @id
+  /// Page title
+  title String
+  /// Page body
+  body  String?
+}
+```
+
+```mermaid
+erDiagram
+  "Article" {
+    String id "🗝️ Primary key"
+    String title "Page title"
+    String body "❓ Page body"
+  }
+```
+
+Only `///` comments are available — plain `//` comments are dropped by Prisma before the generator runs. Comments share the attribute slot with the primary key and nullable sigils, and are flattened to a single line with `"` replaced by `'` so mermaid can parse them.
+
 ### Disable emoji output
 
 The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be disabled, restoring the older values of `PK` and `nullable`, respectively.

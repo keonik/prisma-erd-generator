@@ -18,6 +18,11 @@ import type { MermaidConfig } from 'mermaid'
 
 dotenv.config() // Load the environment variables
 
+// Mermaid attribute comments are double-quoted single-line strings, so a `///`
+// comment has to lose its own quotes and line breaks to survive the round trip.
+const sanitizeComment = (comment: string) =>
+    comment.replace(/"/g, "'").replace(/\s+/g, ' ').trim()
+
 function renderDml(dml: DML, options?: DMLRendererOptions) {
     const {
         tableOnly = false,
@@ -27,6 +32,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         includeRelationFromFields = false,
         disableEmoji = false,
         sortFields = false,
+        includeComments = false,
     } = options ?? {}
 
     const diagram = 'erDiagram'
@@ -65,8 +71,8 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
                   )
                   .join('\n\n')
 
-    const pkSigil = disableEmoji ? '"PK"' : '"🗝️"'
-    const nullableSigil = disableEmoji ? '"nullable"' : '"❓"'
+    const pkSigil = disableEmoji ? 'PK' : '🗝️'
+    const nullableSigil = disableEmoji ? 'nullable' : '❓'
     const getShownFields = (model: DMLModel) => {
         const fields = model.fields.filter(
             isFieldShownInSchema(model, includeRelationFromFields)
@@ -86,15 +92,24 @@ ${
         : getShownFields(model)
               // the replace is a hack to make MongoDB style ID columns like _id valid for Mermaid
               .map((field) => {
+                  const notes = []
+                  if (
+                      field.isId ||
+                      model.primaryKey?.fields?.includes(field.name)
+                  ) {
+                      notes.push(pkSigil)
+                  }
+                  if (!field.isRequired) {
+                      notes.push(nullableSigil)
+                  }
+                  if (includeComments && field.documentation) {
+                      notes.push(sanitizeComment(field.documentation))
+                  }
+
                   return `    ${field.type.trimStart()} ${field.name.replace(
                       /^_/,
                       'z_'
-                  )} ${
-                      field.isId ||
-                      model.primaryKey?.fields?.includes(field.name)
-                          ? pkSigil
-                          : ''
-                  }${field.isRequired ? '' : nullableSigil}`
+                  )} ${notes.length ? `"${notes.join(' ')}"` : ''}`
               })
               .join('\n')
 }
@@ -326,6 +341,7 @@ export default async (options: GeneratorOptions) => {
         const includeRelationFromFields =
             config.includeRelationFromFields === 'true'
         const sortFields = config.sortFields === 'true'
+        const includeComments = config.includeComments === 'true'
         const disabled =
             process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
@@ -387,6 +403,7 @@ export default async (options: GeneratorOptions) => {
             includeRelationFromFields,
             disableEmoji,
             sortFields,
+            includeComments,
         })
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')
