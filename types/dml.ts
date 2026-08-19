@@ -22,6 +22,7 @@ export interface DMLRendererOptions {
     disableEmoji?: boolean
     sortFields?: boolean
     includeComments?: boolean
+    usePrismaNames?: boolean
 }
 
 // Copy paste of the DMLModel

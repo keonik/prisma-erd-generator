@@ -33,9 +33,15 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
         disableEmoji = false,
         sortFields = false,
         includeComments = false,
+        usePrismaNames = false,
     } = options ?? {}
 
     const diagram = 'erDiagram'
+
+    // `@@map` / `@map` names win by default; `usePrismaNames` keeps the schema
+    // names instead. Field names are handled upstream by `mapPrismaToDb`.
+    const displayName = (entity: { name: string; dbName?: string | null }) =>
+        usePrismaNames ? entity.name : entity.dbName || entity.name
 
     // Combine Models and Types as they are pretty similar
     // If ignoreViews is enabled, exclude views from the models
@@ -57,7 +63,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
             : dml.enums
                   .map(
                       (model: DMLEnum) => `
-        ${model.dbName || model.name} {
+        ${displayName(model)} {
             ${model.values
                 .map(
                     (value) =>
@@ -85,7 +91,7 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     const classes = modellikes
         .map(
             (model) =>
-                `  "${model.dbName || model.name}" {
+                `  "${displayName(model)}" {
 ${
     tableOnly
         ? ''
@@ -127,10 +133,18 @@ ${
             }
 
             const relationshipName = `${isEnum ? 'enum:' : ''}${field.name}`
-            const thisSide = `"${model.dbName || model.name}"`
+            const thisSide = `"${displayName(model)}"`
+            // enums are searched too so that an `@@map`ed enum lands on the same
+            // node the enum block rendered, instead of an empty duplicate
+            const otherEntity =
+                modellikes.find(
+                    (ml) => ml.name === field.type || ml.dbName === field.type
+                ) ??
+                dml.enums.find(
+                    (e) => e.name === field.type || e.dbName === field.type
+                )
             const otherSide = `"${
-                modellikes.find((ml) => ml.name === field.type)?.dbName ||
-                field.type
+                otherEntity ? displayName(otherEntity) : field.type
             }"`
             // normal relations
             if (
@@ -164,9 +178,7 @@ ${
                     otherSideMultiplicity = '|o'
                 }
 
-                relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
-                    otherModel?.dbName || otherSide
-                } : "${relationshipName}"\n`
+                relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${otherSide} : "${relationshipName}"\n`
             }
             // many to many
             else if (
@@ -229,9 +241,9 @@ ${
                         thisSideMultiplicity = 'o|'
                     }
 
-                    relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} ${
-                        otherSideCompositeType.dbName || otherSide
-                    } : "${relationshipName}"\n`
+                    relationships += `    ${thisSide} ${thisSideMultiplicity}--${otherSideMultiplicity} "${displayName(
+                        otherSideCompositeType
+                    )}" : "${relationshipName}"\n`
                 }
             }
         }
@@ -342,6 +354,7 @@ export default async (options: GeneratorOptions) => {
             config.includeRelationFromFields === 'true'
         const sortFields = config.sortFields === 'true'
         const includeComments = config.includeComments === 'true'
+        const usePrismaNames = config.usePrismaNames === 'true'
         const disabled =
             process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
@@ -376,7 +389,9 @@ export default async (options: GeneratorOptions) => {
         }
 
         // updating dml to map to db table and column names (@map && @@map)
-        dml.models = mapPrismaToDb(dml.models)
+        if (!usePrismaNames) {
+            dml.models = mapPrismaToDb(dml.models)
+        }
 
         // default types to empty array
         if (!dml.types) {
@@ -404,6 +419,7 @@ export default async (options: GeneratorOptions) => {
             disableEmoji,
             sortFields,
             includeComments,
+            usePrismaNames,
         })
         if (debug && mermaid) {
             const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')
