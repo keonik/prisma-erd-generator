@@ -7,6 +7,20 @@ on:
     branches: [main, alpha]
 
 jobs:
+  quality:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+      - name: Lint
+        run: bun run lint
+      - name: Check formatting
+        run: bun run format:check
+
   changeset:
     # A PR that changes shipped code without a changeset merges fine and then
     # releases nothing — `sortFields` (#287) shipped in 2.4.4 and never made

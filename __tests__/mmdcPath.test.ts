@@ -15,6 +15,6 @@ test('setting mmdcPath works', async () => {
     // User has id
     expect(svgContent).toMatch(
         //    <span class="nodeLabel"><p>id</p></span>
-        /\<p\>id\<\/\p\>/
+        /<p>id<\/\p>/
     )
 })
