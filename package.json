@@ -27,8 +27,8 @@
     "dev": "tsup src --watch",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "test": "vitest --config vitest.config.mts",
     "prebuild": "rm -rf dist",
     "build": "tsup src",
@@ -112,6 +112,7 @@
     }
   ],
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.29.6",
     "@mermaid-js/mermaid-cli": "^11.9.0",
     "@types/node": "^22",
@@ -119,7 +120,6 @@
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
     "mermaid": "^11.15.0",
-    "oxfmt": "^0.65.0",
     "oxlint": "^1.80.0",
     "prisma": "^7.0.0",
     "puppeteer": "^23.11.1",

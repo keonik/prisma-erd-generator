@@ -1,15 +1,14 @@
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [
-    "typescript",
-    "unicorn",
-    "oxc"
-  ],
-  "categories": {
-    "correctness": "error"
-  },
-  "rules": {},
-  "env": {
-    "builtin": true
-  }
+    "$schema": "./node_modules/oxlint/configuration_schema.json",
+    "plugins": ["typescript", "unicorn", "oxc"],
+    "categories": {
+        "correctness": "error"
+    },
+    "rules": {
+        "typescript/no-explicit-any": "error",
+        "unicorn/prefer-node-protocol": "error"
+    },
+    "env": {
+        "builtin": true
+    }
 }
