@@ -1,6 +1,6 @@
-import * as child_process from 'node:child_process';
-import { test, expect } from 'vitest';
-import fs from 'fs'
+import * as child_process from 'node:child_process'
+import { test, expect } from 'vitest'
+import fs from 'node:fs'
 
 test('disabled-env.prisma', async () => {
     const fileName = 'disabled.svg'

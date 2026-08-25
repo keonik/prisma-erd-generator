@@ -25,6 +25,10 @@
   "scripts": {
     "ci:publish": "bun run build && changeset publish --access public",
     "dev": "tsup src --watch",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "test": "vitest --config vitest.config.mts",
     "prebuild": "rm -rf dist",
     "build": "tsup src",
@@ -116,6 +120,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
     "mermaid": "^11.15.0",
+    "oxlint": "^1.80.0",
     "prisma": "^7.0.0",
     "puppeteer": "^23.11.1",
     "tslib": "^2.8.1",
