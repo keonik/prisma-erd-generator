@@ -11,6 +11,10 @@ export default defineConfig({
         // Multi-version matrix runs take longer because they shell out to Prisma
         testTimeout: 120000,
         fileParallelism: process.platform !== 'win32',
-        maxWorkers: os.cpus().length,
+        // Windows intermittently fails the whole run with
+        // `[vitest-worker]: Timeout calling "onTaskUpdate"` even though every
+        // test passed — a worker-RPC race, not a test failure. Files already
+        // run serially there, so a single worker costs nothing and removes it.
+        maxWorkers: process.platform === 'win32' ? 1 : os.cpus().length,
     },
 })
