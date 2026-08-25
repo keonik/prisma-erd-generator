@@ -404,6 +404,22 @@ export const matchesIgnorePattern = (
  * `find` does not exist on stock Windows, and a missing directory makes it exit
  * non-zero, so a failed search is a "not found", never a crash.
  */
+/**
+ * Candidate filenames for a bin shim.
+ *
+ * Windows has no extensionless executables, so package managers write shims —
+ * and which ones they write differs by installer. npm and pnpm write both a
+ * `mmdc` shell script and a `mmdc.cmd`; bun writes only `mmdc.exe`. Probing the
+ * variants keeps resolution from depending on who did the install.
+ */
+export const binaryCandidates = (binPath: string) =>
+    process.platform === 'win32'
+        ? [binPath, `${binPath}.cmd`, `${binPath}.exe`, `${binPath}.ps1`]
+        : [binPath]
+
+export const resolveBinary = (binPath: string) =>
+    binaryCandidates(binPath).find((candidate) => fs.existsSync(candidate))
+
 const findMmdc = (): string | undefined => {
     try {
         const found = child_process
@@ -607,17 +623,19 @@ export default async (options: GeneratorOptions) => {
         // below only exists to be handed to mmdc, so without mmdc its noise
         // (including the arm64 `which chromium` probe) buries the real problem.
         if (config.mmdcPath) {
-            if (!fs.existsSync(mermaidCliNodePath)) {
+            const resolved = resolveBinary(mermaidCliNodePath)
+            if (!resolved) {
                 throw new Error(
                     `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
                 )
             }
-        } else if (!fs.existsSync(mermaidCliNodePath)) {
-            const findMermaidCli = findMmdc()
-            if (!findMermaidCli) {
+            mermaidCliNodePath = resolved
+        } else {
+            const resolved = resolveBinary(mermaidCliNodePath) ?? findMmdc()
+            if (!resolved) {
                 throw new Error(missingMermaidCliMessage(mermaidCliNodePath))
             }
-            mermaidCliNodePath = findMermaidCli
+            mermaidCliNodePath = resolved
         }
 
         // Generator option to adjust puppeteer
