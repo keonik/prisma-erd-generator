@@ -300,6 +300,33 @@ erDiagram
 
 Only `///` comments are available — plain `//` comments are dropped by Prisma before the generator runs. Comments share the attribute slot with the primary key and nullable sigils, and are flattened to a single line with `"` replaced by `'` so mermaid can parse them.
 
+### Use Prisma names instead of database names
+
+By default, models and fields carrying `@@map` / `@map` are drawn with their **database** names. Set `usePrismaNames` to draw the names as they appear in your schema instead.
+
+```prisma
+generator erd {
+  provider       = "prisma-erd-generator"
+  usePrismaNames = true
+}
+```
+
+```prisma
+model User {
+  id       Int    @id
+  nickName String @map("nick_name")
+
+  @@map("users")
+}
+```
+
+| `usePrismaNames` | Entity  | Field      |
+| ---------------- | ------- | ---------- |
+| `false` (default) | `users` | `nick_name` |
+| `true`            | `User`  | `nickName`  |
+
+This applies to models, composite types, enums, and fields.
+
 ### Disable emoji output
 
 The emoji output for primary keys (`🗝️`) and nullable fields (`❓`) can be disabled, restoring the older values of `PK` and `nullable`, respectively.
