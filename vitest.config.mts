@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
     test: {
         setupFiles: ['./vitest.setup.mjs'],
+        globalSetup: ['./vitest.global-setup.mjs'],
         coverage: {
             reporter: ['json', 'text', 'lcov'],
             exclude: ['/node_modules'],
