@@ -433,7 +433,11 @@ export default async (options: GeneratorOptions) => {
 
         if (config?.mermaidConfig) {
             const configPath = path.resolve(config.mermaidConfig)
-            const importedMermaidConfig = await import(pathToFileURL(configPath).href)
+            const imported = await import(pathToFileURL(configPath).href)
+            // `module.exports = config` and `export default config` both arrive
+            // wrapped in a namespace object; spreading that would bury the whole
+            // config under a `default` key and silently ignore it
+            const importedMermaidConfig = imported.default ?? imported
             if (debug) {
                 console.log('imported mermaid config: ', importedMermaidConfig)
             }
