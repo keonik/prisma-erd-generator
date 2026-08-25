@@ -9,7 +9,7 @@ manage or rotate.
 1. **Every PR that changes published behavior includes a changeset.** Run:
 
    ```sh
-   pnpm changeset
+   bunx changeset
    ```
 
    Pick the bump level (patch/minor/major) and write a human-readable summary —

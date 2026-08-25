@@ -1,3 +1,4 @@
+import type { GeneratorOptions } from '@prisma/generator-helper'
 import fs from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it, beforeEach, afterEach } from 'vitest'
@@ -83,14 +84,14 @@ describe('generate uses provided DMMF datamodel', () => {
 
     it('renders mapped fields without needing engine binaries', async () => {
         await generate({
-            generator: baseGenerator as any,
+            generator: baseGenerator,
             otherGenerators: [],
             schemaPath: 'schema.prisma',
-            dmmf: { datamodel: dmmfDatamodel } as any,
+            dmmf: { datamodel: dmmfDatamodel },
             datasources: [],
             datamodel,
             version: 'test',
-        } as any)
+        } as unknown as GeneratorOptions)
 
         const output = fs.readFileSync(outputFile, 'utf8')
         expect(output).toContain('user_id')

@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import * as child_process from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
-import { pathToFileURL } from "node:url";
+import { pathToFileURL } from 'node:url'
 import * as dotenv from 'dotenv'
 import type { Configuration as PuppeteerConfiguration } from 'puppeteer'
 import type { PrismaERDConfig } from '@/types/generator'
@@ -48,13 +48,15 @@ function renderDml(dml: DML, options?: DMLRendererOptions) {
     // If ignoreViews is enabled, exclude views from the models
     let models = dml.models
     if (ignoreViews && dml.views) {
-        const viewNames = new Set(dml.views.map(v => v.name))
-        models = models.filter(m => !viewNames.has(m.name))
+        const viewNames = new Set(dml.views.map((v) => v.name))
+        models = models.filter((m) => !viewNames.has(m.name))
     }
 
     // Filter out models matching ignore patterns
     if (ignorePattern.length > 0) {
-        models = models.filter(m => !matchesIgnorePattern(m.name, ignorePattern))
+        models = models.filter(
+            (m) => !matchesIgnorePattern(m.name, ignorePattern)
+        )
     }
 
     const modellikes = models.concat(dml.types)
@@ -162,7 +164,8 @@ ${
                 isEnum
             ) {
                 const otherModel = modellikes.find(
-                    (model) => model.name === field.type || model.dbName === field.type
+                    (model) =>
+                        model.name === field.type || model.dbName === field.type
                 )
 
                 const otherField = otherModel?.fields.find(
@@ -206,7 +209,8 @@ ${
                     // If it does, this is NOT a many-to-many, it's a one-to-many
                     // that's already being handled when we process the other side
                     const otherField = otherModel.fields.find(
-                        ({ relationName }) => relationName === field.relationName
+                        ({ relationName }) =>
+                            relationName === field.relationName
                     )
                     const isOtherSideOneToMany =
                         otherField?.relationFromFields &&
@@ -321,7 +325,9 @@ export const extractIndexedFields = (
         if (!currentModel) continue
 
         // matches both `@@index([a, b])` and `@@index(fields: [a, b])`
-        const indexMatch = line.match(/^@@index\(\s*(?:fields\s*:\s*)?\[([^\]]+)\]/)
+        const indexMatch = line.match(
+            /^@@index\(\s*(?:fields\s*:\s*)?\[([^\]]+)\]/
+        )
         if (!indexMatch?.[1]) continue
 
         const fields = indexMatch[1]
@@ -378,8 +384,8 @@ export const patternToRegex = (pattern: string): RegExp => {
     // Escape special regex characters except * and ?
     const escaped = pattern
         .replace(/[.+^${}()|[\]\\]/g, '\\$&')
-        .replace(/\*/g, '.*')  // * = any characters
-        .replace(/\?/g, '.')   // ? = single character
+        .replace(/\*/g, '.*') // * = any characters
+        .replace(/\?/g, '.') // ? = single character
 
     return new RegExp(`^${escaped}$`)
 }
@@ -391,7 +397,7 @@ export const matchesIgnorePattern = (
     modelName: string,
     patterns: string[]
 ): boolean => {
-    return patterns.some(pattern => {
+    return patterns.some((pattern) => {
         const regex = patternToRegex(pattern)
         return regex.test(modelName)
     })
@@ -423,7 +429,9 @@ export const resolveBinary = (binPath: string) =>
 const findMmdc = (): string | undefined => {
     try {
         const found = child_process
-            .execSync('find ../.. -name mmdc', { stdio: ['ignore', 'pipe', 'ignore'] })
+            .execSync('find ../.. -name mmdc', {
+                stdio: ['ignore', 'pipe', 'ignore'],
+            })
             .toString()
             .split('\n')
             .filter((line) => line)

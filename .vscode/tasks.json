@@ -2,9 +2,9 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Run tests with pnpm",
+			"label": "Run tests with bun",
 			"type": "shell",
-			"command": "pnpm",
+			"command": "bun",
 			"args": [
 				"test"
 			],
@@ -15,9 +15,9 @@
 			"group": "build"
 		},
 		{
-			"label": "Run tests with pnpm",
+			"label": "Run tests with bun",
 			"type": "shell",
-			"command": "pnpm",
+			"command": "bun",
 			"args": [
 				"test"
 			],
@@ -28,9 +28,9 @@
 			"group": "build"
 		},
 		{
-			"label": "Run tests with pnpm (explicit config)",
+			"label": "Run tests with bun (explicit config)",
 			"type": "shell",
-			"command": "pnpm",
+			"command": "bun",
 			"args": [
 				"test"
 			],
