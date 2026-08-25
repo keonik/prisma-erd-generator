@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 10
+          bun-version: latest
       # NOTE: deliberately no `registry-url` here. setup-node's registry-url
       # writes an .npmrc with `_authToken=${NODE_AUTH_TOKEN}`, and npm prefers
       # that (now empty) token over OIDC. Omitting it lets trusted publishing
@@ -28,14 +28,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
-          cache: "pnpm"
 
-      - run: pnpm install --frozen-lockfile
+      - run: bun install --frozen-lockfile
 
-      # npm trusted publishing (OIDC) requires npm >= 11.5.1; Node 22 ships an
-      # older npm, so upgrade the global npm that `changeset publish` calls.
-      # Pin to the 11.x line rather than @latest so a future npm major can't
-      # change publish behavior out from under a release.
+      # `changeset publish` shells out to npm unless the detected package
+      # manager is pnpm, so the actual publish is still `npm publish` — which
+      # is what OIDC trusted publishing needs. It requires npm >= 11.5.1 and
+      # Node 22 ships an older one, so upgrade the global npm. Pinned to the
+      # 11.x line rather than @latest so a future npm major can't change
+      # publish behavior out from under a release.
       - name: Upgrade npm for OIDC trusted publishing
         run: npm install -g npm@^11.5.1
 
@@ -43,7 +44,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm run ci:publish
+          publish: bun run ci:publish
         env:
           # No NPM_TOKEN / NODE_AUTH_TOKEN on purpose: with none present and a
           # trusted publisher configured on npmjs.com, npm authenticates via

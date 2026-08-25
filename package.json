@@ -23,12 +23,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "ci:publish": "pnpm build && changeset publish --access public",
+    "ci:publish": "bun run build && changeset publish --access public",
     "dev": "tsup src --watch",
     "test": "vitest --config vitest.config.mts",
     "prebuild": "rm -rf dist",
     "build": "tsup src",
-    "prepublish": "npm run build",
+    "prepublish": "bun run build",
     "release": "changeset",
     "update-deps": "npx npm-check-updates -i"
   },
@@ -111,6 +111,7 @@
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.29.6",
     "@mermaid-js/mermaid-cli": "^11.9.0",
+    "@types/node": "^22",
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
@@ -135,5 +136,12 @@
     "@mermaid-js/mermaid-cli": {
       "optional": true
     }
-  }
+  },
+  "trustedDependencies": [
+    "@prisma/client",
+    "@prisma/engines",
+    "esbuild",
+    "prisma",
+    "puppeteer"
+  ]
 }

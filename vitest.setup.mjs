@@ -117,7 +117,7 @@ function runPrismaGenerate(command, options) {
 		if (disableErdMatch?.[1]) {
 			baseEnv.DISABLE_ERD = disableErdMatch[1];
 		}
-		const runCmd = `pnpm dlx prisma@${version} generate --schema "${tmpSchemaPath}"`;
+		const runCmd = `bunx prisma@${version} generate --schema "${tmpSchemaPath}"`;
 		originalExecSync(runCmd, {
 			stdio: "inherit",
 			cwd: rootDir,
