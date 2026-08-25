@@ -23,7 +23,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "ci:publish": "bun run build && changeset publish --access public",
+    "ci:publish": "bun run build && changeset publish",
     "dev": "tsup src --watch",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
