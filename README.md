@@ -410,6 +410,18 @@ generator erd {
 }
 ```
 
+#### SVG text and `htmlLabels`
+
+Since 3.1.0 the generator sets `htmlLabels: false`. Mermaid otherwise puts every label inside a `<foreignObject>`, which embeds HTML in the SVG — browsers render it, but Inkscape, librsvg and ImageMagick ignore it and draw a diagram of empty boxes. Plain `<text>` looks the same in a browser and opens correctly everywhere else.
+
+If you need the old HTML labels back:
+
+```js
+module.exports = { htmlLabels: true }
+```
+
+Note this option only works at the top level. Mermaid deprecated the per-diagram variants, so `{ er: { htmlLabels: ... } }` is silently ignored.
+
 ### Puppeteer configuration
 
 If you want to change the configuration of Puppeteer, create a [Puppeteer config file (JSON)](https://pptr.dev/guides/configuration#configuration-files) and pass the file path to the generator.

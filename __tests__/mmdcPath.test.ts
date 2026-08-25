@@ -13,8 +13,6 @@ test('setting mmdcPath works', async () => {
     expect(svgContent).toContain('users')
 
     // User has id
-    expect(svgContent).toMatch(
-        //    <span class="nodeLabel"><p>id</p></span>
-        /<p>id<\/\p>/
-    )
+    // plain <text>/<tspan>, not a <foreignObject> HTML label — see #245
+    expect(svgContent).toMatch(/<tspan[^>]*>id<\/tspan>/)
 })

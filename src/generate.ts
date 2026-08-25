@@ -603,6 +603,14 @@ export default async (options: GeneratorOptions) => {
             er: {
                 useMaxWidth: true,
             },
+            // Mermaid defaults to putting every label in a `<foreignObject>`,
+            // which embeds HTML in the SVG. That is optional in the SVG spec:
+            // browsers honour it, but Inkscape, librsvg and ImageMagick skip
+            // it and render a diagram of empty boxes (#245). Plain `<text>`
+            // looks the same in a browser and survives everywhere else, which
+            // matters for a generator whose main output is an .svg file.
+            // Set `htmlLabels: true` in `mermaidConfig` to opt back in.
+            htmlLabels: false,
             theme,
         }
         let mermaidConfig = defaultMermaidConfig
