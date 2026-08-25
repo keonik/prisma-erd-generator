@@ -7,6 +7,31 @@ on:
     branches: [main, alpha]
 
 jobs:
+  changeset:
+    # A PR that changes shipped code without a changeset merges fine and then
+    # releases nothing — `sortFields` (#287) shipped in 2.4.4 and never made
+    # the changelog that way. Docs/CI-only work satisfies this with
+    # `pnpm changeset add --empty`, which records that no release is intended.
+    # Skipped on the release PR itself, which consumes every changeset.
+    if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Require a changeset
+        run: pnpm changeset status --since=origin/main
+
   smoke-test:
     strategy:
       matrix:
