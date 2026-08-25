@@ -24,10 +24,19 @@ jobs:
   changeset:
     # A PR that changes shipped code without a changeset merges fine and then
     # releases nothing — `sortFields` (#287) shipped in 2.4.4 and never made
-    # the changelog that way. Docs/CI-only work satisfies this with
-    # `bunx changeset add --empty`, which records that no release is intended.
+    # the changelog that way.
+    #
+    # Docs- or CI-only work uses the `skip-changeset` label. An empty changeset
+    # looks like the tidier answer but is a trap: changesets/action bails on
+    # "All changesets are empty; not creating PR" *without publishing*, so an
+    # empty changeset sitting on main blocks any pending release. That is how
+    # #308 nearly stranded 3.0.1 a second time.
+    #
     # Skipped on the release PR itself, which consumes every changeset.
-    if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
+    if: >-
+      github.event_name == 'pull_request'
+      && github.head_ref != 'changeset-release/main'
+      && !contains(github.event.pull_request.labels.*.name, 'skip-changeset')
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
