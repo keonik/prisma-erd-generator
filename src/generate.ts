@@ -397,6 +397,51 @@ export const matchesIgnorePattern = (
     })
 }
 
+/**
+ * Last-ditch search for the `mmdc` binary outside the local `node_modules/.bin`
+ * — hoisted installs and monorepos routinely put it a couple of levels up.
+ *
+ * `find` does not exist on stock Windows, and a missing directory makes it exit
+ * non-zero, so a failed search is a "not found", never a crash.
+ */
+const findMmdc = (): string | undefined => {
+    try {
+        const found = child_process
+            .execSync('find ../.. -name mmdc', { stdio: ['ignore', 'pipe', 'ignore'] })
+            .toString()
+            .split('\n')
+            .filter((line) => line)
+            .pop()
+
+        return found && fs.existsSync(found) ? path.resolve(found) : undefined
+    } catch {
+        return undefined
+    }
+}
+
+const missingMermaidCliMessage = (searchedPath: string) =>
+    `
+prisma-erd-generator: could not find the mermaid CLI (mmdc).
+
+Rendering to .svg, .png or .pdf needs @mermaid-js/mermaid-cli, which is an
+optional peer dependency so that it is not installed for everyone:
+
+    npm i -D @mermaid-js/mermaid-cli puppeteer
+
+Already installed? Point the generator at the binary instead:
+
+    generator erd {
+      provider = "prisma-erd-generator"
+      mmdcPath = "node_modules/.bin"
+    }
+
+Don't need an image? Markdown output renders with no browser at all:
+
+    output = "../ERD.md"
+
+Searched ${searchedPath} and \`find ../.. -name mmdc\`.
+`
+
 export const mapPrismaToDb = (dmlModels: DMLModel[]) => {
     return dmlModels.map((model) => {
         return {
@@ -517,8 +562,12 @@ export default async (options: GeneratorOptions) => {
         if (!mermaid)
             throw new Error('failed to construct mermaid instance from dml')
 
+        // Text output is rendered here and needs no browser, so return before
+        // anything reaches for the mermaid CLI.
         if (output.endsWith('.md'))
             return fs.writeFileSync(output, `\`\`\`mermaid\n${mermaid}\`\`\`\n`)
+
+        if (output.endsWith('.mmd')) return fs.writeFileSync(output, mermaid)
 
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'))
         fs.writeFileSync(tempMermaidFile, mermaid)
@@ -553,6 +602,23 @@ export default async (options: GeneratorOptions) => {
 
         const tempConfigFile = path.resolve(path.join(tmpDir, 'config.json'))
         fs.writeFileSync(tempConfigFile, JSON.stringify(mermaidConfig))
+
+        // Resolve the CLI before hunting for a browser: the puppeteer config
+        // below only exists to be handed to mmdc, so without mmdc its noise
+        // (including the arm64 `which chromium` probe) buries the real problem.
+        if (config.mmdcPath) {
+            if (!fs.existsSync(mermaidCliNodePath)) {
+                throw new Error(
+                    `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
+                )
+            }
+        } else if (!fs.existsSync(mermaidCliNodePath)) {
+            const findMermaidCli = findMmdc()
+            if (!findMermaidCli) {
+                throw new Error(missingMermaidCliMessage(mermaidCliNodePath))
+            }
+            mermaidCliNodePath = findMermaidCli
+        }
 
         // Generator option to adjust puppeteer
         let puppeteerConfig = config.puppeteerConfig
@@ -603,26 +669,6 @@ export default async (options: GeneratorOptions) => {
                 JSON.stringify(puppeteerConfigJson)
             )
             puppeteerConfig = tempPuppeteerConfigFile
-        }
-        if (config.mmdcPath) {
-            if (!fs.existsSync(mermaidCliNodePath)) {
-                throw new Error(
-                    `\nMermaid CLI provided path does not exist. \n${mermaidCliNodePath}`
-                )
-            }
-        } else if (!fs.existsSync(mermaidCliNodePath)) {
-            const findMermaidCli = child_process
-                .execSync('find ../.. -name mmdc')
-                .toString()
-                .split('\n')
-                .filter((path) => path)
-                .pop()
-            if (!findMermaidCli || !fs.existsSync(findMermaidCli)) {
-                throw new Error(
-                    `Expected mermaid CLI at \n${mermaidCliNodePath}\n\nor\n${findMermaidCli}\n but this package was not found.`
-                )
-            }
-            mermaidCliNodePath = path.resolve(findMermaidCli)
         }
 
         const mermaidCommand = `"${mermaidCliNodePath}" -i "${tempMermaidFile}" -o "${output}" -c "${tempConfigFile}" -p "${puppeteerConfig}"`
