@@ -1,0 +1,117 @@
+digraph ERD {
+    graph [rankdir=LR, splines=ortho, nodesep=0.6, ranksep=1.2, bgcolor="transparent"];
+    node  [shape=plaintext, fontname="Helvetica", fontsize=11];
+    edge  [fontname="Helvetica"];
+    "users" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>users</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="createdAt"><FONT COLOR="#555">DateTime</FONT>  createdAt</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="updatedAt"><FONT COLOR="#555">DateTime</FONT>  updatedAt</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="name"><FONT COLOR="#555">String</FONT>  name</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="username"><FONT COLOR="#555">String</FONT>  username <FONT COLOR="#888">UK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="email"><FONT COLOR="#555">String</FONT>  email <FONT COLOR="#888">UK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="hashedPassword"><FONT COLOR="#555">String</FONT>  hashed_password <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="role"><FONT COLOR="#555">String</FONT>  role</TD></TR>
+        </TABLE>>];
+    "DefaultCalendar" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>DefaultCalendar</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="userId"><FONT COLOR="#555">Int</FONT>  userId <FONT COLOR="#888">UK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="calendarId"><FONT COLOR="#555">Int</FONT>  calendarId</TD></TR>
+        </TABLE>>];
+    "Session" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>Session</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="createdAt"><FONT COLOR="#555">DateTime</FONT>  createdAt</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="updatedAt"><FONT COLOR="#555">DateTime</FONT>  updated_at</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="expiresAt"><FONT COLOR="#555">DateTime</FONT>  expires_at <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="handle"><FONT COLOR="#555">String</FONT>  handle <FONT COLOR="#888">UK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="userId"><FONT COLOR="#555">Int</FONT>  userId <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="hashedSessionToken"><FONT COLOR="#555">String</FONT>  hashed_session_token <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="antiCSRFToken"><FONT COLOR="#555">String</FONT>  anti_csrf_token <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="publicData"><FONT COLOR="#555">String</FONT>  public_data <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="privateData"><FONT COLOR="#555">String</FONT>  private_data <FONT COLOR="#888">?</FONT></TD></TR>
+        </TABLE>>];
+    "ConnectedCalendar" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>ConnectedCalendar</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="name"><FONT COLOR="#555">String</FONT>  name</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="caldavAddress"><FONT COLOR="#555">String</FONT>  caldav_address <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="username"><FONT COLOR="#555">String</FONT>  username <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="encryptedPassword"><FONT COLOR="#555">String</FONT>  encrypted_password <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="refreshToken"><FONT COLOR="#555">String</FONT>  refresh_token <FONT COLOR="#888">?</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="ownerId"><FONT COLOR="#555">Int</FONT>  ownerId</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="status"><FONT COLOR="#555">ConnectedCalendarStatus</FONT>  status</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="type"><FONT COLOR="#555">ConnectedCalendarType</FONT>  type</TD></TR>
+        </TABLE>>];
+    "Meeting" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>Meeting</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="name"><FONT COLOR="#555">String</FONT>  name</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="link"><FONT COLOR="#555">String</FONT>  link</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="ownerName"><FONT COLOR="#555">String</FONT>  ownerName</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="description"><FONT COLOR="#555">String</FONT>  description</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="duration"><FONT COLOR="#555">Int</FONT>  duration</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="startDateUTC"><FONT COLOR="#555">DateTime</FONT>  startDateUTC</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="endDateUTC"><FONT COLOR="#555">DateTime</FONT>  endDateUTC</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="scheduleId"><FONT COLOR="#555">Int</FONT>  scheduleId</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="location"><FONT COLOR="#555">String</FONT>  location</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="defaultConnectedCalendarId"><FONT COLOR="#555">Int</FONT>  defaultConnectedCalendarId</TD></TR>
+        </TABLE>>];
+    "DailySchedule" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>DailySchedule</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="day"><FONT COLOR="#555">String</FONT>  day</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="startTime"><FONT COLOR="#555">String</FONT>  startTime</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="endTime"><FONT COLOR="#555">String</FONT>  endTime</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="scheduleId"><FONT COLOR="#555">Int</FONT>  scheduleId</TD></TR>
+        </TABLE>>];
+    "Schedule" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>Schedule</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="name"><FONT COLOR="#555">String</FONT>  name</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="timezone"><FONT COLOR="#555">String</FONT>  timezone</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="ownerId"><FONT COLOR="#555">Int</FONT>  ownerId</TD></TR>
+        </TABLE>>];
+    "Booking" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#e8eaf6"><B>Booking</B></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#555">Int</FONT>  id <FONT COLOR="#888">PK</FONT></TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="meetingId"><FONT COLOR="#555">Int</FONT>  meetingId</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="inviteeEmail"><FONT COLOR="#555">String</FONT>  inviteeEmail</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="startDateUTC"><FONT COLOR="#555">DateTime</FONT>  startDateUTC</TD></TR>
+            <TR><TD ALIGN="LEFT" PORT="cancelCode"><FONT COLOR="#555">String</FONT>  cancelCode</TD></TR>
+        </TABLE>>];
+    "ConnectedCalendarStatus" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#fff3e0"><B>ConnectedCalendarStatus</B></TD></TR>
+            <TR><TD ALIGN="LEFT">active</TD></TR>
+        </TABLE>>];
+    "ConnectedCalendarType" [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="#fff3e0"><B>ConnectedCalendarType</B></TD></TR>
+            <TR><TD ALIGN="LEFT">CaldavDigest</TD></TR>
+            <TR><TD ALIGN="LEFT">CaldavBasic</TD></TR>
+            <TR><TD ALIGN="LEFT">GoogleCalendar</TD></TR>
+            <TR><TD ALIGN="LEFT">OutlookCalendar</TD></TR>
+        </TABLE>>];
+    "users" -> "Session" [arrowhead=crow, arrowtail=none, dir=both, label="sessions", fontsize=10, color="#666"];
+    "users" -> "ConnectedCalendar" [arrowhead=crow, arrowtail=none, dir=both, label="calendars", fontsize=10, color="#666"];
+    "users" -> "Meeting" [arrowhead=crow, arrowtail=none, dir=both, label="Meeting", fontsize=10, color="#666"];
+    "users" -> "Schedule" [arrowhead=crow, arrowtail=none, dir=both, label="Schedule", fontsize=10, color="#666"];
+    "users" -> "DefaultCalendar" [arrowhead=crow, arrowtail=none, dir=both, label="DefaultCalendar", fontsize=10, color="#666"];
+    "DefaultCalendar" -> "ConnectedCalendar" [arrowhead=none, arrowtail=none, dir=both, label="calendar", fontsize=10, color="#666"];
+    "ConnectedCalendar" -> "ConnectedCalendarStatus" [arrowhead=none, arrowtail=none, dir=both, label="status", fontsize=10, color="#666"];
+    "ConnectedCalendar" -> "ConnectedCalendarType" [arrowhead=none, arrowtail=none, dir=both, label="type", fontsize=10, color="#666"];
+    "ConnectedCalendar" -> "Meeting" [arrowhead=crow, arrowtail=none, dir=both, label="Meeting", fontsize=10, color="#666"];
+    "Meeting" -> "Schedule" [arrowhead=none, arrowtail=none, dir=both, label="schedule", fontsize=10, color="#666"];
+    "Meeting" -> "Booking" [arrowhead=crow, arrowtail=none, dir=both, label="bookings", fontsize=10, color="#666"];
+    "DailySchedule" -> "Schedule" [arrowhead=none, arrowtail=none, dir=both, label="schedule", fontsize=10, color="#666"];
+}
