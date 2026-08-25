@@ -15,7 +15,5 @@ test('Support unique names. Starting issue https://github.com/keonik/prisma-erd-
     expect(svgContent).toContain('[Production$My Table]')
 
     // User has id
-    expect(svgContent).toMatch(
-        /\<span class="nodeLabel"\>\<p\>id\<\/p\>\<\/span\>/
-    )
+    expect(svgContent).toMatch(/<span class="nodeLabel"><p>id<\/p><\/span>/)
 })
