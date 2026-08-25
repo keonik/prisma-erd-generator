@@ -1,5 +1,40 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- 005fad3: **Breaking:** `@mermaid-js/mermaid-cli` is now an optional peer dependency instead of a hard dependency (#293, #176)
+
+  It is only ever invoked as an external binary, and never at all for text output, so installing it (plus `mermaid` and a headless Chromium) for every user was dead weight. If you render `.svg` / `.png` / `.pdf`, install it yourself:
+
+  ```bash
+  npm i -D @mermaid-js/mermaid-cli puppeteer
+  ```
+
+  If you render `.md` or `.mmd`, you can drop it and skip the Chromium download entirely.
+
+  Also in this release:
+
+  - Added `.mmd` output, which writes bare mermaid with no code fence.
+  - A missing mermaid CLI now fails with an actionable message naming the package to install, instead of a bare "package was not found".
+  - The CLI is resolved before the puppeteer config is built, so a missing CLI no longer hides behind the arm64 `which chromium` probe.
+  - The fallback `find ../.. -name mmdc` search no longer crashes where `find` is unavailable (Windows).
+
+### Minor Changes
+
+- 6d57b83: Add `usePrismaNames` generator option to draw schema model/field names instead of `@@map` / `@map` database names (#128)
+
+  Also fixes `@@map`ed enums rendering a duplicate empty node: the relationship line referenced the enum's Prisma name while the enum block used its database name.
+
+- 8fd91f9: Add `showIndexes` generator option to mark unique (`🔒`/`UK`) and indexed (`🔍`/`IDX`) columns in the diagram (#209)
+
+### Patch Changes
+
+- 00130e0: Fix `mermaidConfig` being silently ignored for CommonJS config files
+
+  `await import()` wraps `module.exports = config` in a namespace object, so the whole config was spread in under a `default` key and never reached mermaid — including for the shape documented in the README and shipped as `example-mermaid-config.js`.
+
 ## 2.5.0
 
 ### Minor Changes
