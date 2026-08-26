@@ -15,6 +15,8 @@ import type {
     DMLField,
 } from '@/types/dml'
 import type { MermaidConfig } from 'mermaid'
+import type { DiagramRenderer, RenderContext } from '@/types/renderer'
+import { graphvizRenderer } from './renderers/graphviz'
 
 dotenv.config() // Load the environment variables
 
@@ -490,9 +492,6 @@ export default async (options: GeneratorOptions) => {
 
         const theme: MermaidConfig['theme'] =
             (config.theme as MermaidConfig['theme']) ?? 'forest'
-        let mermaidCliNodePath = path.resolve(
-            path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
-        )
         const tableOnly = config.tableOnly === 'true'
         const disableEmoji = config.disableEmoji === 'true'
         const ignoreEnums = config.ignoreEnums === 'true'
@@ -506,6 +505,7 @@ export default async (options: GeneratorOptions) => {
         const includeComments = config.includeComments === 'true'
         const usePrismaNames = config.usePrismaNames === 'true'
         const showIndexes = config.showIndexes === 'true'
+        const rendererName = config.renderer || 'mermaid'
         const disabled =
             process.env.DISABLE_ERD === 'true' || config.disabled === 'true'
         const debug =
@@ -565,7 +565,26 @@ export default async (options: GeneratorOptions) => {
             console.log(`applied @map to fields written to ${mapAppliedFile}`)
         }
 
-        const mermaid = renderDml(dml, {
+        const renderer = renderers[rendererName]
+        if (!renderer) {
+            throw new Error(
+                `Unknown renderer "${rendererName}". Available: ${Object.keys(
+                    renderers
+                ).join(', ')}.`
+            )
+        }
+
+        const extension = path.extname(output).toLowerCase()
+        if (!renderer.extensions.includes(extension)) {
+            throw new Error(
+                `The ${renderer.name} renderer cannot write "${extension}" files. ` +
+                    `It supports ${renderer.extensions.join(
+                        ', '
+                    )}. Change \`output\`, or pick a renderer that supports it.`
+            )
+        }
+
+        const source = renderer.source(dml, {
             tableOnly,
             ignoreEnums,
             ignoreViews,
@@ -577,14 +596,47 @@ export default async (options: GeneratorOptions) => {
             usePrismaNames,
             showIndexes,
         })
-        if (debug && mermaid) {
-            const mermaidFile = path.resolve('prisma/debug/3-mermaid.mmd')
-            fs.writeFileSync(mermaidFile, mermaid)
-            console.log(`mermaid written to ${mermaidFile}`)
+
+        if (debug && source) {
+            const sourceFile = path.resolve(
+                `prisma/debug/3-${renderer.name}${renderer.sourceExtension}`
+            )
+            fs.writeFileSync(sourceFile, source)
+            console.log(`${renderer.name} source written to ${sourceFile}`)
         }
 
-        if (!mermaid)
-            throw new Error('failed to construct mermaid instance from dml')
+        if (!source)
+            throw new Error(
+                `failed to construct ${renderer.name} source from dml`
+            )
+
+        return await renderer.write(source, {
+            output,
+            config,
+            tmpDir,
+            debug,
+            theme: theme as string,
+        })
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}
+
+/**
+ * Writes mermaid output, shelling out to the mermaid CLI for image formats.
+ *
+ * Lives here rather than under `src/renderers/` only because it shares the
+ * `renderDml` helpers above; a renderer that does not need them should be its
+ * own module, like `renderers/graphviz.ts`.
+ */
+const mermaidRenderer: DiagramRenderer = {
+    name: 'mermaid',
+    extensions: ['.md', '.mmd', '.svg', '.png', '.pdf'],
+    sourceExtension: '.mmd',
+    source: renderDml,
+    async write(mermaid: string, ctx: RenderContext) {
+        const { output, config, tmpDir, debug, theme } = ctx
 
         // Text output is rendered here and needs no browser, so return before
         // anything reaches for the mermaid CLI.
@@ -592,6 +644,10 @@ export default async (options: GeneratorOptions) => {
             return fs.writeFileSync(output, `\`\`\`mermaid\n${mermaid}\`\`\`\n`)
 
         if (output.endsWith('.mmd')) return fs.writeFileSync(output, mermaid)
+
+        let mermaidCliNodePath = path.resolve(
+            path.join(config.mmdcPath || 'node_modules/.bin', 'mmdc')
+        )
 
         const tempMermaidFile = path.resolve(path.join(tmpDir, 'prisma.mmd'))
         fs.writeFileSync(tempMermaidFile, mermaid)
@@ -611,7 +667,7 @@ export default async (options: GeneratorOptions) => {
             // matters for a generator whose main output is an .svg file.
             // Set `htmlLabels: true` in `mermaidConfig` to opt back in.
             htmlLabels: false,
-            theme,
+            theme: theme as MermaidConfig['theme'],
         }
         let mermaidConfig = defaultMermaidConfig
 
@@ -716,8 +772,18 @@ export default async (options: GeneratorOptions) => {
                 `Issue generating ER Diagram. Expected ${output} to be created`
             )
         }
-    } catch (error) {
-        console.error(error)
-        throw error
-    }
+    },
+}
+
+/**
+ * Every renderer the `renderer` generator option accepts.
+ *
+ * To add one: write a module under `src/renderers/` exporting a
+ * `DiagramRenderer`, then add it here. The datamodel handed to `source()` has
+ * already had `@map` names applied and indexes marked, so a new renderer only
+ * has to decide how to draw it.
+ */
+const renderers: Record<string, DiagramRenderer> = {
+    mermaid: mermaidRenderer,
+    graphviz: graphvizRenderer,
 }

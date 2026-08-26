@@ -1,5 +1,7 @@
 export interface PrismaERDConfig {
     theme?: string
+    /** which diagram renderer to use: 'mermaid' (default) or 'graphviz' */
+    renderer?: string
     mmdcPath?: string
     tableOnly?: string
     disableEmoji?: string

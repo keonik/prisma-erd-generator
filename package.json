@@ -114,6 +114,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.29.6",
+    "@hpcc-js/wasm-graphviz": "^1.28.0",
     "@mermaid-js/mermaid-cli": "^11.9.0",
     "@types/node": "^22",
     "all-contributors-cli": "^6.26.1",
@@ -135,10 +136,14 @@
   },
   "peerDependencies": {
     "@prisma/client": "^5.0.0 || ^6.0.0 || ^7.0.0",
-    "@mermaid-js/mermaid-cli": "^11.0.0"
+    "@mermaid-js/mermaid-cli": "^11.0.0",
+    "@hpcc-js/wasm-graphviz": "^1.0.0"
   },
   "peerDependenciesMeta": {
     "@mermaid-js/mermaid-cli": {
+      "optional": true
+    },
+    "@hpcc-js/wasm-graphviz": {
       "optional": true
     }
   },

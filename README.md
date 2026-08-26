@@ -77,6 +77,33 @@ Extensions
 | `md` — mermaid in a fenced code block | no |
 | `mmd` — bare mermaid | no |
 
+### Renderer
+
+Which engine draws the diagram. Defaults to `mermaid`.
+
+```prisma
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.svg"
+  renderer = "graphviz"
+}
+```
+
+| Renderer | Extensions | Needs | Notes |
+| --- | --- | --- | --- |
+| `mermaid` (default) | `svg` `png` `pdf` `md` `mmd` | `@mermaid-js/mermaid-cli` for images (~470 MB, bundles Chromium) | crow's-foot ER notation |
+| `graphviz` | `svg` `dot` | `@hpcc-js/wasm-graphviz` (~2 MB, no browser) | plainer diagram, no ER notation |
+
+`graphviz` exists for anyone who wants an image without a browser. Mermaid lays out with `getBBox()`, which needs a real DOM — that is why the mermaid CLI ships Chromium. Graphviz does its own layout in WebAssembly, so it works the same in a slim container or a CI job with nothing installed:
+
+```bash
+npm i -D @hpcc-js/wasm-graphviz
+```
+
+The trade is that Graphviz has no crow's-foot notation, so cardinality shows up in the arrowheads and the relation label rather than in ER symbols. `mermaidConfig` and `puppeteerConfig` do not apply to it. Raster output stays mermaid-only, since rasterising would mean bringing back the browser this renderer exists to avoid.
+
+Every other option — `tableOnly`, `ignoreEnums`, `ignoreViews`, `ignorePattern`, `usePrismaNames`, `showIndexes`, `includeComments`, `sortFields`, `disableEmoji` — works the same on both.
+
 ### Theme
 
 Theme selection
