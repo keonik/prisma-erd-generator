@@ -30,7 +30,13 @@ export const prismaInstallDir = (version) =>
 export default function installPrismaVersions() {
     for (const version of versionsUnderTest()) {
         const dir = prismaInstallDir(version)
-        const binary = path.join(dir, 'node_modules', 'prisma', 'build', 'index.js')
+        const binary = path.join(
+            dir,
+            'node_modules',
+            'prisma',
+            'build',
+            'index.js'
+        )
 
         if (fs.existsSync(binary)) continue
 
