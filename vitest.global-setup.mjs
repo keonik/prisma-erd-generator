@@ -83,4 +83,18 @@ export default function installPrismaVersions() {
             )
         }
     }
+
+    // Runs once after every worker has finished. Cleaning these here rather
+    // than from each worker's exit handler is what keeps one worker from
+    // deleting directories another is still using.
+    return () => {
+        fs.rmSync(path.join(rootDir, 'tmp', 'vitest'), {
+            recursive: true,
+            force: true,
+        })
+        fs.rmSync(path.join(rootDir, 'prisma', 'debug'), {
+            recursive: true,
+            force: true,
+        })
+    }
 }
