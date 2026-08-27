@@ -725,33 +725,37 @@ const mermaidRenderer: DiagramRenderer = {
             const tempPuppeteerConfigFile = path.resolve(
                 path.join(tmpDir, 'puppeteerConfig.json')
             )
-            let executablePath: string | undefined
             const puppeteerConfigJson: PuppeteerConfiguration & {
                 args?: string[]
             } = {
                 logLevel: debug ? 'warn' : 'error',
-                executablePath,
             }
-            // if MacOS M1/M2, provide your own path to chromium
+
+            // Puppeteer had no arm64 Chromium for a long time, so Apple
+            // Silicon users had to supply a system one. Puppeteer ships an
+            // arm64 build now, so this is only a courtesy for anyone who has
+            // `chromium` on PATH and would rather use it. Not finding one is
+            // the normal case and must stay silent: puppeteer then uses the
+            // browser it manages itself.
             if (os.platform() === 'darwin' && os.arch() === 'arm64') {
                 try {
-                    const executablePath = child_process
-                        .execSync('which chromium')
+                    const systemChromium = child_process
+                        .execSync('which chromium', {
+                            stdio: ['ignore', 'pipe', 'ignore'],
+                        })
                         .toString()
-                        .replace('\n', '')
-                    if (!executablePath) {
-                        throw new Error(
-                            'Could not find chromium executable. Refer to https://github.com/keonik/prisma-erd-generator#issues for next steps.'
+                        .trim()
+
+                    if (systemChromium) {
+                        puppeteerConfigJson.executablePath = systemChromium
+                        puppeteerConfigJson.args = ['--no-sandbox']
+                    }
+                } catch {
+                    if (debug) {
+                        console.log(
+                            'no `chromium` on PATH; using the browser puppeteer manages'
                         )
                     }
-                    puppeteerConfigJson.executablePath = executablePath
-                    puppeteerConfigJson.args = ['--no-sandbox']
-                } catch (error) {
-                    console.error(error)
-                    console.log(
-                        `\nPrisma ERD Generator: Unable to find chromium path for you MacOS arm64 machine. Attempting to use the default at ${executablePath}. To learn more visit https://github.com/keonik/prisma-erd-generator#-arm64-users-\n`
-                    )
-                    executablePath = '/usr/bin/chromium-browser'
                 }
             }
             fs.writeFileSync(
