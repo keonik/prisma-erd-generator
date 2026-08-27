@@ -7,7 +7,12 @@ import { prismaBinary, versionsUnderTest } from './vitest.global-setup.mjs'
 
 const originalExecSync = child_process.execSync
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.')
-const tmpRoot = path.join(rootDir, 'tmp', 'vitest')
+// Per worker, not shared. Every worker used to write under one `tmp/vitest`
+// and delete the whole tree in its own exit handler, so the first worker to
+// finish pulled the schemas out from under the ones still running — surfacing
+// as `Could not load --schema ...: file or directory not found`. The shared
+// parent is cleaned once by the global setup's teardown instead.
+const tmpRoot = path.join(rootDir, 'tmp', 'vitest', `w${process.pid}`)
 
 if (process.env.VITEST_DEBUG_SETUP) {
     // eslint-disable-next-line no-console
@@ -155,9 +160,7 @@ vi.mock('node:child_process', async () => {
 })
 
 process.on('exit', () => {
+    // only this worker's own directory; `prisma/debug` is shared with the
+    // other workers and is cleaned by the global teardown
     fs.rmSync(tmpRoot, { recursive: true, force: true })
-    fs.rmSync(path.join(rootDir, 'prisma', 'debug'), {
-        recursive: true,
-        force: true,
-    })
 })
