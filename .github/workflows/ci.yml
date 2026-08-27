@@ -64,7 +64,9 @@ jobs:
       matrix:
         os: ["ubuntu-22.04", "windows-latest", "macos-latest"]
         node-version: ["20", "22"]
-        prisma-version: ["5.22.0", "6.15.0", "7.0.0"]
+        # 5.22.0 and 7.0.0 are the floors of the supported majors; 7.10.0 is
+        # the newest stable. Prisma 8 is deliberately absent — see #315.
+        prisma-version: ["5.22.0", "6.15.0", "7.0.0", "7.10.0"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4

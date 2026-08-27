@@ -8,10 +8,33 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url))
 export const versionsUnderTest = () =>
     process.env.PRISMA_TEST_VERSIONS?.split(',')
         .map((version) => version.trim())
-        .filter(Boolean) || ['5.22.0', '6.15.0', '7.0.0']
+        .filter(Boolean) || ['5.22.0', '6.15.0', '7.0.0', '7.10.0']
 
 export const prismaInstallDir = (version) =>
-    path.join(rootDir, 'tmp', 'prisma-cli', `v${version.replace(/\./g, '_')}`)
+    path.join(rootDir, 'tmp', 'prisma-cli', `v${version.replace(/[.]/g, '_')}`)
+
+/**
+ * Path to an installed Prisma CLI entrypoint.
+ *
+ * Read from the package's own `bin` field rather than hardcoded: Prisma 5-7
+ * ship it at `build/index.js` and Prisma 8 moved it to `dist/prisma.js`, so a
+ * literal path silently breaks on the next major.
+ */
+export const prismaBinary = (version) => {
+    const pkgDir = path.join(
+        prismaInstallDir(version),
+        'node_modules',
+        'prisma'
+    )
+    const pkg = JSON.parse(
+        fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8')
+    )
+    const bin = typeof pkg.bin === 'string' ? pkg.bin : pkg.bin?.prisma
+    if (!bin) {
+        throw new Error(`prisma@${version} declares no bin entry`)
+    }
+    return path.join(pkgDir, bin)
+}
 
 /**
  * Installs each Prisma version under test into its own directory.
@@ -30,15 +53,14 @@ export const prismaInstallDir = (version) =>
 export default function installPrismaVersions() {
     for (const version of versionsUnderTest()) {
         const dir = prismaInstallDir(version)
-        const binary = path.join(
+        const installed = path.join(
             dir,
             'node_modules',
             'prisma',
-            'build',
-            'index.js'
+            'package.json'
         )
 
-        if (fs.existsSync(binary)) continue
+        if (fs.existsSync(installed)) continue
 
         fs.rmSync(dir, { recursive: true, force: true })
         fs.mkdirSync(dir, { recursive: true })
@@ -53,9 +75,11 @@ export default function installPrismaVersions() {
             env: { ...process.env, PRISMA_HIDE_UPDATE_MESSAGE: '1' },
         })
 
-        if (!fs.existsSync(binary)) {
+        if (!fs.existsSync(prismaBinary(version))) {
             throw new Error(
-                `Failed to install prisma@${version} for tests: expected ${binary}`
+                `Failed to install prisma@${version} for tests: ${prismaBinary(
+                    version
+                )} is missing`
             )
         }
     }

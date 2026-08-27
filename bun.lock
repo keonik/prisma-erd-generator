@@ -28,10 +28,12 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
+        "@hpcc-js/wasm-graphviz": "^1.0.0",
         "@mermaid-js/mermaid-cli": "^11.0.0",
         "@prisma/client": "^5.0.0 || ^6.0.0 || ^7.0.0",
       },
       "optionalPeers": [
+        "@hpcc-js/wasm-graphviz",
         "@mermaid-js/mermaid-cli",
       ],
     },
