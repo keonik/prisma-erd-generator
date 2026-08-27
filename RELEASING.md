@@ -15,6 +15,15 @@ manage or rotate.
    Pick the bump level (patch/minor/major) and write a human-readable summary —
    this becomes the changelog entry users read.
 
+   CI enforces this: a PR that touches the package without a changeset fails the
+   `changeset` check. For docs- or CI-only work that genuinely needs no release,
+   apply the **`skip-changeset`** label instead.
+
+   Do *not* reach for `bunx changeset add --empty` to silence the check. An empty
+   changeset makes `changesets/action` stop at *"All changesets are empty; not
+   creating PR"* **without publishing**, so one sitting on `main` blocks any pending
+   release — see #308, where it would have stranded `3.0.1` a second time.
+
 2. **Merging changesets to `main`** triggers the `Publish` workflow, which opens (or
    updates) a **"Version Packages"** PR. That PR bumps the version and updates
    `CHANGELOG.md`.
