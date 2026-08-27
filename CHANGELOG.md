@@ -1,5 +1,36 @@
 # Changelog
 
+## 3.2.1
+
+### Patch Changes
+
+- 3fb48ea: Stop warning about missing Chromium on Apple Silicon
+
+  Every generate on a darwin/arm64 machine that rendered an image printed a stack trace followed by:
+
+  > Prisma ERD Generator: Unable to find chromium path for you MacOS arm64 machine. Attempting to use the default at undefined.
+
+  Three things were wrong with it. The `undefined` was real: the fallback path was assigned to a variable the puppeteer config object had already captured, so it never took effect — and the value it tried to assign was `/usr/bin/chromium-browser`, a Linux path, on macOS. The stack trace came from `console.error` in a `catch` that handles an entirely normal condition. And the check itself dates from when puppeteer shipped no arm64 Chromium; current puppeteer downloads its own, so the common case today is not having a system `chromium` at all, which meant nearly every Apple Silicon user saw this on every run.
+
+  A system `chromium` on `PATH` is still preferred when present. Not having one is silent, and puppeteer uses the browser it manages. The ARM64 section of the README, which the message pointed at, has been updated to say the workaround is no longer needed.
+
+- 358cb82: Test against Prisma 7.10.0
+
+  CI previously pinned each major to a single version, so the newest stable Prisma was never exercised. The matrix now covers 5.22.0, 6.15.0, 7.0.0 and 7.10.0 — the floors of each supported major plus the current release. No code changes were needed; everything passes.
+
+  Prisma 8 is deliberately not included: it is still a release candidate, its CLI has no `generate` command, and `@prisma/generator-helper` has no 8.x release, so the generator plugin model this package depends on does not exist there yet. See #315.
+
+- 6a598a0: Upgrade TypeScript to 6.x and Vitest to 4.x (dev tooling only)
+
+  TypeScript 6's stricter `baseUrl` deprecation check broke tsup's declaration
+  build because `tsconfig.build.json` relies on `paths` without an explicit
+  `baseUrl`; added `"ignoreDeprecations": "6.0"` to silence it, matching
+  TypeScript's own documented migration guidance. Vitest 4 required no changes
+  to `vitest.config.mts`, `vitest.setup.mjs`, or `vitest.global-setup.mjs` — the
+  `node:child_process` mock and `globalSetup` both work unmodified. `vite`
+  stayed on the already-installed ^6 line, which satisfies Vitest 4's peer
+  range.
+
 ## 3.2.0
 
 ### Minor Changes
