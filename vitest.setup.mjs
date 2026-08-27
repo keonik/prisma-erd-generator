@@ -3,7 +3,7 @@ import child_process from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { prismaInstallDir } from './vitest.global-setup.mjs'
+import { prismaBinary, versionsUnderTest } from './vitest.global-setup.mjs'
 
 const originalExecSync = child_process.execSync
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.')
@@ -98,9 +98,9 @@ function runPrismaGenerate(command, options) {
         ? path.resolve(rootDir, schemaMatch[1])
         : path.resolve(rootDir, 'prisma/schema.prisma')
 
-    const versions = process.env.PRISMA_TEST_VERSIONS?.split(',')
-        .map((v) => v.trim())
-        .filter(Boolean) || ['5.22.0', '6.15.0', '7.0.0']
+    // single source of truth: the global setup installs exactly these, so a
+    // second copy of the list here would silently drift out of sync
+    const versions = versionsUnderTest()
 
     const disableErdMatch = command.match(/DISABLE_ERD=([^\s]+)/)
 
@@ -121,14 +121,9 @@ function runPrismaGenerate(command, options) {
         }
         // invoke the copy installed by the global setup rather than `bunx`,
         // which shares one mutable cache directory across all workers
-        const prismaBin = path.join(
-            prismaInstallDir(version),
-            'node_modules',
-            'prisma',
-            'build',
-            'index.js'
-        )
-        const runCmd = `node "${prismaBin}" generate --schema "${tmpSchemaPath}"`
+        const runCmd = `node "${prismaBinary(
+            version
+        )}" generate --schema "${tmpSchemaPath}"`
         originalExecSync(runCmd, {
             stdio: 'inherit',
             cwd: rootDir,
