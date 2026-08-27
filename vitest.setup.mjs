@@ -3,6 +3,7 @@ import child_process from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { prismaInstallDir } from './vitest.global-setup.mjs'
 
 const originalExecSync = child_process.execSync
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.')
@@ -118,7 +119,16 @@ function runPrismaGenerate(command, options) {
         if (disableErdMatch?.[1]) {
             baseEnv.DISABLE_ERD = disableErdMatch[1]
         }
-        const runCmd = `bunx prisma@${version} generate --schema "${tmpSchemaPath}"`
+        // invoke the copy installed by the global setup rather than `bunx`,
+        // which shares one mutable cache directory across all workers
+        const prismaBin = path.join(
+            prismaInstallDir(version),
+            'node_modules',
+            'prisma',
+            'build',
+            'index.js'
+        )
+        const runCmd = `node "${prismaBin}" generate --schema "${tmpSchemaPath}"`
         originalExecSync(runCmd, {
             stdio: 'inherit',
             cwd: rootDir,
