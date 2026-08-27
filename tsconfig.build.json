@@ -15,6 +15,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "module": "preserve",
+    "ignoreDeprecations": "6.0",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,

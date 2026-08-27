@@ -126,9 +126,9 @@
     "puppeteer": "^23.11.1",
     "tslib": "^2.8.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
+    "typescript": "^6.0.3",
     "vite": "^6.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@prisma/generator-helper": "^7.0.0",
