@@ -120,7 +120,7 @@
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
-    "mermaid": "^11.15.0",
+    "mermaid": "^11.17.2",
     "oxlint": "^1.80.0",
     "prisma": "^7.0.0",
     "puppeteer": "^23.11.1",
