@@ -44,7 +44,7 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          publish: bun run ci:publish
+          publish-script: bun run ci:publish
         env:
           # No NPM_TOKEN / NODE_AUTH_TOKEN on purpose: with none present and a
           # trusted publisher configured on npmjs.com, npm authenticates via
