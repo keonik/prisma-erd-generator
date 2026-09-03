@@ -115,7 +115,7 @@
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.29.6",
     "@hpcc-js/wasm-graphviz": "^1.28.0",
-    "@mermaid-js/mermaid-cli": "^11.9.0",
+    "@mermaid-js/mermaid-cli": "^11.16.0",
     "@types/node": "^22",
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^9.2.1",
