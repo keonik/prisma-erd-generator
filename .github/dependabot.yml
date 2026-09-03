@@ -1,6 +1,13 @@
 version: 2
 updates:
-  - package-ecosystem: npm
+  # `bun`, not `npm`. Dependabot has shipped a distinct bun ecosystem since
+  # 2025-02-13; declaring `npm` runs the npm updater, which looks for
+  # package-lock.json or yarn.lock, finds neither, and so edits package.json
+  # while leaving bun.lock untouched. Every version bump then failed CI on
+  # `bun install --frozen-lockfile` with "lockfile had changes, but lockfile is
+  # frozen" (#323, #325, #326). Range-widening PRs slipped through only because
+  # the locked version already satisfied the wider range (#324, #327).
+  - package-ecosystem: bun
     directory: '/'
     schedule:
       interval: monthly
