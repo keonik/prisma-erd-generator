@@ -112,7 +112,7 @@
     }
   ],
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.5.11",
     "@changesets/cli": "^2.29.6",
     "@hpcc-js/wasm-graphviz": "^1.28.0",
     "@mermaid-js/mermaid-cli": "^11.9.0",
