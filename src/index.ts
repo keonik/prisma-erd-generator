@@ -6,7 +6,6 @@ const disabled = process.env.DISABLE_ERD === 'true'
 
 import { readFileSync } from 'node:fs'
 
-// biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
 let packageJsonData
 try {
     packageJsonData = JSON.parse(readFileSync('package.json', 'utf-8'))
