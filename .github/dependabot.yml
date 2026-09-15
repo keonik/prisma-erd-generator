@@ -7,6 +7,20 @@ updates:
   # `bun install --frozen-lockfile` with "lockfile had changes, but lockfile is
   # frozen" (#323, #325, #326). Range-widening PRs slipped through only because
   # the locked version already satisfied the wider range (#324, #327).
+  #
+  # KNOWN BROKEN, deliberately left as-is: bun 1.4 writes
+  # `"lockfileVersion": 2`, and the bun bundled in Dependabot's updater image
+  # only parses version 1, so the monthly run currently errors with
+  #   Unsupported bun.lock 'lockfileVersion' 2 in /bun.lock
+  # That error IS the fix for dependabot-core#15848, where the old image
+  # silently rewrote the lockfile to v1 and changed resolutions with no
+  # warning; #15896 made it fail loudly instead. Real support is
+  # dependabot-core#16071, still open. Bun has no flag to emit a v1 lockfile,
+  # so there is no local workaround.
+  #
+  # Until #16071 ships this yields no dependency PRs. That is the intended
+  # trade: reverting to `npm` would restore the PRs but every one of them
+  # would arrive with a stale lockfile and fail CI.
   - package-ecosystem: bun
     directory: '/'
     schedule:
