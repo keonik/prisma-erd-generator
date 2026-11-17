@@ -117,7 +117,7 @@
     "@mermaid-js/mermaid-cli": "^11.16.0",
     "@types/node": "^22",
     "all-contributors-cli": "^6.26.1",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.6",
     "cross-env": "^7.0.3",
     "mermaid": "^11.17.2",
     "oxfmt": "^0.66.0",
