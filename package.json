@@ -130,7 +130,7 @@
     "vitest": "^4.1.11"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^7.0.0",
+    "@prisma/generator-helper": "^7.10.1",
     "dotenv": "^16.6.1"
   },
   "peerDependencies": {
