@@ -119,7 +119,7 @@
     "all-contributors-cli": "^6.26.1",
     "concurrently": "^10.0.7",
     "cross-env": "^7.0.3",
-    "mermaid": "^11.17.2",
+    "mermaid": "^12.3.0",
     "oxfmt": "^0.66.0",
     "oxlint": "^1.80.0",
     "prisma": "^7.10.1",
